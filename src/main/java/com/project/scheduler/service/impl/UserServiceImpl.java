@@ -1,6 +1,7 @@
 package com.project.scheduler.service.impl;
 
 
+import com.project.scheduler.entity.User;
 import com.project.scheduler.repository.UserRepository;
 import com.project.scheduler.service.UserService;
 import org.slf4j.Logger;
