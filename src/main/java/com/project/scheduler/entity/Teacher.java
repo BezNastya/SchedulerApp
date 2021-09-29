@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-public class Teacher {
+public class Teacher extends User{
     private long id;
     private String firstName;
     private String lastName;
@@ -26,5 +26,4 @@ public class Teacher {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 }

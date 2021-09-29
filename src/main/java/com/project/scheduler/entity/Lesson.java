@@ -18,7 +18,7 @@ public class Lesson {
 
     @Enumerated(EnumType.STRING)
     LessonType type;
-    //Teacher teacher;
+    Teacher teacher;
     String place;
     //@Autowired
     ScheduleDate date;
