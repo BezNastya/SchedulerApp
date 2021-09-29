@@ -8,16 +8,9 @@ import java.util.Objects;
 
 
 @Data
-@Component
-public class Student {
+public class Student extends User {
 
     private long id;
-
-    private String email;
-
-    private String password;
-
-    private String passwordConfirm;
 
     private String firstName;
 
