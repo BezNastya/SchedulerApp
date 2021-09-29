@@ -7,22 +7,13 @@ import java.util.Objects;
 @Data
 //@Entity
 //@Table(name = "master")
-public class Admin {
+public class Admin extends User{
 //    @Column(name = "id")
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
 
-//    @Column(name="username")
-     @NotNull
-    private String username;
-
-    @NotNull
-    private String password;
-
-    @NotNull
-    private String passwordConfirm;
 
 
 
@@ -31,11 +22,11 @@ public class Admin {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Admin admin = (Admin) o;
-        return id == admin.id && username.equals(admin.username) && password.equals(admin.password) && passwordConfirm.equals(admin.passwordConfirm);
+        return id == admin.id && email.equals(admin.email) && password.equals(admin.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, passwordConfirm);
+        return Objects.hash(id, email, password);
     }
 }
