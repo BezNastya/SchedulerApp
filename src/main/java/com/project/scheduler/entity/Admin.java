@@ -14,19 +14,16 @@ public class Admin extends User{
     private long id;
 
 
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Admin admin = (Admin) o;
-        return id == admin.id && email.equals(admin.email) && password.equals(admin.password);
+        return id == admin.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password);
+        return Objects.hash(id);
     }
 }
