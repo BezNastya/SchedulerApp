@@ -27,7 +27,7 @@ public class Student extends User {
     private String specialty;
     private int yearAdmission;
 
-    private Map<Student, List<Course>> groupMap;
+
 
     @Override
     public boolean equals(Object o) {
