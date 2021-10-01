@@ -2,17 +2,25 @@ package com.project.scheduler.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Data
-//@Entity
-//@Table(name = "master")
-public class Admin extends User{
-//    @Column(name = "id")
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+@Entity
+@Table(name = "master")
+public class Admin extends User {
+
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(name = "email")
+    String email;
+
+    @Column(name = "password")
+    String password;
 
     @Override
     public boolean equals(Object o) {

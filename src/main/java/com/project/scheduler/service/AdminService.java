@@ -1,5 +1,9 @@
 package com.project.scheduler.service;
 
+import com.project.scheduler.entity.Admin;
+
 public interface AdminService {
-//    public  void save();
+    void save();
+    Admin findByEmail(String email);
+    Admin findById(long id);
 }
