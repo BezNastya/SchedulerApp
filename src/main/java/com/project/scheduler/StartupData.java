@@ -3,7 +3,7 @@ package com.project.scheduler;
 import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.entity.Teacher;
-import com.project.scheduler.repository.MasterRepository;
+import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.repository.TeacherRepository;
 import com.project.scheduler.service.AdminService;
@@ -17,15 +17,15 @@ public class StartupData implements CommandLineRunner {
 
     private StudentRepository studentRepository;
     private TeacherRepository teacherRepository;
-    private MasterRepository masterRepository;
+    private AdminRepository adminRepository;
 
     @Autowired
     public StartupData(StudentRepository studentRepository,
                        TeacherRepository teacherRepository,
-                       MasterRepository masterRepository) {
+                       AdminRepository adminRepository) {
     this.studentRepository = studentRepository;
     this.teacherRepository = teacherRepository;
-    this.masterRepository = masterRepository;
+    this.adminRepository = adminRepository;
     }
 
     @Override
@@ -56,6 +56,6 @@ public class StartupData implements CommandLineRunner {
 
         admin.setEmail("admin@ukma.edu.ua");
         admin.setPassword("admin");
-        masterRepository.save(admin);
+        adminRepository.save(admin);
     }
 }
