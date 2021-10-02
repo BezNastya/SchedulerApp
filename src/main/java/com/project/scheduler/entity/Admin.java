@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Table(name = "master")
+@Table(name = "admin")
 public class Admin extends User {
 
     @Column(name = "id")

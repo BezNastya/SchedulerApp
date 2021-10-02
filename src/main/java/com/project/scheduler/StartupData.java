@@ -2,10 +2,8 @@ package com.project.scheduler;
 
 import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Student;
-import com.project.scheduler.repository.MasterRepository;
+import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.repository.StudentRepository;
-import com.project.scheduler.service.AdminService;
-import com.project.scheduler.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,12 +12,12 @@ import org.springframework.stereotype.Component;
 public class StartupData implements CommandLineRunner {
 
     private StudentRepository studentRepository;
-    private MasterRepository masterRepository;
+    private AdminRepository adminRepository;
 
     @Autowired
-    public StartupData(StudentRepository studentRepository, MasterRepository masterRepository) {
+    public StartupData(StudentRepository studentRepository, AdminRepository adminRepository) {
     this.studentRepository = studentRepository;
-    this.masterRepository = masterRepository;
+    this.adminRepository = adminRepository;
     }
 
     @Override
@@ -43,6 +41,6 @@ public class StartupData implements CommandLineRunner {
         admin.setPassword("admin");
 
         //TODO  masterRepository and uncomment function below
-         masterRepository.save(admin);
+         adminRepository.save(admin);
     }
 }
