@@ -21,6 +21,8 @@ public class Student extends User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+
+
     @Column(name = "email")
     String email;
 
@@ -54,6 +56,10 @@ public class Student extends User {
     @Column(name = "faculty")
     @NotNull
     private String faculty;
+
+    @Column(name = "course")
+    @NotNull
+    private String course;
 
     @Column(name = "specialty")
     @NotNull

@@ -1,11 +1,14 @@
 package com.project.scheduler.service.impl;
 
+import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.service.ScheduleService;
 import com.project.scheduler.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -33,5 +36,15 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student findById(long id) {
         return studentRepository.findById(id);
+    }
+
+    @Override
+    public List<Student> findAll() {
+        return studentRepository.findAll();
+    }
+
+    @Override
+    public void joinCourse(String course,Student student) {
+        student.setCourse(course);
     }
 }

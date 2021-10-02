@@ -2,6 +2,8 @@ package com.project.scheduler.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,18 +12,20 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(name = "teacher")
-public class Teacher extends User{
+public class Teacher{
 
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "email" , unique = true)
+    String email;
 
     @Column(name = "password")
-    private String password;
+    String password;
+
+
 
     @Column(name = "firstName")
     @NotNull
