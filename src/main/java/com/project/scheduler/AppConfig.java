@@ -1,5 +1,6 @@
 package com.project.scheduler;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,8 @@ import java.util.Arrays;
 @Configuration
 @ComponentScan
 public class AppConfig {
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
@@ -22,6 +25,8 @@ public class AppConfig {
             for (String bean : beans) {
                 System.out.println("Bean " + bean + " was created");
             }
+
+            System.err.println("Profile " + profile);
         };
     }
 }
