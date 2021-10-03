@@ -1,6 +1,7 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Admin;
+import com.project.scheduler.entity.ScheduleDate;
 import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public void setNewLessonDate(ScheduleDate date) {
+
+    }
+
+
+
+
+    @Override
     public Admin findByEmail(String email) {
         return adminRepository.findByEmail(email);
     }
@@ -31,5 +40,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin findById(long id) {
         return adminRepository.findById(id);
+    }
+
+
+    //delete admin
+    @Override
+    public void deleteAdminById(long id) {
+        adminRepository.deleteAdminById(id);
     }
 }
