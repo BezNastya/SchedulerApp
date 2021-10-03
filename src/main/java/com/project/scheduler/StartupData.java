@@ -6,8 +6,6 @@ import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.repository.TeacherRepository;
-import com.project.scheduler.service.AdminService;
-import com.project.scheduler.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
