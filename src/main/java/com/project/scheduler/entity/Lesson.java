@@ -27,8 +27,8 @@ public class Lesson {
     @Enumerated(EnumType.STRING)
     LessonType type;
 
-    //TODO link with teacher
-    @Column(name = "teacher")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id", nullable = true)
     Teacher teacher;
 
     @Column(name = "place")

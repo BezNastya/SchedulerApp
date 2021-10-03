@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Data
 @Entity
@@ -43,6 +45,10 @@ public class Teacher{
     @NotNull
     private String department;
 
+    //another variant, with cascade
+    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+    private Set<Lesson> lessons = new HashSet<>();
 //    private List<Course> courses;
 
     @Override

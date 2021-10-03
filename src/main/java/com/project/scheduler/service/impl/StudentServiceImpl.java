@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void joinCourse(String course,Student student) {
+    public void joinCourse(Course course,Student student) {
         student.setCourse(course);
     }
 }

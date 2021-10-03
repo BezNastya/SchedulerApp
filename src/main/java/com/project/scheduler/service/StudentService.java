@@ -11,5 +11,5 @@ public interface StudentService {
     Student findByEmail(String email);
     Student findById(long id);
     List<Student>findAll();
-    void joinCourse(String course,Student student);
+    void joinCourse(Course course,Student student);
 }

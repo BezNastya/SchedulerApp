@@ -6,9 +6,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 @Data
@@ -57,9 +55,7 @@ public class Student extends User {
     @NotNull
     private String faculty;
 
-    @Column(name = "course")
-    @NotNull
-    private String course;
+
 
     @Column(name = "specialty")
     @NotNull
@@ -78,6 +74,11 @@ public class Student extends User {
         Student student = (Student) o;
         return id == student.getId();
     }
+
+
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+    private Course course;
 
     @Override
     public int hashCode() {
