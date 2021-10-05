@@ -47,10 +47,6 @@ public class Student extends User {
     @NotNull
     private String studTicketSeries;
 
-    @Column(name = "studTicketNumber", unique = true)
-    @NotNull
-    private String studTicketNumber;
-
     @Column(name = "faculty")
     @NotNull
     private String faculty;
