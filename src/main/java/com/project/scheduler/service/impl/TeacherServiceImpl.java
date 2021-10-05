@@ -1,7 +1,6 @@
 package com.project.scheduler.service.impl;
 
-import com.project.scheduler.entity.Student;
-import com.project.scheduler.entity.Teacher;
+import com.project.scheduler.entity.*;
 import com.project.scheduler.repository.TeacherRepository;
 import com.project.scheduler.service.ScheduleService;
 import com.project.scheduler.service.TeacherService;
@@ -38,5 +37,17 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher findByLastName(String lastName) {
         return teacherRepository.findByLastName(lastName);
+    }
+
+    @Override
+    public PostponeLesson postponeLesson(String description, Lesson canceledLesson,
+                                         ScheduleDate newDate, String newPlace){
+        //Request update lesson using old lesson + newDate and newPlace
+        return null;
+    }
+
+    @Override
+    public Schedule getTeacherLessons(long id){
+        return null;
     }
 }

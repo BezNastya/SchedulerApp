@@ -26,7 +26,7 @@ public class Course {
 
 
     //TODO problem1 Map in DB
-    @ElementCollection
-    Map<Integer, List<Lesson>> groupToLessons;
+//    @ElementCollection
+//    Map<Integer, List<Lesson>> groupToLessons;
 
 }
