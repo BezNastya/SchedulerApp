@@ -8,7 +8,10 @@ import com.project.scheduler.service.CourseService;
 import java.util.List;
 
 public class CourseServiceImpl implements CourseService {
+
+    @Autowired
     CourseRepository courseRepository;
+
     @Override
     public List<Course> findAll() {
         return courseRepository.findAll();
