@@ -4,6 +4,7 @@ import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

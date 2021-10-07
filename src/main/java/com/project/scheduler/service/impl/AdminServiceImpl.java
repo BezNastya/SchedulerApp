@@ -1,6 +1,7 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Admin;
+import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.ScheduleDate;
 import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.service.AdminService;
@@ -20,16 +21,24 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public void save() {
-
-    }
-
-    @Override
     public void setNewLessonDate(ScheduleDate date) {
 
     }
 
+    @Override
+    public void createCourse(Course course) {
 
+    }
+
+    @Override
+    public void deleteCourse(long id) {
+
+    }
+
+    @Override
+    public void addAdmin(Admin admin) {
+
+    }
 
 
     @Override
