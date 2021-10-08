@@ -1,25 +1,24 @@
 package com.project.scheduler.entity;
 
-import com.sun.istack.NotNull;
-import lombok.Data;
+import lombok.*;
 
-import javax.persistence.*;
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
-@Table(name = "admin")
 public class Admin extends User {
 
-    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "email")
     String email;
-
-    @Column(name = "password")
     String password;
 
     @Override
@@ -32,6 +31,6 @@ public class Admin extends User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Long.hashCode(id);
     }
 }

@@ -1,13 +1,16 @@
 package com.project.scheduler.entity;
 
-import lombok.Data;
-import org.springframework.stereotype.Component;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Data
-@Table(name = "PostponedLessons")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class PostponeLesson {
 
     @Id
@@ -15,21 +18,30 @@ public class PostponeLesson {
     private long id;
 
     //Коментарі
-    @Column(name = "description")
     private String description;
 
     //Предмет, що перенесено
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "canceledLesson", nullable = true)
+    @JoinColumn(name = "canceledLesson", nullable = false)
+    @ToString.Exclude
     private Lesson canceledLesson;
 
-//    //Нова дата
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "newDate", nullable = true)
-//    private ScheduleDate newDate;
+    @Embedded
+    private ScheduleDate newDate;
 
     //Нове місце(за потреби)
-    @Column(name = "newPlace")
     private String newPlace;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PostponeLesson that = (PostponeLesson) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);
+    }
 }
