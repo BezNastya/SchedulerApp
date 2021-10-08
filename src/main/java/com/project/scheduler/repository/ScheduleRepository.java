@@ -9,8 +9,5 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Course,Long> {
 
-    List<Lesson> findAllLessonsByCourse(final Course course);
-    List<Lesson> findLessonsByCourseAndGroup(final  Course course, final int group);
-    List<Lesson> findLessonsByTeacher(final Teacher teacher);
 
 }

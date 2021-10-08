@@ -26,17 +26,17 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher findById(long id) {
-        return teacherRepository.findById(id);
+        return teacherRepository.findById(id).get();
     }
 
     @Override
     public Teacher findByEmail(String email) {
-        return teacherRepository.findByEmail(email);
+        return null;
     }
 
     @Override
     public Teacher findByLastName(String lastName) {
-        return teacherRepository.findByLastName(lastName);
+        return null;
     }
 
     @Override

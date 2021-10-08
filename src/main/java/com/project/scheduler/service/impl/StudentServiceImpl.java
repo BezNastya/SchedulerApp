@@ -12,30 +12,30 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private final StudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
-
-//    @Autowired
-//    private ScheduleService scheduleService;
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public void setStudentRepository(StudentRepository studentRepository){
         this.studentRepository = studentRepository;
     }
 
     @Override
     public Student findByLastName(String username) {
-        return studentRepository.findByLastName(username);
+        return null;
     }
 
     @Override
     public Student findByEmail(String email) {
-        return studentRepository.findByEmail(email);
+        return null;
     }
 
     @Override
     public Student findById(long id) {
-        return studentRepository.findById(id);
+        return studentRepository.findById(id).get();
     }
 
     @Override
@@ -45,6 +45,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void joinCourse(Course course,Student student) {
-        student.setCourse(course);
+//        student.setCourse(course);
     }
 }

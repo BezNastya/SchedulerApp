@@ -14,7 +14,6 @@ public class Schedule {
     private Long id;
     private List<Lesson> lessons;
 
-    @Autowired
     public void setLessons(List<Lesson> lessons){
         this.lessons = lessons;
     }

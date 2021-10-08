@@ -20,9 +20,9 @@ public class Course {
     @Column(name = "name")
     String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = true)
-    Student student;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "student_id", nullable = true)
+//    Student student;
 
 
     //TODO problem1 Map in DB

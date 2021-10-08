@@ -27,15 +27,15 @@ public class Lesson {
     @Enumerated(EnumType.STRING)
     LessonType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", nullable = true)
-    Teacher teacher;
+//    //TODO link with teacher
+//    @Column(name = "teacher")
+//    Teacher teacher;
 
     @Column(name = "place")
     String place;
     //@Autowired
 
-    //TODO link with date. maybe change date on local date
-    @Column(name = "date")
-    ScheduleDate date;
+//    //TODO link with date. maybe change date on local date
+//    @Column(name = "date")
+//    ScheduleDate date;
 }

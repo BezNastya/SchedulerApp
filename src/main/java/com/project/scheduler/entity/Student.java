@@ -73,8 +73,8 @@ public class Student extends User {
 
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-    private Course course;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+//    private Course course;
 
     @Override
     public int hashCode() {

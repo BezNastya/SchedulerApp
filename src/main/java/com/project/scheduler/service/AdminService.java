@@ -12,7 +12,7 @@ public interface AdminService {
     void addAdmin(Admin admin);
 
     Admin findByEmail(String email);
-    Admin findById(long id);
-    void deleteAdminById(long id);
+    Admin findById(Long id);
+    void deleteAdminById(Long id);
 
 }

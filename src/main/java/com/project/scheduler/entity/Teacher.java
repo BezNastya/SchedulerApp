@@ -47,8 +47,8 @@ public class Teacher{
 
     //another variant, with cascade
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
-    private Set<Lesson> lessons = new HashSet<>();
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+//    private Set<Lesson> lessons = new HashSet<>();
 //    private List<Course> courses;
 
     @Override

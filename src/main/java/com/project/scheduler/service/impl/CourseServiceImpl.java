@@ -6,6 +6,7 @@ import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseServiceImpl implements CourseService {
@@ -20,6 +21,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> findAllByStudent(Student student) {
-        return courseRepository.findAllByStudent(student);
+        return new ArrayList<Course>();
     }
 }

@@ -23,10 +23,10 @@ public class PostponeLesson {
     @JoinColumn(name = "canceledLesson", nullable = true)
     private Lesson canceledLesson;
 
-    //Нова дата
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "newDate", nullable = true)
-    private ScheduleDate newDate;
+//    //Нова дата
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "newDate", nullable = true)
+//    private ScheduleDate newDate;
 
     //Нове місце(за потреби)
     @Column(name = "newPlace")
