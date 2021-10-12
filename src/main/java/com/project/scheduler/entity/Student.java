@@ -5,8 +5,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+
 
 
 @Getter
@@ -14,26 +13,12 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class Student extends User {
+public class Student{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    String email;
-    String password;
-
-    @NotNull
-    private String firstName;
-
-    @NotNull
-    private String lastName;
-
-    @NotNull
-    private String secondName;
-
-    @NotNull
-    private int age;
 
     @NotNull
     private String studTicketSeries;
@@ -50,6 +35,11 @@ public class Student extends User {
 
          //@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
          //private List<Course> course;
+
+    @MapsId
+    @OneToOne(mappedBy = "student")
+    @JoinColumn(name = "id")   //same name as id @Column
+    private User user;
 
     @Override
     public boolean equals(Object o) {

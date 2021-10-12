@@ -2,24 +2,24 @@ package com.project.scheduler.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class Admin extends User {
+public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    String email;
-    String password;
+
+    @MapsId
+    @OneToOne(mappedBy = "admin")
+    @JoinColumn(name = "id")
+    private User user;
 
     @Override
     public boolean equals(Object o) {

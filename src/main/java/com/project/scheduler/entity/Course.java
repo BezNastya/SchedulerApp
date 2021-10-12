@@ -21,14 +21,6 @@ public class Course {
 
     String name;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "student_id", nullable = true)
-//    Student student;
-
-
-    //TODO problem1 Map in DB
-//    @ElementCollection
-//    Map<Integer, List<Lesson>> groupToLessons;
 
     @Override
     public boolean equals(Object o) {

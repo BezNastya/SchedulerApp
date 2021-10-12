@@ -17,22 +17,16 @@ public class Teacher{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique = true)
-    String email;
-
-    String password;
-
-    @NotNull
-    private String firstName;
-
-    @NotNull
-    private String lastName;
-
     @NotNull
     private String academicDegree;
 
     @NotNull
     private String department;
+
+    @MapsId
+    @OneToOne(mappedBy = "teacher")
+    @JoinColumn(name = "id")   //same name as id @Column
+    private User user;
 
     //another variant, with cascade
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
