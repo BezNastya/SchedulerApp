@@ -1,47 +1,36 @@
 package com.project.scheduler.entity;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
-@Table(name = "teacher")
 public class Teacher{
 
-    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "email" , unique = true)
+    @Column(unique = true)
     String email;
 
-    @Column(name = "password")
     String password;
 
-
-
-    @Column(name = "firstName")
     @NotNull
     private String firstName;
 
-    @Column(name = "lastName")
     @NotNull
     private String lastName;
 
-    @Column(name = "academicDegree")
     @NotNull
     private String academicDegree;
 
-    @Column(name = "department")
     @NotNull
     private String department;
 
@@ -61,6 +50,6 @@ public class Teacher{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Long.hashCode(id);
     }
 }
