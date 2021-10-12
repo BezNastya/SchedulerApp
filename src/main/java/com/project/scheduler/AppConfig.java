@@ -12,7 +12,7 @@ import java.util.Arrays;
 @Configuration
 @ComponentScan
 public class AppConfig {
-    @Value("${spring.profiles.active}")
+    @Value("${spring.profiles.default}")
     private String profile;
 
     @Bean
