@@ -7,9 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Getter
@@ -18,12 +17,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @RequiredArgsConstructor
 @Entity
 @PrimaryKeyJoinColumn(name = "userId")
-public class Student extends User{
-/*
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-*/
+public class Student extends User {
 
     @NotNull
     private String studTicketSeries;
@@ -38,25 +32,12 @@ public class Student extends User{
     private int yearAdmission;
 
 
-         //@OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
-         //private List<Course> course;
-/*
-    @MapsId
-    @OneToOne(mappedBy = "student")
-    @JoinColumn(name = "id")   //same name as id @Column
-    private User user;
-*/
+    @ManyToMany
+    @JoinTable(
+            name = "groupCourse_student",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "groupCourse_id"))
+    @ToString.Exclude
+    Set<GroupCourse> groupCourse;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Student student = (Student) o;
-        return userId == student.userId;
-    }
-
-    @Override
-    public int hashCode() {
-        return Long.hashCode(userId);
-    }
 }
