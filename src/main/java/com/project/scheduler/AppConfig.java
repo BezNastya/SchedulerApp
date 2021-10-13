@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan
 public class AppConfig {
-    @Value("${spring.profiles.default}")
+    @Value("${spring.profiles.active}")
     private String profile;
 
     @Bean
