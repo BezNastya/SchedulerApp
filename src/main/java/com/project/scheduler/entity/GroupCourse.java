@@ -27,6 +27,10 @@ public class GroupCourse {
 
     @ManyToMany(mappedBy = "groupCourse")
     @ToString.Exclude
-    Set<User> likes;
+    Set<Student> students;
+
+    @ManyToMany(mappedBy = "groupCourse")
+    @ToString.Exclude
+    Set<Teacher> teachers;
 
 }

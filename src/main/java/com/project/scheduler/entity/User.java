@@ -7,13 +7,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Set;
+
 
 @ToString
 @RequiredArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,32 +39,29 @@ public abstract class User {
     @Setter
     @Getter
     private String lastName;
+
+
     @NotNull
+    @Setter
+    @Getter
     private String role;
 
     @NotNull
+    @Setter
+    @Getter
     private boolean authorized;
 
-    @ManyToMany
-    @JoinTable(
-            name = "groupCourse_like",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "groupCourse_id"))
-    @ToString.Exclude
-    Set<GroupCourse> groupCourse;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId;
+    }
 
-/*
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Student student;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Teacher teacher;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Admin admin;
-*/
+    @Override
+    public int hashCode() {
+        return Long.hashCode(userId);
+    }
 
 }

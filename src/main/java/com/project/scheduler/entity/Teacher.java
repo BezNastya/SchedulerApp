@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,7 +15,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @RequiredArgsConstructor
 @Entity
 @PrimaryKeyJoinColumn(name = "userId")
-public class Teacher extends User{
+public class Teacher extends User {
 
     @NotNull
     private String academicDegree;
@@ -23,30 +23,14 @@ public class Teacher extends User{
     @NotNull
     private String department;
 
-    //another variant, with cascade
-    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
-//    private Set<Lesson> lessons = new HashSet<>();
-//    private List<Course> courses;
-/*
+
     @ManyToMany
     @JoinTable(
-            name = "groupCourse_like",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "groupCourse_teacher",
+            joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "groupCourse_id"))
     @ToString.Exclude
     Set<GroupCourse> groupCourse;
-*/
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Teacher teacher = (Teacher) o;
-        return userId == teacher.userId;
-    }
 
-    @Override
-    public int hashCode() {
-        return Long.hashCode(userId);
-    }
+
 }
