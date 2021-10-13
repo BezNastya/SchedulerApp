@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,27 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     CourseRepository courseRepository;
     GroupCourseRepository groupRepository;
+
+
+    @Override
+    public void save(Course course) {
+        courseRepository.save(course);
+    }
+
+    @Override
+    public void delete(Course course) {
+courseRepository.delete(course);
+    }
+
+    @Override
+    public void update(Course course) {
+        save(course);
+    }
+
+    @Override
+    public Optional<Course> findCourseById(long id) {
+        return courseRepository.findById(id);
+    }
 
     @Override
     public List<Course> findAll() {
@@ -62,4 +82,8 @@ public class CourseServiceImpl implements CourseService {
     public void deleteGroupById(Long groupId) {
         groupRepository.deleteById(groupId);
     }
+//    @Override
+//    public List<Course> findAllByStudent(Student student) {
+//        return new ArrayList<Course>();
+//    }
 }

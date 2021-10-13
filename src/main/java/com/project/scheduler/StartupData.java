@@ -3,9 +3,12 @@ package com.project.scheduler;
 import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.entity.Teacher;
+import com.project.scheduler.entity.User;
 import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.repository.TeacherRepository;
+import com.project.scheduler.repository.UserRepository;
+import com.project.scheduler.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +23,20 @@ public class StartupData implements CommandLineRunner {
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
     private final AdminRepository adminRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
+
+
 
     @Autowired
     public StartupData(StudentRepository studentRepository,
                        TeacherRepository teacherRepository,
-                       AdminRepository adminRepository) {
+                       AdminRepository adminRepository, UserRepository userRepository, UserService userService) {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
         this.adminRepository = adminRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -40,9 +49,21 @@ public class StartupData implements CommandLineRunner {
         adminAccount();
         studentAccount();
         teacherAccount();
+        userAccount();
     }
 
-    private void studentAccount() {
+    private void userAccount() {
+        User user = new Admin();
+
+        user.setEmail("admin@ukma.edu.ua");
+        user.setPassword("admin");
+
+        userRepository.save(user);
+        user.setEmail("YES!");
+        userService.update(user);
+
+    }
+        private void studentAccount() {
         Student student = new Student();
         student.setEmail("student@ukma.edu.ua");
         student.setFirstName("Ivan");
@@ -51,6 +72,8 @@ public class StartupData implements CommandLineRunner {
         student.setFaculty("FI");
         student.setSpecialty("SE");
         studentRepository.save(student);
+        student.setFaculty("FEN");
+
 
         Student student2 = new Student();
         student2.setEmail("student2@ukma.edu.ua");
@@ -60,6 +83,7 @@ public class StartupData implements CommandLineRunner {
         student2.setFaculty("FI");
         student2.setSpecialty("CS");
         studentRepository.save(student2);
+        studentRepository.delete(student2);
 
         Student student3 = new Student();
 

@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     protected long userId;

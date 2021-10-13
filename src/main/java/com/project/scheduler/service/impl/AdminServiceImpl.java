@@ -8,6 +8,8 @@ import com.project.scheduler.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -36,8 +38,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void addAdmin(Admin admin) {
-
+    public void saveAdmin(Admin admin) {
+        adminRepository.save(admin);
     }
 
 
@@ -51,10 +53,22 @@ public class AdminServiceImpl implements AdminService {
         return adminRepository.findById(id).get();
     }
 
-
-    //delete admin
     @Override
-    public void deleteAdminById(Long id) {
-        adminRepository.deleteById(id);
+    public List<Admin> findAll() {
+        return adminRepository.findAll();
+    }
+
+    @Override
+    public void deleteAdmin(Admin admin) {
+        adminRepository.delete(admin);
+    }
+
+
+
+
+
+    @Override
+    public void updateAdmin(Admin admin) {
+        adminRepository.save(admin);
     }
 }
