@@ -19,7 +19,7 @@ public class GroupCourse {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    @JoinColumn(insertable = false, updatable = false)
     private Course course_id;
 
 

@@ -39,10 +39,9 @@ public abstract class User {
     @Setter
     @Getter
     private String lastName;
-/*
     @NotNull
     private String role;
-*/
+
     @NotNull
     private boolean authorized;
 

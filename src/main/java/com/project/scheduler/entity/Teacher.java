@@ -17,29 +17,26 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "userId")
 public class Teacher extends User{
 
-    /*
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-*/
-
     @NotNull
     private String academicDegree;
 
     @NotNull
     private String department;
-/*
-    @MapsId
-    @OneToOne(mappedBy = "teacher")
-    @JoinColumn(name = "id")   //same name as id @Column
-    private User user;
-*/
+
     //another variant, with cascade
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
 //    private Set<Lesson> lessons = new HashSet<>();
 //    private List<Course> courses;
-
+/*
+    @ManyToMany
+    @JoinTable(
+            name = "groupCourse_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "groupCourse_id"))
+    @ToString.Exclude
+    Set<GroupCourse> groupCourse;
+*/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
