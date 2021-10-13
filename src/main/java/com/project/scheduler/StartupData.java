@@ -4,11 +4,10 @@ import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.entity.User;
-import com.project.scheduler.repository.AdminRepository;
-import com.project.scheduler.repository.StudentRepository;
-import com.project.scheduler.repository.TeacherRepository;
-import com.project.scheduler.repository.UserRepository;
 import com.project.scheduler.service.UserService;
+import com.project.scheduler.service.impl.AdminServiceImpl;
+import com.project.scheduler.service.impl.StudentServiceImpl;
+import com.project.scheduler.service.impl.TeacherServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +19,20 @@ public class StartupData implements CommandLineRunner {
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
 
 
-    private final StudentRepository studentRepository;
-    private final TeacherRepository teacherRepository;
-    private final AdminRepository adminRepository;
-    private final UserRepository userRepository;
+    private final StudentServiceImpl studentService;
+    private final TeacherServiceImpl teacherService;
+    private final AdminServiceImpl adminService;
     private final UserService userService;
 
 
 
     @Autowired
-    public StartupData(StudentRepository studentRepository,
-                       TeacherRepository teacherRepository,
-                       AdminRepository adminRepository, UserRepository userRepository, UserService userService) {
-        this.studentRepository = studentRepository;
-        this.teacherRepository = teacherRepository;
-        this.adminRepository = adminRepository;
-        this.userRepository = userRepository;
+    public StartupData(StudentServiceImpl studentService,
+                       TeacherServiceImpl teacherService,
+                       AdminServiceImpl adminService, UserService userService) {
+        this.studentService = studentService;
+        this.teacherService = teacherService;
+        this.adminService = adminService;
         this.userService = userService;
     }
 
@@ -58,7 +55,7 @@ public class StartupData implements CommandLineRunner {
         user.setEmail("admin@ukma.edu.ua");
         user.setPassword("admin");
 
-        userRepository.save(user);
+        userService.save(user);
         user.setEmail("YES!");
         userService.update(user);
 
@@ -71,7 +68,7 @@ public class StartupData implements CommandLineRunner {
         student.setPassword("student");
         student.setFaculty("FI");
         student.setSpecialty("SE");
-        studentRepository.save(student);
+        studentService.save(student);
         student.setFaculty("FEN");
 
 
@@ -82,8 +79,7 @@ public class StartupData implements CommandLineRunner {
         student2.setPassword("student2");
         student2.setFaculty("FI");
         student2.setSpecialty("CS");
-        studentRepository.save(student2);
-        studentRepository.delete(student2);
+        studentService.save(student2);
 
         Student student3 = new Student();
 
@@ -93,7 +89,7 @@ public class StartupData implements CommandLineRunner {
         student3.setPassword("student3");
         student3.setFaculty("FI");
         student3.setSpecialty("CS");
-        studentRepository.save(student3);
+        studentService.save(student3);
 
         Student student4 = new Student();
         student4.setEmail("student3@ukma.edu.ua");
@@ -102,7 +98,12 @@ public class StartupData implements CommandLineRunner {
         student4.setPassword("Melnyk");
         student4.setFaculty("FI");
         student4.setSpecialty("SE");
-        studentRepository.save(student4);
+        studentService.save(student4);
+
+        studentService.delete(student4);
+        studentService.updateFaculty(student3, "FH");
+        studentService.updateTicketNumber(student2, "121");
+        studentService.updateSpeciality(student, "AM");
 
     }
 
@@ -115,7 +116,7 @@ public class StartupData implements CommandLineRunner {
         teacher.setFirstName("Alina");
         teacher.setLastName("Petrivna");
         teacher.setDepartment("FI");
-        teacherRepository.save(teacher);
+        teacherService.save(teacher);
 
         Teacher teacher2 = new Teacher();
         teacher2.setEmail("teacher2@ukma.edu.ua");
@@ -126,8 +127,17 @@ public class StartupData implements CommandLineRunner {
 
         teacher2.setDepartment("FI");
 
-        teacherRepository.save(teacher2);
+        teacherService.save(teacher2);
 
+        teacher2.setEmail("newTeacher2Email@ukma.edu.ua");
+        teacher2.setFirstName("New name");
+
+        teacherService.save(teacher2);
+        teacherService.delete(teacher);
+
+        //logger.warn("Teacher2`s new email: " + teacherService.findById(teacher2.getUserId()).getEmail());
+        teacherService.updateAcademicDegree(teacher2, "PhD");
+        teacherService.updateDepartment(teacher2, "Department of Computer Science");
     }
 
     private void adminAccount() {
@@ -136,6 +146,6 @@ public class StartupData implements CommandLineRunner {
         admin.setEmail("admin@ukma.edu.ua");
         admin.setPassword("admin");
 
-        adminRepository.save(admin);
+        adminService.saveAdmin(admin);
     }
 }

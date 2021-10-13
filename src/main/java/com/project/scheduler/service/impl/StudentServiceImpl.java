@@ -1,6 +1,5 @@
 package com.project.scheduler.service.impl;
 
-import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.service.StudentService;
@@ -22,19 +21,26 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository = studentRepository;
     }
 
-    @Override
-    public Student findByLastName(String username) {
-        return null;
-    }
 
     @Override
-    public Student findByEmail(String email) {
-        return null;
+    public Student save(Student s) {
+        return studentRepository.save(s);
     }
 
+    /*
+        @Override
+        public Student findByLastName(String username) {
+            return null;
+        }
+
+        @Override
+        public Student findByEmail(String email) {
+            return null;
+        }
+    */
     @Override
     public Student findById(long id) {
-        return studentRepository.findById(id).get();
+        return studentRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -43,7 +49,29 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public void delete(Student s) {
+        studentRepository.delete(s);
+    }
+    /*
+    @Override
     public void joinCourse(Course course,Student student) {
 //        student.setCourse(course);
+    }
+
+     */
+
+    @Override
+    public void updateFaculty(final Student student, final String faculty) {
+        studentRepository.updateFaculty(student.getUserId(), faculty);
+    }
+
+    @Override
+    public void updateSpeciality(final Student student, final String speciality) {
+        studentRepository.updateSpeciality(student.getUserId(), speciality);
+    }
+
+    @Override
+    public void updateTicketNumber(final Student student, final String ticketNumber) {
+        studentRepository.updateTicketNumber(student.getUserId(), ticketNumber);
     }
 }
