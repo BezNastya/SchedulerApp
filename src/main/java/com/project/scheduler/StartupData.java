@@ -17,9 +17,9 @@ public class StartupData implements CommandLineRunner {
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
 
 
-    private StudentRepository studentRepository;
-    private TeacherRepository teacherRepository;
-    private AdminRepository adminRepository;
+    private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
+    private final AdminRepository adminRepository;
 
     @Autowired
     public StartupData(StudentRepository studentRepository,
@@ -48,7 +48,6 @@ public class StartupData implements CommandLineRunner {
         student.setFirstName("Ivan");
         student.setLastName("Boyko");
         student.setPassword("student");
-        student.setAge(17);
         student.setFaculty("FI");
         student.setSpecialty("SE");
         studentRepository.save(student);
@@ -58,7 +57,6 @@ public class StartupData implements CommandLineRunner {
         student2.setFirstName("Ivan");
         student2.setLastName("Tolkunov");
         student2.setPassword("student2");
-        student2.setAge(19);
         student2.setFaculty("FI");
         student2.setSpecialty("CS");
         studentRepository.save(student2);
@@ -71,7 +69,6 @@ public class StartupData implements CommandLineRunner {
         student3.setPassword("student3");
         student3.setFaculty("FI");
         student3.setSpecialty("CS");
-        student3.setAge(21);
         studentRepository.save(student3);
 
         Student student4 = new Student();
@@ -81,7 +78,6 @@ public class StartupData implements CommandLineRunner {
         student4.setPassword("Melnyk");
         student4.setFaculty("FI");
         student4.setSpecialty("SE");
-        student4.setAge(21);
         studentRepository.save(student4);
 
     }

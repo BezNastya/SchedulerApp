@@ -2,7 +2,6 @@ package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.*;
 import com.project.scheduler.repository.TeacherRepository;
-import com.project.scheduler.service.ScheduleService;
 import com.project.scheduler.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

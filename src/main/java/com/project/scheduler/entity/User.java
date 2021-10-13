@@ -9,33 +9,40 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Set;
 
-@Getter
-@Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class User {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(nullable = false)
+    protected long userId;
 
     @NotNull
+    @Setter
+    @Getter
     String email;
 
     @NotNull
+    @Setter
+    @Getter
     String password;
 
     @NotNull
+    @Setter
+    @Getter
     private String firstName;
 
     @NotNull
+    @Setter
+    @Getter
     private String lastName;
-
+/*
     @NotNull
     private String role;
-
+*/
     @NotNull
     private boolean authorized;
 
@@ -47,7 +54,7 @@ public class User {
     @ToString.Exclude
     Set<GroupCourse> groupCourse;
 
-
+/*
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Student student;
@@ -59,6 +66,6 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Admin admin;
-
+*/
 
 }

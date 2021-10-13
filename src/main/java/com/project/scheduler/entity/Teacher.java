@@ -1,33 +1,39 @@
 package com.project.scheduler.entity;
 
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
-import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class Teacher{
+@PrimaryKeyJoinColumn(name = "userId")
+public class Teacher extends User{
 
+    /*
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+*/
 
     @NotNull
     private String academicDegree;
 
     @NotNull
     private String department;
-
+/*
     @MapsId
     @OneToOne(mappedBy = "teacher")
     @JoinColumn(name = "id")   //same name as id @Column
     private User user;
-
+*/
     //another variant, with cascade
     //@OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher", cascade = CascadeType.ALL)
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
@@ -39,11 +45,11 @@ public class Teacher{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Teacher teacher = (Teacher) o;
-        return id == teacher.getId();
+        return userId == teacher.userId;
     }
 
     @Override
     public int hashCode() {
-        return Long.hashCode(id);
+        return Long.hashCode(userId);
     }
 }
