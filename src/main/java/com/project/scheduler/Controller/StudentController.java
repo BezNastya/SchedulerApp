@@ -1,4 +1,4 @@
-package com.project.scheduler.Controller;
+package com.project.scheduler.controller;
 
 import org.slf4j.*;
 import org.springframework.web.bind.annotation.GetMapping;

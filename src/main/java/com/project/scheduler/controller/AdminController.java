@@ -1,33 +1,26 @@
 package com.project.scheduler.controller;
 
-import com.project.scheduler.entity.Admin;
-import com.project.scheduler.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.slf4j.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 
-@Controller
+@RestController
 public class AdminController {
-    private final AdminService adminService;
 
-    @Autowired
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
-    }
+    Logger logger = LoggerFactory.getLogger(AdminController.class);
+    Marker myMarker = MarkerFactory.getMarker("AdminClassMarker");
 
-    @GetMapping("/admin")
-    public String userPanel(Principal principal, Model model){
-        Admin admin = adminService.findByEmail(principal.getName());// TODO fix
+    @GetMapping("/admin/{id}")
+    public String clientMCDRequest(@PathVariable String id) throws InterruptedException {
+        MDC.put("adminId", id);
 
-        if (admin != null) {
-            model.addAttribute("admin", admin);
-        } else {
-            return "error/404";
-        }
-
-        return "user";
+        logger.info(myMarker,"admins {} has made a request", id);
+        logger.info(myMarker,"Starting request");
+        Thread.sleep(5000);
+        logger.info(myMarker,"Finished request");
+        MDC.clear();
+        return "finished";
     }
 }
