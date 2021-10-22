@@ -1,4 +1,4 @@
-package com.project.scheduler.Controller;
+package com.project.scheduler.controller;
 
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.entity.User;
