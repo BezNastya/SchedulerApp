@@ -10,7 +10,7 @@ import com.project.scheduler.service.impl.StudentServiceImpl;
 import com.project.scheduler.service.impl.TeacherServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.slf4j.Marker;
+import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -148,6 +148,6 @@ public class StartupData implements CommandLineRunner {
         admin.setEmail("admin@ukma.edu.ua");
         admin.setPassword("admin");
 
-        adminService.saveAdmin(admin);
+        adminService.save(admin);
     }
 }
