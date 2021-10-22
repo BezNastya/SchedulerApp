@@ -16,8 +16,8 @@ public interface AdminService {
     Admin findByEmail(String email);
     Admin findById(Long id);
     List<Admin> findAll();
-    void deleteAdmin(Admin admin);
-    void updateAdmin(Admin admin);
-    void saveAdmin(Admin admin);
+    void delete(Admin admin);
+    void update(Admin admin);
+    void save(Admin admin);
 
 }
