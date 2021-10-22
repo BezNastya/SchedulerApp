@@ -1,4 +1,4 @@
-package com.project.scheduler.controller;
+package com.project.scheduler.Controller;
 
 
 import com.project.scheduler.service.AdminService;
