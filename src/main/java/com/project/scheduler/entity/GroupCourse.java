@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Set;
 
 @Getter
@@ -15,14 +16,14 @@ import java.util.Set;
 @Entity
 public class GroupCourse {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @ManyToOne
     @JoinColumn(insertable = false, updatable = false)
     private Course course_id;
 
-
+    @Min(value = 1,message = "Group numbers must be positive")
     private byte group_num;
 
     @ManyToMany(mappedBy = "groupCourse")
