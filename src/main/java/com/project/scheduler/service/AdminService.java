@@ -1,7 +1,6 @@
 package com.project.scheduler.service;
 
 import com.project.scheduler.entity.Admin;
-import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.ScheduleDate;
 
 import java.util.List;

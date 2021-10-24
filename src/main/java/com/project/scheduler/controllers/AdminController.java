@@ -38,8 +38,21 @@ public class AdminController {
 
     @GetMapping
     public List<Admin> getAllAdmins() {
-        logger.info(myMarker, "Getting all ");
+        logger.info(myMarker, "Getting all admins");
         return adminService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Admin getAdminById(@PathVariable Long id) {
+//        MDC.put("adminId", String.valueOf(id));
+        logger.info(myMarker, "Getting admin with id {}", id);
+        return adminService.findById(id);
+    }
+
+    @GetMapping("/{email}")
+    public Admin getAdminByEmail(@PathVariable String email) {
+        logger.info(myMarker, "Getting admin with email {}", email);
+        return adminService.findByEmail(email);
     }
 
     @PostMapping
@@ -48,16 +61,21 @@ public class AdminController {
         return adminService.save(admin);
     }
 
-
     @PutMapping("/{id}/firstName")
     public void editAdminFirstName(@PathVariable long id, @RequestParam String newName) {
         Admin admin = adminService.findById(id);
         admin.setFirstName(newName);
-        logger.info(myMarker, "Updating course name to {} for course with id {}", newName, id);
-
+        logger.info(myMarker, "Updating admin {} first name to {}", newName, id);
         adminService.update(admin);
     }
 
+    @PutMapping("/{id}/lastName")
+    public void editAdminLastName(@PathVariable long id, @RequestParam String newName) {
+        Admin admin = adminService.findById(id);
+        admin.setLastName(newName);
+        logger.info(myMarker, "Updating admin {} last name to {}", newName, id);
+        adminService.update(admin);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable long id) {

@@ -1,7 +1,6 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Admin;
-import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.ScheduleDate;
 import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.service.AdminService;
@@ -40,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin findByEmail(String email) {
-        return new Admin();
+        return adminRepository.findById(adminRepository.findIdByEmail(email)).get();
     }
 
     @Override
@@ -57,7 +56,6 @@ public class AdminServiceImpl implements AdminService {
     public void delete(Admin admin) {
         adminRepository.delete(admin);
     }
-
 
     @Override
     public void update(Admin admin) {
