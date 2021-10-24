@@ -7,77 +7,62 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/admins")
 public class AdminController {
     Logger logger = LoggerFactory.getLogger(AdminController.class);
     Marker myMarker = MarkerFactory.getMarker("AdminClassMarker");
+
+    private final AdminService adminService;
+
     @Autowired
-    AdminService adminService;
-
-
-    @GetMapping("/admin/{id}")
-    public String clientMCDRequest(@PathVariable String id) throws InterruptedException {
-        MDC.put("adminId", id);
-
-        logger.info(myMarker, "admins {} has made a request", id);
-        logger.info(myMarker, "Starting request");
-        Thread.sleep(5000);
-        logger.info(myMarker, "Finished request");
-        MDC.clear();
-        return "finished";
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
     }
 
-    @GetMapping("/admin")
-    public List<Admin> getAdmins() {
+
+//    @GetMapping("/admin/{id}")
+//    public String clientMCDRequest(@PathVariable String id) throws InterruptedException {
+//        MDC.put("adminId", id);
+//
+//        logger.info(myMarker, "admins {} has made a request", id);
+//        logger.info(myMarker, "Starting request");
+//        Thread.sleep(5000);
+//        logger.info(myMarker, "Finished request");
+//        MDC.clear();
+//        return "finished";
+//    }
+
+    @GetMapping
+    public List<Admin> getAllAdmins() {
+        logger.info(myMarker, "Getting all ");
         return adminService.findAll();
     }
 
-    @PostMapping("/admin/add")
-    public String addAdmin(@RequestBody Admin adminBody){
-        Admin admin = new Admin();
-        admin.setEmail(adminBody.getEmail());
-        admin.setPassword(adminBody.getPassword());
-        admin.setFirstName(adminBody.getFirstName());
-        admin.setLastName(adminBody.getLastName());
-        admin.setRole("admin");
-        admin.setAuthorized(true);
-
-        adminService.save(admin);
-        return" new admin added";
+    @PostMapping
+    public Admin addAdmin(@RequestBody @Valid Admin admin){
+        logger.info(myMarker, "Adding admin {}", admin);
+        return adminService.save(admin);
     }
 
 
-    @PutMapping("/admin/edit/{id}")
-    public String editAdmin(@PathVariable long id) {
+    @PutMapping("/{id}/firstName")
+    public void editAdminFirstName(@PathVariable long id, @RequestParam String newName) {
         Admin admin = adminService.findById(id);
-        admin.setFirstName("Admin1");
+        admin.setFirstName(newName);
+        logger.info(myMarker, "Updating course name to {} for course with id {}", newName, id);
 
         adminService.update(admin);
-        return"  student updated";
     }
 
 
-
-    @DeleteMapping("/admin/delete/{id}")
-    public String deleteStudent(@PathVariable long id) {
-        Admin admin = adminService.findById(id);
-
-        adminService.delete(admin);
-        return" new student deleted";
+    @DeleteMapping("/{id}")
+    public void deleteAdmin(@PathVariable long id) {
+        logger.info(myMarker, "Deleting admin with id{}", id);
+        adminService.deleteAdminById(id);
     }
 
-/*    자신의 비밀번호를 갱신한 뒤 그 결과를 반환
-    @PutMapping(value = "/me")
-    public User updatePassword(@RequestAttribute User user, @RequestParam String password) {
-        return userService.updatePassword(user.getId(), password);
-    }
-
-    // 탈퇴
-    @DeleteMapping(value = "/me")
-    public void withdraw(@RequestAttribute User user) {
-        userService.withdraw(user.getId());
-    }
- */
 }

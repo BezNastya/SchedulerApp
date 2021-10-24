@@ -28,18 +28,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void createCourse(Course course) {
-
+    public void deleteAdminById(Long adminId) {
+        adminRepository.deleteById(adminId);
     }
 
     @Override
-    public void deleteCourse(long id) {
-
-    }
-
-    @Override
-    public void save(Admin admin) {
-        adminRepository.save(admin);
+    public Admin save(Admin admin) {
+        return adminRepository.save(admin);
     }
 
 

@@ -9,15 +9,14 @@ import java.util.List;
 public interface AdminService {
 
     void setNewLessonDate(ScheduleDate date);
-    void createCourse(Course course);
-    void deleteCourse(long id);
 
+    void deleteAdminById(Long adminId);
 
     Admin findByEmail(String email);
     Admin findById(Long id);
     List<Admin> findAll();
     void delete(Admin admin);
     void update(Admin admin);
-    void save(Admin admin);
+    Admin save(Admin admin);
 
 }
