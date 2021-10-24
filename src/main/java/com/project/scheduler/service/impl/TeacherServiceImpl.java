@@ -44,7 +44,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public PostponeLesson postponeLesson(String description, Lesson canceledLesson,
                                          ScheduleDate newDate, String newPlace){
-        //Request update lesson using old lesson + newDate and newPlace
+        //Request updateCourse lesson using old lesson + newDate and newPlace
         return null;
     }
 

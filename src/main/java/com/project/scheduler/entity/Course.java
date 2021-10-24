@@ -26,6 +26,9 @@ public class Course {
     @NotNull
     String name;
 
+    public Course(String name){
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {

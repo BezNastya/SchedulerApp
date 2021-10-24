@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -16,22 +17,27 @@ import java.util.Set;
 @Entity
 public class GroupCourse {
     @Id
-    @Column(nullable = false)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
     @JoinColumn(insertable = false, updatable = false)
-    private Course course_id;
+    private Course course;
 
     @Min(value = 1,message = "Group numbers must be positive")
-    private byte group_num;
+    private byte groupNum;
 
     @ManyToMany(mappedBy = "groupCourse")
     @ToString.Exclude
     Set<Student> students;
 
+    @NotNull(message = "Group must have at least one teacher")
     @ManyToMany(mappedBy = "groupCourse")
     @ToString.Exclude
     Set<Teacher> teachers;
+
+    public GroupCourse(byte groupNum){
+        this.groupNum = groupNum;
+    }
 
 }

@@ -1,14 +1,21 @@
 package com.project.scheduler;
 
+import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.repository.CourseRepository;
+import com.project.scheduler.repository.GroupCourseRepository;
+import com.project.scheduler.service.CourseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @ComponentScan
+@EnableJpaRepositories
 public class AppConfig {
     @Value("${spring.profiles.active}")
     private String profile;
@@ -27,4 +34,14 @@ public class AppConfig {
             System.err.println("Profile " + profile);
         };
     }
+
+    @Bean
+    public CommandLineRunner initDatabaseCourse(CourseRepository courseRepository, GroupCourseRepository groupCourseRepository) {
+        return args -> {
+            courseRepository.save(new Course("Computing"));
+            courseRepository.save(new Course("English"));
+            courseRepository.save(new Course("Algorithms"));
+        };
+    }
+
 }
