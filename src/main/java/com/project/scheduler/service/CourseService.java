@@ -15,10 +15,8 @@ public interface CourseService {
     List<Course> findAll();
     List<GroupCourse> findAllGroupsForCourse(Course course);
     GroupCourse findGroupById(Long id);
-    GroupCourse findGroupByNumberAndCourse(Course course, byte group_num);
-    GroupCourse saveGroup(GroupCourse group);
-    GroupCourse saveGroupForCourse(Course course, Long groupId);
-    boolean updateGroupNum(byte groupNum, Long toUpdate);
+    List<GroupCourse> saveGroupsForCourse(Course course, byte numberOfGroups);
     void deleteGroupById(Long groupId);
+    void deleteAllGroups(Course course);
 //    List<Course> findAllByStudent(Student student);
 }

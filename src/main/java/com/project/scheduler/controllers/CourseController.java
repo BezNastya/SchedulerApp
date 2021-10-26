@@ -3,7 +3,6 @@ package com.project.scheduler.controllers;
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.exceptions.CourseNotFoundException;
-import com.project.scheduler.exceptions.GroupNotFoundException;
 import com.project.scheduler.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,31 +49,18 @@ public class CourseController {
         return courseService.findAllGroupsForCourse(course);
     }
 
-    @GetMapping("/{courseId}/groups/{num}")
-    public GroupCourse getGroupForCourseByNum(@PathVariable Long courseId, @PathVariable byte num){
-        Course course = courseService.findCourseById(courseId)
-                .orElseThrow(() -> new CourseNotFoundException(courseId));
-        GroupCourse group = courseService.findGroupByNumberAndCourse(course, num);
-        logger.info(myMarker, "Getting group with num {} for course {}", num, course);
-        if (group == null)
-            throw new GroupNotFoundException(course, num);
-        return group;
-    }
-
     @PostMapping
     public Course addCourse(@RequestBody @Valid Course course){
         logger.info(myMarker, "Adding course {}", course);
         return courseService.saveCourse(course);
     }
 
-    //Something wrong
     @PostMapping("{id}/groups")
-    public GroupCourse addGroupToCourse(@PathVariable Long id, @RequestBody @Valid GroupCourse groupCourse){
+    public List<GroupCourse> addGroupsToCourse(@PathVariable Long id, @RequestParam byte numberOfGroups){
         Course course = courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        logger.info(myMarker, "Adding group {} for course {}", groupCourse, course);
-        courseService.saveGroup(groupCourse);
-        return courseService.saveGroupForCourse(course, groupCourse.getId());
+        logger.info(myMarker, "Adding {} groups for course {}", numberOfGroups, course);
+        return courseService.saveGroupsForCourse(course, numberOfGroups);
     }
 
     @PutMapping("/{id}")
@@ -85,16 +71,16 @@ public class CourseController {
         courseService.updateCourseName(newName, id);
     }
 
-    //Something wrong
-    @PutMapping("/{id}/groups/{num}")
-    public void updateGroupNumber(@PathVariable Long id, @PathVariable byte num, @RequestParam byte newNum){
+    @PutMapping("/{id}/groups")
+    public void updateNumberOfGroups(@PathVariable Long id, @RequestParam byte newNumberOfGroups){
         Course course = courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        GroupCourse group = courseService.findGroupByNumberAndCourse(course, num);
-        if (group == null)
-            throw new GroupNotFoundException(course, num);
-        logger.info(myMarker, "Updating group {} number to {} for course {}", group, newNum, course);
-        courseService.updateGroupNum(newNum, group.getId());
+        List<GroupCourse> groups = courseService.findAllGroupsForCourse(course);
+        for (GroupCourse groupCourse : groups){
+            courseService.deleteGroupById(groupCourse.getId());
+        }
+        courseService.saveGroupsForCourse(course, newNumberOfGroups);
+        logger.info(myMarker, "Updating group number to {} for course {}", newNumberOfGroups, course);
     }
 
     @DeleteMapping("/{id}")
@@ -105,15 +91,12 @@ public class CourseController {
         courseService.deleteCourseById(id);
     }
 
-    @DeleteMapping("{id}/groups/{num}")
-    public void deleteGroupForCourse(@PathVariable Long id, @PathVariable byte num){
+    @DeleteMapping("{id}/groups")
+    public void deleteGroupsForCourse(@PathVariable Long id){
         Course course = courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        GroupCourse group = courseService.findGroupByNumberAndCourse(course, num);
-        if (group == null)
-            throw new GroupNotFoundException(course, num);
-        logger.info(myMarker, "Deleting group {} for course {}", group, course);
-        courseService.deleteGroupById(group.getId());
+        courseService.deleteAllGroups(course);
+        logger.info(myMarker, "Deleting groups for course {}", course);
     }
 
 }

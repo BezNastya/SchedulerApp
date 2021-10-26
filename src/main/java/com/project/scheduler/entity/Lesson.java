@@ -28,14 +28,8 @@ public class Lesson {
     @Enumerated(EnumType.STRING)
     LessonType type;
 
-//    TODO link with teacher
-//    @Column(name = "teacher")
-//    Teacher teacher;
-
     String place;
-    //@Autowired
 
-//    //TODO link with date. maybe change date on local date
     @Embedded
     ScheduleDate date;
 

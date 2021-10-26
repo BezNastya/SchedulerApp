@@ -24,7 +24,7 @@ public class Course {
     private long id;
 
     @NotNull
-    String name;
+    private String name;
 
     public Course(String name){
         this.name = name;

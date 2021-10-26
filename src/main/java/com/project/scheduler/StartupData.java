@@ -1,9 +1,9 @@
 package com.project.scheduler;
 
-import com.project.scheduler.entity.Admin;
-import com.project.scheduler.entity.Student;
-import com.project.scheduler.entity.Teacher;
-import com.project.scheduler.entity.User;
+import com.project.scheduler.entity.*;
+import com.project.scheduler.repository.CourseRepository;
+import com.project.scheduler.repository.GroupCourseRepository;
+import com.project.scheduler.service.AdminService;
 import com.project.scheduler.service.UserService;
 import com.project.scheduler.service.impl.AdminServiceImpl;
 import com.project.scheduler.service.impl.StudentServiceImpl;
@@ -25,17 +25,18 @@ public class StartupData implements CommandLineRunner {
     private final TeacherServiceImpl teacherService;
     private final AdminServiceImpl adminService;
     private final UserService userService;
-
+    private final CourseRepository courseRepository;
 
 
     @Autowired
     public StartupData(StudentServiceImpl studentService,
                        TeacherServiceImpl teacherService,
-                       AdminServiceImpl adminService, UserService userService) {
+                       AdminServiceImpl adminService, UserService userService, CourseRepository courseRepository) {
         this.studentService = studentService;
         this.teacherService = teacherService;
         this.adminService = adminService;
         this.userService = userService;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -49,6 +50,12 @@ public class StartupData implements CommandLineRunner {
         studentAccount();
         teacherAccount();
         userAccount();
+    }
+
+    public void initDatabaseCourse() {
+        courseRepository.save(new Course("Computing"));
+        courseRepository.save(new Course("English"));
+        courseRepository.save(new Course("Algorithms"));
     }
 
     private void userAccount() {

@@ -34,14 +34,4 @@ public class AppConfig {
             System.err.println("Profile " + profile);
         };
     }
-
-    @Bean
-    public CommandLineRunner initDatabaseCourse(CourseRepository courseRepository, GroupCourseRepository groupCourseRepository) {
-        return args -> {
-            courseRepository.save(new Course("Computing"));
-            courseRepository.save(new Course("English"));
-            courseRepository.save(new Course("Algorithms"));
-        };
-    }
-
 }

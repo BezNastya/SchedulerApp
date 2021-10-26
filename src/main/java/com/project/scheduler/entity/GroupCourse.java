@@ -24,7 +24,6 @@ public class GroupCourse {
     @JoinColumn(insertable = false, updatable = false)
     private Course course;
 
-    @Min(value = 1,message = "Group numbers must be positive")
     private byte groupNum;
 
     @ManyToMany(mappedBy = "groupCourse")

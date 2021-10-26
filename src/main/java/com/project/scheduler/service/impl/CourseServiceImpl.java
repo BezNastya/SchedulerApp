@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,32 +61,16 @@ courseRepository.deleteById(courseId);
         return groupRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public GroupCourse findGroupByNumberAndCourse(Course course, byte group_num) {
-        return groupRepository.findGroupCourseByCourseAndGroupNum(course, group_num);
-    }
 
     @Override
-    public GroupCourse saveGroup(GroupCourse group) {
-        return groupRepository.save(group);
-    }
-
-    @Override
-    public GroupCourse saveGroupForCourse(Course course, Long groupId) {
-        GroupCourse groupCourse = findGroupById(groupId);
-        groupCourse.setCourse(course);
-        return groupCourse;
-    }
-
-    @Override
-    public boolean updateGroupNum(byte groupNum, Long toUpdate) {
-        GroupCourse groupUpdate = findGroupById(toUpdate);
-        if (toUpdate == null){
-            return false;
+    public List<GroupCourse> saveGroupsForCourse(Course course, byte numberOfGroups) {
+        List<GroupCourse> res = new ArrayList<>();
+        for (byte i = 1; i < numberOfGroups; i++){
+            GroupCourse group = new GroupCourse(i);
+            group.setCourse(course);
+            res.add(groupRepository.save(group));
         }
-        groupUpdate.setGroupNum(groupNum);
-        groupRepository.save(groupUpdate);
-        return true;
+        return res;
     }
 
     @Override
@@ -93,8 +78,11 @@ courseRepository.deleteById(courseId);
         groupRepository.deleteById(groupId);
     }
 
-//    @Override
-//    public List<Course> findAllByStudent(Student student) {
-//        return new ArrayList<Course>();
-//    }
+    @Override
+    public void deleteAllGroups(Course course) {
+        List<GroupCourse> groups = findAllGroupsForCourse(course);
+        for (GroupCourse group : groups){
+            deleteGroupById(group.getId());
+        }
+    }
 }

@@ -1,17 +1,11 @@
 package com.project.scheduler.controllers;
 
-import com.project.scheduler.entity.Course;
-import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Student;
-import com.project.scheduler.entity.User;
-import com.project.scheduler.exceptions.CourseNotFoundException;
-import com.project.scheduler.exceptions.GroupNotFoundException;
 import com.project.scheduler.service.StudentService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
