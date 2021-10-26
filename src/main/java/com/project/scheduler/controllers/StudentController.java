@@ -1,12 +1,17 @@
 package com.project.scheduler.controllers;
 
+import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.entity.User;
+import com.project.scheduler.exceptions.CourseNotFoundException;
+import com.project.scheduler.exceptions.GroupNotFoundException;
 import com.project.scheduler.service.StudentService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,43 +22,38 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-
-    @GetMapping("/student/{id}")
-    public String clientMCDRequest(@PathVariable String id) throws InterruptedException {
-        MDC.put("studentId", id);
-
-        logger.info(myMarker, "students {} has made a request", id);
-        logger.info(myMarker, "Starting request");
-        Thread.sleep(5000);
-        logger.info(myMarker, "Finished request");
-        MDC.clear();
-        return "finished";
+    @GetMapping
+    public List<Student> getAllStudents(){
+        return studentService.findAll();
     }
 
-    @GetMapping("/student")
-    public List<Student> getStudents() {
-        List<Student> listOfStudents = studentService.findAll();
-        return listOfStudents;
-    }
-
-    @PostMapping("/student/add")
-    public String addStudent(){
-        User student= new Student();
-        student.setFirstName("Maks");
-        student.setEmail("Maks@mail.com");
-        studentService.save((Student) student);
-        return" new student added";
+    @GetMapping("/{id}")
+    public Student getStudentById(@PathVariable Long id){
+        logger.info(myMarker, "Getting course with id {}", id);
+        return studentService.findById(id);
     }
 
 
-    @PutMapping("/student/edit/{id}")
-    public String editStudent(@PathVariable long id){
-        Student student =studentService.findById(id);
-        student.setFirstName("Maks");
 
-        studentService.save(student);
-        return"  student updated";
+
+    @PostMapping
+    public Student addStudent(@RequestBody Student student){
+        logger.info(myMarker, "Adding student {}", student);
+        return studentService.save(student);
     }
+
+
+
+    @PutMapping("/{id}")
+    public void updateStudentName(@PathVariable Long id, @RequestParam String newFaculty){
+       Student student= studentService.findById(id);
+        logger.info(myMarker, "Updating student course to {} for course with id {}", newFaculty, id);
+        studentService.updateFaculty(student,newFaculty);
+    }
+
+
+
+
 
     @DeleteMapping("/student/delete/{id}")
     public String deleteStudent(@PathVariable long id){

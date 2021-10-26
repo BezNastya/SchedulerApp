@@ -16,5 +16,6 @@ public interface StudentService {
     void updateTicketNumber(final Student student, final String ticketNumber);
     //void updateAdmissionYear(final Student student, final int admissionYear);
     void delete(Student s);
+
     //void joinCourse(Course course,Student student);
 }
