@@ -1,12 +1,14 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Teacher;
+import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.repository.TeacherRepository;
 import com.project.scheduler.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -25,10 +27,6 @@ public class TeacherServiceImpl implements TeacherService {
 //        this.scheduleService = scheduleService;
 //    }
 
-    @Override
-    public Teacher findById(long id) {
-        return teacherRepository.findById(id).orElse(null);
-    }
 
     /*
     @Override
@@ -55,6 +53,11 @@ public class TeacherServiceImpl implements TeacherService {
     */
 
     @Override
+    public Optional<Teacher> findById(long id) {
+        return teacherRepository.findById(id);
+    }
+
+    @Override
     public Teacher save(Teacher teacher) {
         return teacherRepository.save(teacher);
     }
@@ -65,17 +68,19 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void delete(Teacher teacher) {
-        teacherRepository.delete(teacher);
+    public void delete(final long id) {
+        teacherRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(id));
+        teacherRepository.deleteById(id);
     }
 
     @Override
-    public void updateAcademicDegree(final Teacher teacher, final String academicDegree) {
-        teacherRepository.updateAcademicDegree(teacher.getUserId(), academicDegree);
+    public void updateAcademicDegree(final long id, final String academicDegree) {
+        teacherRepository.updateAcademicDegree(id, academicDegree);
     }
 
     @Override
-    public void updateDepartment(final Teacher teacher, final String department) {
-        teacherRepository.updateDepartment(teacher.getUserId(), department);
+    public void updateDepartment(final long id, final String department) {
+        teacherRepository.updateDepartment(id, department);
     }
 }

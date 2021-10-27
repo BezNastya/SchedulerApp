@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Getter
@@ -18,9 +19,11 @@ import java.util.Set;
 public class Teacher extends User {
 
     @NotNull
+    @NotBlank(message = "Every teacher must have an academic degree")
     private String academicDegree;
 
     @NotNull
+    @NotBlank(message = "Every user must have a department!")
     private String department;
 
 

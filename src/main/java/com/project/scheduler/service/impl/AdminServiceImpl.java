@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -20,7 +21,7 @@ public class AdminServiceImpl implements AdminService {
         this.adminRepository = adminRepository;
     }
 
-
+/*
     @Override
     public void setNewLessonDate(ScheduleDate date) {
 
@@ -30,6 +31,7 @@ public class AdminServiceImpl implements AdminService {
     public void deleteAdminById(Long adminId) {
         adminRepository.deleteById(adminId);
     }
+*/
 
     @Override
     public Admin save(Admin admin) {
@@ -38,13 +40,13 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public Admin findByEmail(String email) {
-        return adminRepository.findById(adminRepository.findIdByEmail(email)).get();
+    public Optional<Admin> findByEmail(String email) {
+        return adminRepository.findByEmail(email);
     }
 
     @Override
-    public Admin findById(Long id) {
-        return adminRepository.findById(id).get();
+    public Optional<Admin> findById(Long id) {
+        return adminRepository.findById(id);
     }
 
     @Override

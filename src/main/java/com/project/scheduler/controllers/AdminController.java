@@ -2,6 +2,7 @@ package com.project.scheduler.controllers;
 
 
 import com.project.scheduler.entity.Admin;
+import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.AdminService;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,21 +47,21 @@ public class AdminController {
     public Admin getAdminById(@PathVariable Long id) {
 //        MDC.put("adminId", String.valueOf(id));
         logger.info(myMarker, "Getting admin with id {}", id);
-        return adminService.findById(id);
+        return adminService.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
-
+/*
     @GetMapping("/{email}")
     public Admin getAdminByEmail(@PathVariable String email) {
         logger.info(myMarker, "Getting admin with email {}", email);
-        return adminService.findByEmail(email);
+        return adminService.findByEmail(email).orElseThrow(new );
     }
-
-    @PostMapping
+*/
+    @PostMapping("/add")
     public Admin addAdmin(@RequestBody @Valid Admin admin){
         logger.info(myMarker, "Adding admin {}", admin);
         return adminService.save(admin);
     }
-
+/*
     @PutMapping("/{id}/firstName")
     public void editAdminFirstName(@PathVariable long id, @RequestParam String newName) {
         Admin admin = adminService.findById(id);
@@ -76,11 +77,11 @@ public class AdminController {
         logger.info(myMarker, "Updating admin {} last name to {}", newName, id);
         adminService.update(admin);
     }
-
-    @DeleteMapping("/{id}")
+*/
+    @DeleteMapping("/remove/{id}")
     public void deleteAdmin(@PathVariable long id) {
         logger.info(myMarker, "Deleting admin with id{}", id);
-        adminService.deleteAdminById(id);
+        //adminService.delete(id);
     }
 
 }

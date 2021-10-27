@@ -7,13 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.function.Supplier;
+import java.util.Optional;
+
 
 public interface AdminRepository extends JpaRepository<Admin, Long> {
 
-    @Transactional
-    @Modifying
-    @Query(
-            value = "SELECT userId FROM Admin WHERE email = :adminEmail")
-    Long findIdByEmail(@Param(value = "adminEmail") final String adminEmail);
+    Optional<Admin> findByEmail(@Param(value = "adminEmail") final String adminEmail);
+
 }

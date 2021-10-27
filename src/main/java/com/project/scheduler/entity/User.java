@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 
 @ToString
@@ -22,27 +24,33 @@ public class User {
     protected long userId;
 
     @NotNull
+    @NotBlank(message = "Every user must have an email")
+    @Email
     @Setter
     @Getter
     String email;
 
     @NotNull
+    @NotBlank(message = "Every user must have a password")
     @Setter
     @Getter
     String password;
 
     @NotNull
+    @NotBlank(message = "Every user must have a first name")
     @Setter
     @Getter
     private String firstName;
 
     @NotNull
+    @NotBlank(message = "Every user must have a last name")
     @Setter
     @Getter
     private String lastName;
 
 
     @NotNull
+    @NotBlank(message = "Every user must have a role!")
     @Setter
     @Getter
     private String role;

@@ -29,8 +29,8 @@
 
     <Loggers>
         <Root level="warn">
-            <!--<AppenderRef ref="Console" />
-            <AppenderRef ref="RollingFile" />-->
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
             <AppenderRef ref="MyAppender"/>
         </Root>
         <!--

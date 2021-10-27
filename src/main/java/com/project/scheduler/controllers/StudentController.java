@@ -27,16 +27,11 @@ public class StudentController {
         return studentService.findById(id);
     }
 
-
-
-
     @PostMapping
     public Student addStudent(@RequestBody Student student){
         logger.info(myMarker, "Adding student {}", student);
         return studentService.save(student);
     }
-
-
 
     @PutMapping("/{id}")
     public void updateStudentName(@PathVariable Long id, @RequestParam String newFaculty){
@@ -44,10 +39,6 @@ public class StudentController {
         logger.info(myMarker, "Updating student course to {} for course with id {}", newFaculty, id);
         studentService.updateFaculty(student,newFaculty);
     }
-
-
-
-
 
     @DeleteMapping("/student/delete/{id}")
     public String deleteStudent(@PathVariable long id){
