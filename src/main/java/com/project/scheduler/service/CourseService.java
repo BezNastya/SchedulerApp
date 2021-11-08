@@ -6,6 +6,7 @@ import com.project.scheduler.entity.Student;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface CourseService {
     Course saveCourse(Course course);
@@ -13,9 +14,9 @@ public interface CourseService {
     void updateCourseName(String newName, Long toUpdateId);
     Optional<Course> findCourseById(long id);
     List<Course> findAll();
-    List<GroupCourse> findAllGroupsForCourse(Course course);
+    Set<GroupCourse> findAllGroupsForCourse(Course course);
     GroupCourse findGroupById(Long id);
-    List<GroupCourse> saveGroupsForCourse(Course course, byte numberOfGroups);
+    Course saveGroupsForCourse(Course course, byte numberOfGroups);
     void deleteGroupById(Long groupId);
     void deleteAllGroups(Course course);
 //    List<Course> findAllByStudent(Student student);

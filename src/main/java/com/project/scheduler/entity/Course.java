@@ -6,11 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,6 +23,9 @@ public class Course {
 
     @NotNull
     private String name;
+
+    @OneToMany(mappedBy = "course")
+    private Set<GroupCourse> groups;
 
     public Course(String name){
         this.name = name;

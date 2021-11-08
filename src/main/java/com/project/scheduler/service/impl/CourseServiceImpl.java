@@ -10,18 +10,20 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
-    @Autowired
     CourseRepository courseRepository;
     GroupCourseRepository groupRepository;
 
+    @Autowired
+    public CourseServiceImpl(CourseRepository courseRepository, GroupCourseRepository groupCourseRepository) {
+        this.courseRepository = courseRepository;
+        this.groupRepository = groupCourseRepository;
+    }
 
     @Override
     public Course saveCourse(Course course) {
@@ -52,8 +54,10 @@ courseRepository.deleteById(courseId);
     }
 
     @Override
-    public List<GroupCourse> findAllGroupsForCourse(Course course) {
-        return groupRepository.findAllGroupsCourseByCourse(course);
+    public Set<GroupCourse> findAllGroupsForCourse(Course course) {
+        return groupRepository.findAllGroupsCourseByCourse(course)
+                .stream()
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -63,14 +67,18 @@ courseRepository.deleteById(courseId);
 
 
     @Override
-    public List<GroupCourse> saveGroupsForCourse(Course course, byte numberOfGroups) {
-        List<GroupCourse> res = new ArrayList<>();
-        for (byte i = 1; i < numberOfGroups; i++){
+    public Course saveGroupsForCourse(Course course, byte numberOfGroups) {
+        Set<GroupCourse> res = new HashSet<>();
+        for (byte i = 1; i <= numberOfGroups; i++){
             GroupCourse group = new GroupCourse(i);
             group.setCourse(course);
-            res.add(groupRepository.save(group));
+            group.setStudents(new HashSet<>());
+            group.setTeachers(new HashSet<>());
+            res.add(group);
+            groupRepository.save(group);
         }
-        return res;
+        course.setGroups(res);
+        return courseRepository.save(course);
     }
 
     @Override
@@ -80,7 +88,7 @@ courseRepository.deleteById(courseId);
 
     @Override
     public void deleteAllGroups(Course course) {
-        List<GroupCourse> groups = findAllGroupsForCourse(course);
+        Set<GroupCourse> groups = findAllGroupsForCourse(course);
         for (GroupCourse group : groups){
             deleteGroupById(group.getId());
         }

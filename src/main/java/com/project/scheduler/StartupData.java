@@ -49,6 +49,7 @@ public class StartupData implements CommandLineRunner {
         adminAccount();
         studentAccount();
         teacherAccount();
+        initDatabaseCourse();
     }
 
     public void initDatabaseCourse() {

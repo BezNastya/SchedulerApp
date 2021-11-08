@@ -30,7 +30,6 @@ public class GroupCourse {
     @ToString.Exclude
     Set<Student> students;
 
-    @NotNull(message = "Group must have at least one teacher")
     @ManyToMany(mappedBy = "groupCourse")
     @ToString.Exclude
     Set<Teacher> teachers;

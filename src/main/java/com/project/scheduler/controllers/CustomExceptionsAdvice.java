@@ -4,6 +4,10 @@ import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.exceptions.GroupNotFoundException;
 import com.project.scheduler.exceptions.NoTeachersOnCourseException;
 import com.project.scheduler.exceptions.UserNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -11,36 +15,29 @@ import org.springframework.web.bind.annotation.*;
 @RestControllerAdvice
 public class CustomExceptionsAdvice {
 
-    @ExceptionHandler(CourseNotFoundException.class)
+    Logger logger = LoggerFactory.getLogger(StudentController.class);
+
+    @ExceptionHandler({CourseNotFoundException.class, GroupNotFoundException.class,
+            NoTeachersOnCourseException.class, UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String courseNotFoundHandler(CourseNotFoundException e){
+    public String courseNotFoundHandler(Exception e){
+        logger.warn(e.getMessage());
         return e.getMessage();
-    }
-
-    @ExceptionHandler(GroupNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String groupNotFoundHandler(GroupNotFoundException e) { return e.getMessage(); }
-
-    @ExceptionHandler(NoTeachersOnCourseException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String noTeachersHandler(NoTeachersOnCourseException e){
-        return e.getMessage();
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String userNotFoundHandler(final UserNotFoundException e) {return e.getMessage();}
-
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String defaultExceptionHandler(Exception e){
-        return (String.format("Internal server error occurred due to: %s", e.getMessage()));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String handleValidationExceptions(
             MethodArgumentNotValidException ex) {
+        logger.warn(ex.getMessage());
         return ex.getMessage();
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String defaultExceptionHandler(Exception e){
+        logger.warn(e.getMessage());
+        return (String.format("Internal server error occurred due to: %s", e.getMessage()));
+    }
+
 }

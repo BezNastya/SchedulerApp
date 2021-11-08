@@ -6,20 +6,18 @@ import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
 
     Logger logger = LoggerFactory.getLogger(StudentController.class);
-    Marker myMarker = MarkerFactory.getMarker("StudentClassMarker");
 
     private final CourseService courseService;
 
@@ -30,36 +28,36 @@ public class CourseController {
 
     @GetMapping
     public List<Course> getAllCourses(){
-        logger.info(myMarker, "Getting all courses");
+        logger.info("Getting all courses");
         return courseService.findAll();
     }
 
     @GetMapping("/{id}")
     public Course getCourseById(@PathVariable Long id){
-        logger.info(myMarker, "Getting course with id {}", id);
+        logger.info("Getting course with id {}", id);
         return courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
     }
 
     @GetMapping("/{id}/groups")
-    public List<GroupCourse> getAllGroupsForCourse(@PathVariable Long id){
+    public Set<GroupCourse> getAllGroupsForCourse(@PathVariable Long id){
         Course course = courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        logger.info(myMarker, "Getting allGroups for course {}", course);
+        logger.info("Getting allGroups for course {}", course);
         return courseService.findAllGroupsForCourse(course);
     }
 
     @PostMapping
     public Course addCourse(@RequestBody @Valid Course course){
-        logger.info(myMarker, "Adding course {}", course);
+        logger.info("Adding course {}", course);
         return courseService.saveCourse(course);
     }
 
     @PostMapping("{id}/groups")
-    public List<GroupCourse> addGroupsToCourse(@PathVariable Long id, @RequestParam byte numberOfGroups){
+    public Course addGroupsToCourse(@PathVariable Long id, @RequestParam byte numberOfGroups){
         Course course = courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        logger.info(myMarker, "Adding {} groups for course {}", numberOfGroups, course);
+        logger.info("Adding {} groups for course {}", numberOfGroups, course);
         return courseService.saveGroupsForCourse(course, numberOfGroups);
     }
 
@@ -67,7 +65,7 @@ public class CourseController {
     public void updateCourseName(@PathVariable Long id, @RequestParam String newName){
         courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        logger.info(myMarker, "Updating course name to {} for course with id {}", newName, id);
+        logger.info("Updating course name to {} for course with id {}", newName, id);
         courseService.updateCourseName(newName, id);
     }
 
@@ -75,19 +73,19 @@ public class CourseController {
     public void updateNumberOfGroups(@PathVariable Long id, @RequestParam byte newNumberOfGroups){
         Course course = courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        List<GroupCourse> groups = courseService.findAllGroupsForCourse(course);
+        Set<GroupCourse> groups = courseService.findAllGroupsForCourse(course);
         for (GroupCourse groupCourse : groups){
             courseService.deleteGroupById(groupCourse.getId());
         }
         courseService.saveGroupsForCourse(course, newNumberOfGroups);
-        logger.info(myMarker, "Updating group number to {} for course {}", newNumberOfGroups, course);
+        logger.info("Updating group number to {} for course {}", newNumberOfGroups, course);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCourse(@PathVariable Long id){
         courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
-        logger.info(myMarker, "Deleting course with id{}", id);
+        logger.info("Deleting course with id{}", id);
         courseService.deleteCourseById(id);
     }
 
@@ -96,7 +94,7 @@ public class CourseController {
         Course course = courseService.findCourseById(id)
                 .orElseThrow(() -> new CourseNotFoundException(id));
         courseService.deleteAllGroups(course);
-        logger.info(myMarker, "Deleting groups for course {}", course);
+        logger.info("Deleting groups for course {}", course);
     }
 
 }
