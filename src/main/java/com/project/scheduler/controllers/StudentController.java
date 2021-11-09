@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
 
     Logger logger = LoggerFactory.getLogger(StudentController.class);
@@ -36,11 +37,11 @@ public class StudentController {
     @PutMapping("/{id}")
     public void updateStudentName(@PathVariable Long id, @RequestParam String newFaculty){
        Student student= studentService.findById(id);
-        logger.info(myMarker, "Updating student course to {} for course with id {}", newFaculty, id);
+        logger.info(myMarker, "Updating student faculty to {} for faculty with id {}", newFaculty, id);
         studentService.updateFaculty(student,newFaculty);
     }
 
-    @DeleteMapping("/student/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable long id){
         Student student =studentService.findById(id);
 
