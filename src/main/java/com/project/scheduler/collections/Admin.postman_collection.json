@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "e7b11d09-034e-411c-b5b5-ae0dbe225e74",
+		"name": "SpringBootAdmin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all admins",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"All admins can be get\", () => {\r",
+							"      pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admins",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get admin by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"First admin has admin@ukma.edu.ua email\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.userId).to.eql(1);\r",
+							"  pm.expect(responseJson.email).to.eql(\"admin@ukma.edu.ua\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admins/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admins",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Add new admin\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.email).to.eql(\"admin2@ukma.edu.ua\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"email\": \"admin2@ukma.edu.ua\",\r\n        \"password\": \"admin2\",\r\n        \"firstName\": \"Admin`s 2 first name\",\r\n        \"lastName\": \"Admin`s 2 last name\",\r\n        \"role\": \"Roles have not been defined yet\",\r\n        \"authorized\": false\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/admins/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admins",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update admin lastName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Update of existing admin done\", () => {\r",
+							"      pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admins/1/lastName?newName=newLastName",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admins",
+						"1",
+						"lastName"
+					],
+					"query": [
+						{
+							"key": "newName",
+							"value": "newLastName"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete admin by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete admin by id done\", () => {\r",
+							"      pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admins/remove/8",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admins",
+						"remove",
+						"8"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

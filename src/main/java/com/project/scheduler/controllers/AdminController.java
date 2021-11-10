@@ -69,19 +69,19 @@ public class AdminController {
         logger.info(myMarker, "Updating admin {} first name to {}", newName, id);
         adminService.update(admin);
     }
-
+*/
     @PutMapping("/{id}/lastName")
     public void editAdminLastName(@PathVariable long id, @RequestParam String newName) {
-        Admin admin = adminService.findById(id);
+        Admin admin = adminService.findById(id).get();
         admin.setLastName(newName);
         logger.info(myMarker, "Updating admin {} last name to {}", newName, id);
         adminService.update(admin);
     }
-*/
+
     @DeleteMapping("/remove/{id}")
     public void deleteAdmin(@PathVariable long id) {
         logger.info(myMarker, "Deleting admin with id{}", id);
-        //adminService.delete(id);
+        adminService.delete(adminService.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
 
 }

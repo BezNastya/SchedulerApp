@@ -1,17 +1,17 @@
 package com.project.scheduler;
 
-import com.project.scheduler.entity.*;
+import com.project.scheduler.entity.Admin;
+import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.Student;
+import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.repository.CourseRepository;
-import com.project.scheduler.repository.GroupCourseRepository;
-import com.project.scheduler.service.AdminService;
 import com.project.scheduler.service.UserService;
 import com.project.scheduler.service.impl.AdminServiceImpl;
 import com.project.scheduler.service.impl.StudentServiceImpl;
 import com.project.scheduler.service.impl.TeacherServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -41,6 +41,7 @@ public class StartupData implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        MDC.put("Starting application at:", java.time.LocalTime.now().toString());
         logger.trace("This is TRACE");
         logger.debug("This is DEBUG");
         logger.info("This is INFO");
