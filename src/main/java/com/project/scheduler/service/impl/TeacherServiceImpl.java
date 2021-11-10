@@ -1,9 +1,12 @@
 package com.project.scheduler.service.impl;
 
+import com.project.scheduler.StartupData;
 import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.repository.TeacherRepository;
 import com.project.scheduler.service.TeacherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import java.util.Optional;
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
+    private final Logger logger = LoggerFactory.getLogger(StartupData.class);
     private final TeacherRepository teacherRepository;
 
 //    private ScheduleService scheduleService;
@@ -59,6 +63,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher save(Teacher teacher) {
+        logger.warn("Saving teacher");
         return teacherRepository.save(teacher);
     }
 

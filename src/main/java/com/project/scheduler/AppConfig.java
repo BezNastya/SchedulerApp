@@ -1,10 +1,5 @@
 package com.project.scheduler;
 
-import com.project.scheduler.entity.Course;
-import com.project.scheduler.entity.GroupCourse;
-import com.project.scheduler.repository.CourseRepository;
-import com.project.scheduler.repository.GroupCourseRepository;
-import com.project.scheduler.service.CourseService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
