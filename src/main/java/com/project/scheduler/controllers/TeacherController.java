@@ -4,6 +4,7 @@ import com.project.scheduler.StartupData;
 import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.TeacherService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,22 +24,26 @@ public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
+    @Operation(summary = "Get all the teachers")
     @GetMapping("/teacher")
     public List<Teacher> getTeachers() {
         return teacherService.findAll();
     }
 
+    @Operation(summary = "Get the teacher with the specified id")
     @GetMapping("/teacher/{id}")
     public Optional<Teacher> getTeacher(@PathVariable final long id) {
         return teacherService.findById(id);
     }
 
+    @Operation(summary = "Add a teacher with default parameters")
     @PostMapping("/teacher/add")
     public Teacher addTeacher(@RequestBody @Valid Teacher teacher) {
         logger.warn(myMarker, "Adding new teacher");
         return teacherService.save(teacher);
     }
 
+    @Operation(summary = "Change the teacher")
     @PutMapping("/teacher/edit")
     public Teacher editTeacher(@RequestBody @Valid Teacher updatedTeacher) {
         Teacher teacher = teacherService.findById(updatedTeacher.getUserId()).orElseThrow(
@@ -51,6 +56,7 @@ public class TeacherController {
         return teacher;
     }
 
+    @Operation(summary = "Edit the academic degree of the specified teacher")
     @PutMapping("/teacher/editAcademicDegree//{id}")
     public String editTeacher(@RequestBody @NotNull @NotBlank(message = "Academic degree must not be blank")
                                            String degree, @PathVariable final long id) {
@@ -59,6 +65,7 @@ public class TeacherController {
     }
 
 
+    @Operation(summary = "Remove the teacher with the specified id")
     @DeleteMapping("teacher/remove/{id}")
     public String removeTeacher(@PathVariable final long id) {
         teacherService.delete(id);
