@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(String username, String password) {
+    public boolean login(String username, String password) {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
@@ -43,8 +43,10 @@ public class UserServiceImpl implements UserService {
         if (token.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(token);
             logger.debug(String.format("User %s logged in successfully!", username));
+            return true;
         }else{
             logger.error(String.format("Error with %s authentication!", username));
+            return false;
         }
     }
 

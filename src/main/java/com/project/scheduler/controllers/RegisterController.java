@@ -5,6 +5,7 @@ import com.project.scheduler.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,9 +38,14 @@ public class RegisterController {
             return "register";
         }
 
+        //For testing purposes set user`s role to STUDENT and authorize them
+        userForm.setRole("STUDENT");
+        userForm.setAuthorized(true);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        userForm.setPassword(passwordEncoder.encode(userForm.getPassword()));
         userService.save(userForm);
-        userService.login(userForm.getEmail(), userForm.getPassword());
+        //userService.login(userForm.getEmail(), userForm.getPassword());
 
-        return "redirect:/studentController";
+        return "redirect:/login";
     }
 }

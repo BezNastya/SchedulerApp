@@ -67,10 +67,9 @@ public class StartupData implements CommandLineRunner {
         student.setPassword("student");
         student.setFaculty("FI");
         student.setSpecialty("SE");
-        student.setRole("Roles have not been defined yet");
+        student.setRole("STUDENT");
+        student.setAuthorized(true);
         studentService.save(student);
-        student.setFaculty("FEN");
-
 
         Student student2 = new Student();
         student2.setEmail("student2@ukma.edu.ua");
@@ -79,17 +78,19 @@ public class StartupData implements CommandLineRunner {
         student2.setPassword("student2");
         student2.setFaculty("FI");
         student2.setSpecialty("CS");
-        student2.setRole("Roles have not been defined yet");
+        student2.setRole("STUDENT");
+        student2.setAuthorized(true);
         studentService.save(student2);
-        Student student3 = new Student();
 
+        Student student3 = new Student();
         student3.setEmail("student3@ukma.edu.ua");
         student3.setFirstName("Anna");
         student3.setLastName("Kovalenko");
         student3.setPassword("student3");
         student3.setFaculty("FI");
         student3.setSpecialty("CS");
-        student3.setRole("Roles have not been defined yet");
+        student3.setRole("STUDENT");
+        student3.setAuthorized(true);
         studentService.save(student3);
 
         Student student4 = new Student();
@@ -99,7 +100,8 @@ public class StartupData implements CommandLineRunner {
         student4.setPassword("Melnyk");
         student4.setFaculty("FI");
         student4.setSpecialty("SE");
-        student4.setRole("Roles have not been defined yet");
+        student4.setRole("STUDENT");
+        student4.setAuthorized(true);
         studentService.save(student4);
 
         studentService.delete(student4);
@@ -118,7 +120,8 @@ public class StartupData implements CommandLineRunner {
         teacher.setFirstName("Alina");
         teacher.setLastName("Petrivna");
         teacher.setDepartment("FI");
-        teacher.setRole("Roles have not been defined yet");
+        teacher.setRole("TEACHER");
+        teacher.setAuthorized(true);
         teacherService.save(teacher);
 
         Teacher teacher2 = new Teacher();
@@ -127,18 +130,10 @@ public class StartupData implements CommandLineRunner {
         teacher2.setAcademicDegree("Master");
         teacher2.setFirstName("Maksym");
         teacher2.setLastName("Demchenko");
-
         teacher2.setDepartment("FI");
-        teacher2.setRole("Roles have not been defined yet");
+        teacher2.setRole("TEACHER");
+        teacher2.setAuthorized(true);
         teacherService.save(teacher2);
-
-        teacher2.setEmail("newTeacher2Email@ukma.edu.ua");
-        teacher2.setFirstName("New name");
-
-        teacherService.save(teacher2);
-        teacherService.delete(teacher.getUserId());
-
-        //logger.warn("Teacher2`s new email: " + teacherService.findById(teacher2.getUserId()).getEmail());
         teacherService.updateAcademicDegree(teacher2.getUserId(), "PhD");
         teacherService.updateDepartment(teacher2.getUserId(), "Department of Computer Science");
     }
@@ -147,10 +142,10 @@ public class StartupData implements CommandLineRunner {
         Admin admin = new Admin();
         admin.setFirstName("Admin`s first name");
         admin.setLastName("Admin`s last name");
-        admin.setRole("Roles have not been defined yet");
+        admin.setRole("Admin");
         admin.setEmail("admin@ukma.edu.ua");
         admin.setPassword("admin");
-
+        admin.setAuthorized(true);
         adminService.save(admin);
     }
 }
