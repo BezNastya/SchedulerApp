@@ -7,10 +7,15 @@ import com.project.scheduler.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/admins")
@@ -25,16 +30,48 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @Operation(summary = "Get all the admins")
+    @GetMapping("/user")
+    public String userPanel(Principal principal, Model model){
+//        Optional<Admin> user = adminService.findByEmail(principal.getName());
+          Admin user = new Admin();
+//        if (user != null) {
+            model.addAttribute("user", user);
+//        }
+//        else {
+//            return "error/404";
+//        }
+
+        return "user";
+    }
+
+//    public long getUser() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String username = auth.getPrincipal();
+//        return adminService.findByEmail(username).get().getUserId();
+//    }
+
+
+//    @GetMapping("/admin/{id}")
+//    public String clientMCDRequest(@PathVariable String id) throws InterruptedException {
+//        MDC.put("adminId", id);
+//
+//        logger.info(myMarker, "admins {} has made a request", id);
+//        logger.info(myMarker, "Starting request");
+//        Thread.sleep(5000);
+//        logger.info(myMarker, "Finished request");
+//        MDC.clear();
+//        return "finished";
+//    }
+
     @GetMapping
     public List<Admin> getAllAdmins() {
         logger.info(myMarker, "Getting all admins");
         return adminService.findAll();
     }
 
-    @Operation(summary = "Get the specified admin")
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable Long id) {
+//        MDC.put("adminId", String.valueOf(id));
         logger.info(myMarker, "Getting admin with id {}", id);
         return adminService.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }

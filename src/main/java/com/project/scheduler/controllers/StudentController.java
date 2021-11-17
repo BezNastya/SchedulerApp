@@ -5,9 +5,8 @@ import com.project.scheduler.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/students")
@@ -20,16 +19,19 @@ public class StudentController {
 
     @Operation(summary = "Get all the students")
     @GetMapping
-    public List<Student> getAllStudents(){
-        return studentService.findAll();
+    public String getAllStudents(Model model){
+        model.addAttribute("students",studentService.findAll());
+        return "studentController";
     }
 
 
     @Operation(summary = "Get the student with the specified id")
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Long id){
+    public String getStudentById(@PathVariable Long id, Model model){
         logger.info(myMarker, "Getting course with id {}", id);
-        return studentService.findById(id);
+        model.addAttribute("oneStudent",studentService.findById(id));
+        return "studentController";
+
     }
 
     @Operation(summary = "Add a student with default parameters")
