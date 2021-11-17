@@ -7,10 +7,15 @@ import com.project.scheduler.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/admins")
@@ -24,6 +29,26 @@ public class AdminController {
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
+
+    @GetMapping("/user")
+    public String userPanel(Principal principal, Model model){
+//        Optional<Admin> user = adminService.findByEmail(principal.getName());
+          Admin user = new Admin();
+//        if (user != null) {
+            model.addAttribute("user", user);
+//        }
+//        else {
+//            return "error/404";
+//        }
+
+        return "user";
+    }
+
+//    public long getUser() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String username = auth.getPrincipal();
+//        return adminService.findByEmail(username).get().getUserId();
+//    }
 
     @Operation(summary = "Get all the admins")
     @GetMapping
