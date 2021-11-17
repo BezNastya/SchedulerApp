@@ -50,16 +50,28 @@ public class AdminController {
 //        return adminService.findByEmail(username).get().getUserId();
 //    }
 
-    @Operation(summary = "Get all the admins")
+
+//    @GetMapping("/admin/{id}")
+//    public String clientMCDRequest(@PathVariable String id) throws InterruptedException {
+//        MDC.put("adminId", id);
+//
+//        logger.info(myMarker, "admins {} has made a request", id);
+//        logger.info(myMarker, "Starting request");
+//        Thread.sleep(5000);
+//        logger.info(myMarker, "Finished request");
+//        MDC.clear();
+//        return "finished";
+//    }
+
     @GetMapping
     public List<Admin> getAllAdmins() {
         logger.info(myMarker, "Getting all admins");
         return adminService.findAll();
     }
 
-    @Operation(summary = "Get the specified admin")
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable Long id) {
+//        MDC.put("adminId", String.valueOf(id));
         logger.info(myMarker, "Getting admin with id {}", id);
         return adminService.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }

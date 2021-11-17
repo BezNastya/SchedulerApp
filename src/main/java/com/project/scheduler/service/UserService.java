@@ -7,6 +7,7 @@ import java.util.Optional;
 
 
 public interface UserService {
+    void login(String username, String password);
     void save(User user);
     void delete(User user);
     void update(User user);
