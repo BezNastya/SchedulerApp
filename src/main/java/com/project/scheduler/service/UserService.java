@@ -12,4 +12,5 @@ public interface UserService {
     void update(User user);
     Optional<User> findById(long id);
     List<User> findAll();
+    User findByEmail(String email);
 }

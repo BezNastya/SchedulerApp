@@ -2,6 +2,7 @@ package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.service.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,23 +18,28 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
+    @Operation(summary = "Get all the students")
     @GetMapping
     public List<Student> getAllStudents(){
         return studentService.findAll();
     }
 
+
+    @Operation(summary = "Get the student with the specified id")
     @GetMapping("/{id}")
     public Student getStudentById(@PathVariable Long id){
         logger.info(myMarker, "Getting course with id {}", id);
         return studentService.findById(id);
     }
 
+    @Operation(summary = "Add a student with default parameters")
     @PostMapping
     public Student addStudent(@RequestBody Student student){
         logger.info(myMarker, "Adding student {}", student);
         return studentService.save(student);
     }
 
+    @Operation(summary = "Change student`s faculty")
     @PutMapping("/{id}")
     public void updateStudentName(@PathVariable Long id, @RequestParam String newFaculty){
        Student student= studentService.findById(id);
@@ -41,6 +47,7 @@ public class StudentController {
         studentService.updateFaculty(student,newFaculty);
     }
 
+    @Operation(summary = "Delete the student with the specified id")
     @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable long id){
         Student student =studentService.findById(id);
