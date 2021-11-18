@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/admins")
+@RequestMapping("/admin")
 public class AdminController {
     Logger logger = LoggerFactory.getLogger(AdminController.class);
     Marker myMarker = MarkerFactory.getMarker("AdminClassMarker");
