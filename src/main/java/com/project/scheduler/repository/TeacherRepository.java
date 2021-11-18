@@ -1,5 +1,6 @@
 package com.project.scheduler.repository;
 
+import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,8 +9,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
+
+    Optional<Teacher> findByEmail(@Param(value = "teacherEmail") final String teacherEmail);
 
     @Transactional
     @Modifying

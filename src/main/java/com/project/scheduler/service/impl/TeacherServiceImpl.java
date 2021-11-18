@@ -1,6 +1,7 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.StartupData;
+import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.repository.TeacherRepository;
@@ -31,6 +32,10 @@ public class TeacherServiceImpl implements TeacherService {
 //        this.scheduleService = scheduleService;
 //    }
 
+    @Override
+    public Optional<Teacher> findByEmail(String email) {
+        return teacherRepository.findByEmail(email);
+    }
 
     /*
     @Override

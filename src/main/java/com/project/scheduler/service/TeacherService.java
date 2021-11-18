@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public interface TeacherService {
     Teacher save(Teacher teacher);
+
+    Optional<Teacher> findByEmail(String email);
+
     Optional<Teacher> findById(long id);
     List<Teacher> findAll();
     void delete(final long id);

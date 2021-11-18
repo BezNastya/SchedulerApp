@@ -9,13 +9,14 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/admins")
@@ -32,22 +33,23 @@ public class AdminController {
 
     @GetMapping("/user")
     public String userPanel(Principal principal, Model model){
-//        Optional<Admin> user = adminService.findByEmail(principal.getName());
-          Admin user = new Admin();
-//        if (user != null) {
-            model.addAttribute("user", user);
-//        }
-//        else {
-//            return "error/404";
-//        }
-
+        Admin user = adminService.findByEmail(principal.getName()).get();
+//        Admin user = new Admin();
+//        user.setRole("admin");
+//        user.setFirstName("first");
+//        user.setLastName("last");
+        model.addAttribute("user", user);
         return "user";
     }
 
-//    public long getUser() {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String username = auth.getPrincipal();
-//        return adminService.findByEmail(username).get().getUserId();
+    //Второй вариант
+//    @GetMapping("/user")
+//    public String userPanel(Model model){
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String username = ((UserDetails)principal).getUsername();
+//        Admin user = adminService.findByEmail(username).get();
+//        model.addAttribute("user", user);
+//        return "user";
 //    }
 
 
