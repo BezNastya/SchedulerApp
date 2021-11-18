@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
+//@Controller
 public class RegisterController {
+    /*
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
     private final UserService userService;
 
@@ -47,5 +48,5 @@ public class RegisterController {
         //userService.login(userForm.getEmail(), userForm.getPassword());
 
         return "redirect:/login";
-    }
+    }*/
 }

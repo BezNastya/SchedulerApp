@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,18 +25,16 @@ public class StartupData implements CommandLineRunner {
     private final StudentServiceImpl studentService;
     private final TeacherServiceImpl teacherService;
     private final AdminServiceImpl adminService;
-    private final UserService userService;
     private final CourseRepository courseRepository;
 
 
     @Autowired
     public StartupData(StudentServiceImpl studentService,
                        TeacherServiceImpl teacherService,
-                       AdminServiceImpl adminService, UserService userService, CourseRepository courseRepository) {
+                       AdminServiceImpl adminService, CourseRepository courseRepository) {
         this.studentService = studentService;
         this.teacherService = teacherService;
         this.adminService = adminService;
-        this.userService = userService;
         this.courseRepository = courseRepository;
     }
 
@@ -60,11 +59,13 @@ public class StartupData implements CommandLineRunner {
     }
 
         private void studentAccount() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         Student student = new Student();
         student.setEmail("student@ukma.edu.ua");
         student.setFirstName("Ivan");
         student.setLastName("Boyko");
-        student.setPassword("student");
+        student.setPassword(encoder.encode("student"));
         student.setFaculty("FI");
         student.setSpecialty("SE");
         student.setRole("STUDENT");
@@ -75,7 +76,7 @@ public class StartupData implements CommandLineRunner {
         student2.setEmail("student2@ukma.edu.ua");
         student2.setFirstName("Ivan");
         student2.setLastName("Tolkunov");
-        student2.setPassword("student2");
+        student2.setPassword(encoder.encode("student2"));
         student2.setFaculty("FI");
         student2.setSpecialty("CS");
         student2.setRole("STUDENT");
@@ -86,7 +87,7 @@ public class StartupData implements CommandLineRunner {
         student3.setEmail("student3@ukma.edu.ua");
         student3.setFirstName("Anna");
         student3.setLastName("Kovalenko");
-        student3.setPassword("student3");
+        student3.setPassword(encoder.encode("student3"));
         student3.setFaculty("FI");
         student3.setSpecialty("CS");
         student3.setRole("STUDENT");
@@ -97,7 +98,7 @@ public class StartupData implements CommandLineRunner {
         student4.setEmail("student3@ukma.edu.ua");
         student4.setFirstName("Anna");
         student4.setLastName("Diana");
-        student4.setPassword("Melnyk");
+        student4.setPassword(encoder.encode("Melnyk"));
         student4.setFaculty("FI");
         student4.setSpecialty("SE");
         student4.setRole("STUDENT");
@@ -112,10 +113,11 @@ public class StartupData implements CommandLineRunner {
     }
 
     private void teacherAccount() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Teacher teacher = new Teacher();
 
         teacher.setEmail("teacher@ukma.edu.ua");
-        teacher.setPassword("teacher");
+        teacher.setPassword(encoder.encode("teacher"));
         teacher.setAcademicDegree("Master");
         teacher.setFirstName("Alina");
         teacher.setLastName("Petrivna");
@@ -126,7 +128,7 @@ public class StartupData implements CommandLineRunner {
 
         Teacher teacher2 = new Teacher();
         teacher2.setEmail("teacher2@ukma.edu.ua");
-        teacher2.setPassword("teacher2");
+        teacher2.setPassword(encoder.encode("teacher2"));
         teacher2.setAcademicDegree("Master");
         teacher2.setFirstName("Maksym");
         teacher2.setLastName("Demchenko");
@@ -139,12 +141,13 @@ public class StartupData implements CommandLineRunner {
     }
 
     private void adminAccount() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Admin admin = new Admin();
         admin.setFirstName("Admin`s first name");
         admin.setLastName("Admin`s last name");
-        admin.setRole("Admin");
+        admin.setRole("ADMIN");
         admin.setEmail("admin@ukma.edu.ua");
-        admin.setPassword("admin");
+        admin.setPassword(encoder.encode("admin"));
         admin.setAuthorized(true);
         adminService.save(admin);
     }
