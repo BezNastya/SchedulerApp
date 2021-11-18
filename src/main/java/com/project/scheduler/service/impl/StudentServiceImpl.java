@@ -1,5 +1,6 @@
 package com.project.scheduler.service.impl;
 
+import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.service.StudentService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -21,6 +23,10 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository = studentRepository;
     }
 
+    @Override
+    public Optional<Student> findByEmail(String email) {
+        return studentRepository.findByEmail(email);
+    }
 
     @Override
     public Student save(Student s) {

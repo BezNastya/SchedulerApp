@@ -1,17 +1,20 @@
 package com.project.scheduler.controllers;
 
 import com.project.scheduler.StartupData;
+import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +26,13 @@ public class TeacherController {
 
     @Autowired
     TeacherService teacherService;
+
+    @GetMapping("/user")
+    public String userPanel(Principal principal , Model model){
+        Teacher user = teacherService.findByEmail(principal.getName()).get();
+        model.addAttribute("user", user);
+        return "user";
+    }
 
     @Operation(summary = "Get all the teachers")
     @GetMapping("/teacher")
