@@ -1,6 +1,5 @@
 package com.project.scheduler.controllers;
 
-import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,27 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @RestController
 @RequestMapping("/student")
 public class StudentController {
 
     Logger logger = LoggerFactory.getLogger(StudentController.class);
     Marker myMarker = MarkerFactory.getMarker("StudentClassMarker");
-    @Autowired
-    StudentService studentService;
 
-    @GetMapping("/user")
-    public String userPanel(Principal principal , Model model){
-        Student user = studentService.findByEmail(principal.getName()).get();
-        model.addAttribute("user", user);
-        return "user";
+    private final StudentService studentService;
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
+
 
     @Operation(summary = "Get all the students")
     @GetMapping
-    public String getAllStudents(Model model){
+    public String getAllStudents(Model model) {
         model.addAttribute("students",studentService.findAll());
         return "studentController";
     }

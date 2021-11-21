@@ -1,32 +1,33 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
-
+<head><title th:switch="${user.role}"> Information</title></head>
 
 <body>
 
 <div class="container">
     <div th:switch="${user.role}">
 
-        <div th:case="'admin'">
+        <div th:case="'ADMIN'">
             <h3 th:text="#{user.firstname} + ': ' + ${user.firstName}">First name</h3>
             <h3 th:text="#{user.lastname} + ': ' + ${user.lastName}">Last name</h3>
         </div>
 
-<!--        <div th:case="'teacher'">-->
-<!--            <h3 th:text="#{user.firstname} + ': ' + ${user.getFirstName()}"></h3>-->
-<!--            <h3 th:text="#{user.lastname} + ': ' + ${user.getLastName()}"></h3>-->
-<!--            <h3 th:text="#{teacher.academicDegree} + ': ' + ${user.getAcademicDegree()}"></h3>-->
-<!--            <h3 th:text="#{teacher.department} + ': ' + ${user.getDepartment()}"></h3>-->
-<!--        </div>-->
+        <div th:case="'TEACHER'">
+            <h3 th:text="#{user.firstname} + ': ' + ${user.firstName}"></h3>
+            <h3 th:text="#{user.lastname} + ': ' + ${user.lastName}"></h3>
+            <h3 th:text="#{teacher.academicDegree} + ': ' + ${user.academicDegree}"></h3>
+            <h3 th:text="#{teacher.department} + ': ' + ${user.department}"></h3>
+        </div>
 
-<!--        <div th:case="'student'">-->
-<!--            <h3 th:text="#{user.firstname} + ': ' + ${user.getFirstName()}"></h3>-->
-<!--            <h3 th:text="#{user.lastname} + ': ' + ${user.getLastName()}"></h3>-->
-<!--            <h3 th:text="#{student.ticket} + ': ' + ${user.getStudTicketSeries()}"></h3>-->
-<!--            <h3 th:text="#{student.faculty} + ': ' + ${user.getFaculty()}"></h3>-->
-<!--            <h3 th:text="#{student.speciality} + ': ' + ${user.getSpeciality()}"></h3>-->
-<!--        </div>-->
+        <div th:case="'STUDENT'">
+            <h3 th:text="#{user.firstname} + ': ' + ${user.firstName}"></h3>
+            <h3 th:text="#{user.lastname} + ': ' + ${user.lastName}"></h3>
+            <h3 th:text="#{student.ticket} + ': ' + ${user.studTicketSeries}"></h3>
+            <h3 th:text="#{student.faculty} + ': ' + ${user.faculty}"></h3>
+            <h3 th:text="#{student.specialty} + ': ' + ${user.specialty}"></h3>
+            <h3 th:text="#{student.yearAdmission} + ': ' + ${user.yearAdmission}"></h3>
+        </div>
 
     </div>
 

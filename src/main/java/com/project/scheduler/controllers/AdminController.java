@@ -7,16 +7,14 @@ import com.project.scheduler.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
+
 
 @RestController
 @RequestMapping("/admin")
@@ -31,18 +29,9 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/user")
-    public String userPanel(Principal principal, Model model){
-        Admin user = adminService.findByEmail(principal.getName()).get();
-//        Admin user = new Admin();
-//        user.setRole("admin");
-//        user.setFirstName("first");
-//        user.setLastName("last");
-        model.addAttribute("user", user);
-        return "user";
-    }
 
-    //Второй вариант
+
+    //second version
 //    @GetMapping("/user")
 //    public String userPanel(Model model){
 //        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

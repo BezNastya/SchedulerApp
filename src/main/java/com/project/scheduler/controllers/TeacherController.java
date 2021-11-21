@@ -4,10 +4,12 @@ import com.project.scheduler.StartupData;
 import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.exceptions.UserNotFoundException;
+import com.project.scheduler.service.AdminService;
 import com.project.scheduler.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,14 +26,11 @@ public class TeacherController {
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
     private final static Marker myMarker = MarkerFactory.getMarker("TeacherControllerMarker");
 
-    @Autowired
-    TeacherService teacherService;
+    private final TeacherService teacherService;
 
-    @GetMapping("/user")
-    public String userPanel(Principal principal , Model model){
-        Teacher user = teacherService.findByEmail(principal.getName()).get();
-        model.addAttribute("user", user);
-        return "user";
+    @Autowired
+    public TeacherController(TeacherService teacherService) {
+        this.teacherService = teacherService;
     }
 
     @Operation(summary = "Get all the teachers")

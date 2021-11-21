@@ -67,6 +67,8 @@ public class StartupData implements CommandLineRunner {
         student.setLastName("Boyko");
         student.setPassword(encoder.encode("student"));
         student.setFaculty("FI");
+        student.setStudTicketSeries("T1");
+        student.setYearAdmission(2019);
         student.setSpecialty("SE");
         student.setRole("STUDENT");
         student.setAuthorized(true);
@@ -78,6 +80,8 @@ public class StartupData implements CommandLineRunner {
         student2.setLastName("Tolkunov");
         student2.setPassword(encoder.encode("student2"));
         student2.setFaculty("FI");
+        student2.setStudTicketSeries("T2");
+        student2.setYearAdmission(2020);
         student2.setSpecialty("CS");
         student2.setRole("STUDENT");
         student2.setAuthorized(true);
@@ -89,6 +93,8 @@ public class StartupData implements CommandLineRunner {
         student3.setLastName("Kovalenko");
         student3.setPassword(encoder.encode("student3"));
         student3.setFaculty("FI");
+        student3.setStudTicketSeries("T3");
+        student3.setYearAdmission(2019);
         student3.setSpecialty("CS");
         student3.setRole("STUDENT");
         student3.setAuthorized(true);

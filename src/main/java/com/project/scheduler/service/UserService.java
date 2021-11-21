@@ -7,11 +7,12 @@ import java.util.Optional;
 
 
 public interface UserService {
-    boolean login(String username, String password);
-    void save(User user);
+//    boolean login(String username, String password);
+    User save(User user);
     void delete(User user);
-    void update(User user);
+    User update(User user);
     Optional<User> findById(long id);
     List<User> findAll();
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
+
 }
