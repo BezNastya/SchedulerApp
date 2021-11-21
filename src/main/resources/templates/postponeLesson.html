@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Form</title>
+</head>
+<body>
+
+<div >
+Fill the fields
+</div>
+
+
+
+<form th:action="@{/postponeLesson/submit}" th:object="${postponeLesson}">
+
+    <label for="les_id">Id:</label>
+    <input type="text"  class="form-control" id="les_id">
+
+    <label for="datee">New date:</label>
+    <input type="text" th:field="*{newDate}" class="form-control" id="datee">
+
+    <label for="desc">Description:</label>
+    <input type="text" th:field="*{description}" class="form-control" id="desc">
+
+    <label for="place">New place:</label>
+    <input type="text" th:field="*{newPlace}" class="form-control" id="place">
+
+    <div><input type="submit" value="Submit"/></div>
+</form>
+</body>
+</html>
