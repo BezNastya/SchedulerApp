@@ -3,6 +3,8 @@ package com.project.scheduler;
 import com.project.scheduler.entity.*;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
+import com.project.scheduler.repository.LessonRepository;
+import com.project.scheduler.repository.PostponeLessonRepository;
 import com.project.scheduler.service.impl.AdminServiceImpl;
 import com.project.scheduler.service.impl.StudentServiceImpl;
 import com.project.scheduler.service.impl.TeacherServiceImpl;
@@ -27,17 +29,20 @@ public class StartupData implements CommandLineRunner {
     private final AdminServiceImpl adminService;
     private final CourseRepository courseRepository;
     private final GroupCourseRepository groupCourseRepository;
-
+    private final PostponeLessonRepository postponeLessonRepository;
+    private final LessonRepository lessonRepository;
 
     @Autowired
     public StartupData(StudentServiceImpl studentService,
                        TeacherServiceImpl teacherService,
-                       AdminServiceImpl adminService, CourseRepository courseRepository, GroupCourseRepository groupCourseRepository) {
+                       AdminServiceImpl adminService, CourseRepository courseRepository, GroupCourseRepository groupCourseRepository, PostponeLessonRepository postponeLessonRepository, LessonRepository lessonRepository) {
         this.studentService = studentService;
         this.teacherService = teacherService;
         this.adminService = adminService;
         this.courseRepository = courseRepository;
         this.groupCourseRepository = groupCourseRepository;
+        this.postponeLessonRepository = postponeLessonRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @Override
@@ -55,9 +60,33 @@ public class StartupData implements CommandLineRunner {
     }
 
     public void initDatabaseCourse() {
-        courseRepository.save(new Course("Computing"));
-        courseRepository.save(new Course("English"));
-        courseRepository.save(new Course("Algorithms"));
+        Course course1 = new Course("Computing");
+        Course course2 = new Course("English");
+        Course course3 = new Course("Algorithms");
+        courseRepository.save(course1);
+        courseRepository.save(course2);
+        courseRepository.save(course3);
+
+        GroupCourse group1 = new GroupCourse(course1, (byte) 1);
+        GroupCourse group2 = new GroupCourse(course1, (byte) 2);
+        GroupCourse group3 = new GroupCourse(course1, (byte) 3);
+        GroupCourse group4 = new GroupCourse(course2, (byte) 1);
+        groupCourseRepository.save(group1);
+        groupCourseRepository.save(group2);
+        groupCourseRepository.save(group3);
+        groupCourseRepository.save(group4);
+
+        Lesson lesson1 = new Lesson(LessonType.LECTURE, "201a", new ScheduleDate(1, 1, 1), group1);
+        Lesson lesson2 = new Lesson(LessonType.LAB, "201", new ScheduleDate(3, 3, 3), group2);
+        Lesson lesson3 = new Lesson(LessonType.PRACTICE, "324", new ScheduleDate(2, 1, 1), group3);
+        Lesson lesson4 = new Lesson(LessonType.SEMINAR, "224", new ScheduleDate(3, 2, 3), group4);
+        lessonRepository.save(lesson1);
+        lessonRepository.save(lesson2);
+        lessonRepository.save(lesson3);
+        lessonRepository.save(lesson4);
+        postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(2, 2, 2)));
+        postponeLessonRepository.save(new PostponeLesson(lesson4, new ScheduleDate(2, 2, 2)));
+        postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(4, 1, 6)));
     }
 
         private void studentAccount() {

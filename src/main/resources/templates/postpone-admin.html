@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>PostponeRequests</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mt-5 mb-5">
+                <table id="postpone" class="table table-bordered" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Lesson</th>
+                            <th>Lesson Type</th>
+                            <th>Description</th>
+                            <th>Teachers</th>
+                            <th>Old Date</th>
+                            <th>New Date</th>
+                            <th>Approve/Decline</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="request : ${requests}">
+                            <td th:text="${request.lesson}">Name</td>
+                            <td th:text="${request.lessonType}">Type</td>
+                            <td th:text="${request.description}">Description</td>
+                            <td th:text="${request.teacher}">Teacher</td>
+                            <td th:text="${request.oldDate}">Old</td>
+                            <td th:text="${request.newDate}">New Date</td>
+                            <td>Buttons</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script>
+</script>
+</body>
+</html>

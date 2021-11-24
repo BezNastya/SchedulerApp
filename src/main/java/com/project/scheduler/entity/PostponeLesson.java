@@ -1,5 +1,6 @@
 package com.project.scheduler.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -23,8 +24,9 @@ public class PostponeLesson {
     private String description;
 
     //Предмет, що перенесено
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "canceledLesson", nullable = false)
+    @JsonIgnore
     @ToString.Exclude
     private Lesson canceledLesson;
 
@@ -33,6 +35,12 @@ public class PostponeLesson {
 
     //Нове місце(за потреби)
     private String newPlace;
+
+    public PostponeLesson(Lesson lesson, ScheduleDate newDate){
+        this.canceledLesson = lesson;
+        this.newDate = newDate;
+        this.description = "Description for postponing";
+    }
 
     @Override
     public boolean equals(Object o) {

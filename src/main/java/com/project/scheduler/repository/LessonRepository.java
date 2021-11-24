@@ -1,9 +1,11 @@
 package com.project.scheduler.repository;
 
-import com.project.scheduler.entity.PostponeLesson;
+import com.project.scheduler.entity.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostponeLessonRepository extends JpaRepository<PostponeLesson, Long> {
+public interface LessonRepository extends JpaRepository<Lesson,Long> {
+
+
 }

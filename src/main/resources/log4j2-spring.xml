@@ -35,11 +35,9 @@
             <AppenderRef ref="RollingFile" />
             <AppenderRef ref="MyAppender"/>
         </Root>
-        <!--
         <Logger name="MyAppenderName" level="info">
             <AppenderRef ref="MyAppender"/>
         </Logger>
-        -->
     </Loggers>
 
 </Configuration>

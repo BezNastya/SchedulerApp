@@ -7,13 +7,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-enum LessonType {
-    LECTURE,
-    SEMINAR,
-    PRACTICE,
-    LAB
-}
-
 @Getter
 @Setter
 @ToString
@@ -34,6 +27,13 @@ public class Lesson {
     ScheduleDate date;
 
     @ManyToOne
-    @JoinColumn(name = "groupCourse_id", insertable = false, updatable = false)
+    @JoinColumn
     private GroupCourse groupCourse;
+
+    public Lesson(LessonType type, String place, ScheduleDate date, GroupCourse groupCourse){
+        this.type = type;
+        this.place = place;
+        this.date = date;
+        this.groupCourse = groupCourse;
+    }
 }

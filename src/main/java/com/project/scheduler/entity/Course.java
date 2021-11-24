@@ -1,5 +1,6 @@
 package com.project.scheduler.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,10 +26,11 @@ public class Course {
     private String name;
 
     @OneToMany(mappedBy = "course")
+    @JsonIgnore
     @ToString.Exclude
     private Set<GroupCourse> groups;
 
-    public Course(String name) {
+    public Course(String name){
         this.name = name;
     }
 
