@@ -2,9 +2,11 @@ package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
+import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,15 @@ import java.util.stream.Collectors;
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    CourseRepository courseRepository;
-    GroupCourseRepository groupRepository;
+    private final CourseRepository courseRepository;
+    private final GroupCourseRepository groupRepository;
+    private final LessonRepository lessonRepository;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository, GroupCourseRepository groupCourseRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository, GroupCourseRepository groupCourseRepository, LessonRepository lessonRepository) {
         this.courseRepository = courseRepository;
         this.groupRepository = groupCourseRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @Override
@@ -101,5 +105,15 @@ courseRepository.deleteById(courseId);
     @Override
     public List<GroupCourse> findAllByStudents(Long id) {
         return groupRepository.findAllByStudentsId(id);
+    }
+
+    @Override
+    public List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse) {
+        return lessonRepository.findLessonsByGroupCourse(groupCourse);
+    }
+
+    @Override
+    public List<Lesson> findAllLessons() {
+        return lessonRepository.findAll();
     }
 }

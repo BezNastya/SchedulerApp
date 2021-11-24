@@ -113,10 +113,15 @@ public class StartupData implements CommandLineRunner {
         courseRepository.save(course);
         courseRepository.save(course1);
 
-        //Test groupCourse1
+
+            //Test groupCourse1
         GroupCourse groupCourse = new GroupCourse();
         groupCourse.setCourse(course);
         groupCourse.setGroupNum((byte) 1);
+//            Set<Lesson> l = new HashSet<>();
+//            l.add(lesson1);
+//            l.add(lesson2);
+//        groupCourse.setLessons(l);
         groupCourseRepository.save(groupCourse);
 
         //Test groupCourse2
@@ -125,6 +130,20 @@ public class StartupData implements CommandLineRunner {
         groupCourse1.setGroupNum((byte) 2);
         groupCourseRepository.save(groupCourse1);
 
+            //Lesson
+            Lesson lesson1 = new Lesson();
+            lesson1.setDate(new ScheduleDate(1,1,1));
+            lesson1.setPlace("20");
+            lesson1.setType(LessonType.LECTURE);
+            lesson1.setGroupCourse(groupCourse);
+            lessonRepository.save(lesson1);
+
+            Lesson lesson2 = new Lesson();
+            lesson2.setDate(new ScheduleDate(1,2,1));
+            lesson2.setPlace("20a");
+            lesson2.setType(LessonType.PRACTICE);
+            lesson2.setGroupCourse(groupCourse);
+            lessonRepository.save(lesson2);
         //Set of groups
         Set<GroupCourse> s = new HashSet<>();
         s.add(groupCourse);
@@ -132,7 +151,7 @@ public class StartupData implements CommandLineRunner {
 
         student.setGroupCourse(s);
         studentService.save(student);
-        //-------------------
+        //----------------------------------------
 
         Student student2 = new Student();
         student2.setEmail("student2@ukma.edu.ua");

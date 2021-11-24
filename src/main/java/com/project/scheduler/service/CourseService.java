@@ -2,6 +2,7 @@ package com.project.scheduler.service;
 
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.entity.Student;
 import org.springframework.data.repository.query.Param;
 
@@ -25,4 +26,7 @@ public interface CourseService {
 
 
     List<GroupCourse> findAllByStudents(Long id);
+    List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
+
+    List<Lesson> findAllLessons();
 }

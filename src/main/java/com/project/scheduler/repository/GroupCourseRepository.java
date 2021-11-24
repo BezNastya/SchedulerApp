@@ -2,6 +2,7 @@ package com.project.scheduler.repository;
 
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,6 +29,5 @@ public interface GroupCourseRepository extends JpaRepository<GroupCourse, Long> 
 //    select s.courses from Student s join s.courses where s.id = :id
     @Query(value = "SELECT distinct s.groupCourse FROM Student s JOIN s.groupCourse WHERE s.userId = :id")
     List<GroupCourse> findAllByStudentsId(@Param(value = "id") final long id);
-
 
 }

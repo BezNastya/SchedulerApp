@@ -38,6 +38,11 @@ public class GroupCourse {
     @ToString.Exclude
     Set<Teacher> teachers;
 
+    @OneToMany(mappedBy="lessonId")
+    @JsonIgnore
+    @ToString.Exclude
+    Set<Lesson> lessons;
+
     public GroupCourse(byte groupNum){
         this.course = new Course();
         this.groupNum = groupNum;
