@@ -1,5 +1,6 @@
 package com.project.scheduler.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,8 @@ public class Teacher extends User {
     @NotBlank(message = "Every user must have a department!")
     private String department;
 
-
-    @ManyToMany
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "groupCourse_teacher",
             joinColumns = @JoinColumn(name = "userId"),

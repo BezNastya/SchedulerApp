@@ -26,7 +26,7 @@ public interface GroupCourseRepository extends JpaRepository<GroupCourse, Long> 
 //    List<GroupCourse> findAllByStudents(@Param(value = "id") final long id);
 
 //    select s.courses from Student s join s.courses where s.id = :id
-    @Query(value = "SELECT s.groupCourse FROM Student s JOIN s.groupCourse WHERE s.userId = :id")
+    @Query(value = "SELECT distinct s.groupCourse FROM Student s JOIN s.groupCourse WHERE s.userId = :id")
     List<GroupCourse> findAllByStudentsId(@Param(value = "id") final long id);
 
 

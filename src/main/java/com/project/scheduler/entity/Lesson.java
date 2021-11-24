@@ -16,7 +16,7 @@ public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long lessonId;
 
     @Enumerated(EnumType.STRING)
     LessonType type;

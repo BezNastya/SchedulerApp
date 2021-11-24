@@ -14,6 +14,7 @@ public interface CourseService {
     void deleteCourseById(Long courseId);
     void updateCourseName(String newName, Long toUpdateId);
     Optional<Course> findCourseById(long id);
+    Optional<Course> findCourseByName(String name);
     List<Course> findAll();
     Set<GroupCourse> findAllGroupsForCourse(Course course);
     GroupCourse findGroupById(Long id);

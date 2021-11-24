@@ -1,5 +1,6 @@
 package com.project.scheduler.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,8 @@ public class Student extends User {
     @NotNull
     private int yearAdmission;
 
-
-    @ManyToMany
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "groupCourse_student",
             joinColumns = @JoinColumn(name = "userId"),

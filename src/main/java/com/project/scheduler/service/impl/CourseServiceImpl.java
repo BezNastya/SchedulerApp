@@ -48,6 +48,11 @@ courseRepository.deleteById(courseId);
     }
 
     @Override
+    public Optional<Course> findCourseByName(String name) {
+        return courseRepository.findCourseByName(name);
+    }
+
+    @Override
     public List<Course> findAll() {
         return courseRepository.findAll();
     }
