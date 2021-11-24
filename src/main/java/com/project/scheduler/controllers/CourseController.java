@@ -115,8 +115,6 @@ public class CourseController {
     @Operation(summary = "Get all group courses by student")
     @GetMapping("/{id}/group")
     public List<GroupCourse> findAllGroupCourseByStudent(@PathVariable Long id){
-//        Student student = studentService.findById(id);
-
         return courseService.findAllByStudents(id);
     }
 

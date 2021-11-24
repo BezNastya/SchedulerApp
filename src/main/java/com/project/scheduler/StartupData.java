@@ -2,7 +2,7 @@ package com.project.scheduler;
 
 import com.project.scheduler.entity.*;
 import com.project.scheduler.repository.CourseRepository;
-import com.project.scheduler.service.UserService;
+import com.project.scheduler.repository.GroupCourseRepository;
 import com.project.scheduler.service.impl.AdminServiceImpl;
 import com.project.scheduler.service.impl.StudentServiceImpl;
 import com.project.scheduler.service.impl.TeacherServiceImpl;
@@ -14,9 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -28,16 +26,18 @@ public class StartupData implements CommandLineRunner {
     private final TeacherServiceImpl teacherService;
     private final AdminServiceImpl adminService;
     private final CourseRepository courseRepository;
+    private final GroupCourseRepository groupCourseRepository;
 
 
     @Autowired
     public StartupData(StudentServiceImpl studentService,
                        TeacherServiceImpl teacherService,
-                       AdminServiceImpl adminService, CourseRepository courseRepository) {
+                       AdminServiceImpl adminService, CourseRepository courseRepository, GroupCourseRepository groupCourseRepository) {
         this.studentService = studentService;
         this.teacherService = teacherService;
         this.adminService = adminService;
         this.courseRepository = courseRepository;
+        this.groupCourseRepository = groupCourseRepository;
     }
 
     @Override
@@ -63,6 +63,7 @@ public class StartupData implements CommandLineRunner {
         private void studentAccount() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+        //-------------------
         Student student = new Student();
         student.setEmail("student@ukma.edu.ua");
         student.setFirstName("Ivan");
@@ -74,26 +75,35 @@ public class StartupData implements CommandLineRunner {
         student.setSpecialty("SE");
         student.setRole("STUDENT");
         student.setAuthorized(true);
-        studentService.save(student);
 
+        //Test course
         Course course = new Course();
         course.setName("Test1");
-            Course course1 = new Course();
-            course1.setName("Test2");
+        Course course1 = new Course();
+        course1.setName("Test2");
+        courseRepository.save(course);
+        courseRepository.save(course1);
 
+        //Test groupCourse1
         GroupCourse groupCourse = new GroupCourse();
         groupCourse.setCourse(course);
         groupCourse.setGroupNum((byte) 1);
-            Set<Student> s = new HashSet<>();
-            s.add(student);
-            groupCourse.setStudents(s);
+        groupCourseRepository.save(groupCourse);
 
+        //Test groupCourse2
+        GroupCourse groupCourse1 = new GroupCourse();
+        groupCourse1.setCourse(course1);
+        groupCourse1.setGroupNum((byte) 2);
+        groupCourseRepository.save(groupCourse1);
 
-            GroupCourse groupCourse1 = new GroupCourse();
-            groupCourse1.setCourse(course1);
-            groupCourse1.setGroupNum((byte) 2);
-            groupCourse1.setStudents(s);
+        //Set of groups
+        Set<GroupCourse> s = new HashSet<>();
+        s.add(groupCourse);
+        s.add(groupCourse1);
 
+        student.setGroupCourse(s);
+        studentService.save(student);
+        //-------------------
 
         Student student2 = new Student();
         student2.setEmail("student2@ukma.edu.ua");

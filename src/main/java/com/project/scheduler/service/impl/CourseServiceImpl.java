@@ -2,12 +2,10 @@ package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
-import com.project.scheduler.entity.Student;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
 import com.project.scheduler.service.CourseService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +95,6 @@ courseRepository.deleteById(courseId);
 
     @Override
     public List<GroupCourse> findAllByStudents(Long id) {
-        return groupRepository.findAllByStudents(id);
+        return groupRepository.findAllByStudentsId(id);
     }
 }

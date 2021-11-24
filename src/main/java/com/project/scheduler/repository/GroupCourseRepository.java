@@ -18,15 +18,16 @@ public interface GroupCourseRepository extends JpaRepository<GroupCourse, Long> 
     List<GroupCourse> findAllGroupsCourseByCourse(@Param(value = "course") Course course);
     GroupCourse findGroupCourseByCourseAndGroupNum(Course courseId, byte group);
 
-//    @Transactional
-//    @Modifying
-//    @Query(value = "SELECT u FROM GroupCourse u WHERE :student in (u.students)")
-//    List<GroupCourse> findAllGroupCourseByStudent(@Param(value = "students") Student student);
-    @Transactional
-    @Modifying
-    @Query(value = "SELECT u FROM GroupCourse u WHERE u.students = :student")
-    List<GroupCourse> findAllByStudents(@Param(value = "student") final long id);
-//    List<GroupCourse> findAllByStudents(@Param(value = "student") Student student);
+
+//    @Query(value = "SELECT u FROM GroupCourse u WHERE u.students = :student" )
+//    List<GroupCourse> findAllByStudents(@Param(value = "student") final long id);
+
+//    @Query(value = "SELECT u FROM GroupCourse u JOIN Student t WHERE t.userId = :id")
+//    List<GroupCourse> findAllByStudents(@Param(value = "id") final long id);
+
+//    select s.courses from Student s join s.courses where s.id = :id
+    @Query(value = "SELECT s.groupCourse FROM Student s JOIN s.groupCourse WHERE s.userId = :id")
+    List<GroupCourse> findAllByStudentsId(@Param(value = "id") final long id);
 
 
 }
