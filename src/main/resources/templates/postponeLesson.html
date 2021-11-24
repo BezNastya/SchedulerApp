@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang = "uk">
 <head>
     <title>Form</title>
 </head>
 <body>
 
 <div >
-Fill the fields
+    Fill in the fields
 </div>
 
+<form th:action="@{/postponeLesson/submit}" th:object="${postponeLesson}" th:method="POST">
 
+    <label for="id">Id:</label>
+    <input type="number" class="form-control" name="id" id="id">
 
-<form th:action="@{/postponeLesson/submit}" th:object="${postponeLesson}">
+    <!--
+    <label for="date">New date:</label>
+    <input type="date" class="form-control" name="date" id="date">
+    -->
 
-    <label for="les_id">Id:</label>
-    <input type="text"  class="form-control" id="les_id">
+    <label for="week">New date:</label>
+    <input type="number" class="form-control" name="week" id="week">
+<!--
+    <label for="day">New day:</label>
+    <input type="week" th:text="${#dates.dayOfWeekName()}" class="form-control" name="day" id="day">
+-->
 
-    <label for="datee">New date:</label>
-    <input type="text" th:field="*{newDate}" class="form-control" id="datee">
+    <label for="day">New week day:</label>
+    <input type="number" class="form-control" name="day" id="day">
 
-    <label for="desc">Description:</label>
-    <input type="text" th:field="*{description}" class="form-control" id="desc">
+    <label for="lesson">Lesson:</label>
+    <input type="number" class="form-control" name="lesson" id="lesson">
+
+    <label for="description">Description:</label>
+    <input type="text" th:field="*{description}" class="form-control" name="description" id="description">
 
     <label for="place">New place:</label>
-    <input type="text" th:field="*{newPlace}" class="form-control" id="place">
+    <input type="text" th:field="*{newPlace}" class="form-control" name="place" id="place">
 
     <div><input type="submit" value="Submit"/></div>
 </form>

@@ -2,11 +2,13 @@ package com.project.scheduler.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
+@Setter
 public class ScheduleDate {
 
     int dayOfTheWeek;

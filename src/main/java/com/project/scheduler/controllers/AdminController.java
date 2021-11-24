@@ -1,12 +1,12 @@
 package com.project.scheduler.controllers;
 
-
 import com.project.scheduler.entity.Admin;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/admin")
@@ -29,37 +28,13 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-
-
-    //second version
-//    @GetMapping("/user")
-//    public String userPanel(Model model){
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String username = ((UserDetails)principal).getUsername();
-//        Admin user = adminService.findByEmail(username).get();
-//        model.addAttribute("user", user);
-//        return "user";
-//    }
-
-
-//    @GetMapping("/admin/{id}")
-//    public String clientMCDRequest(@PathVariable String id) throws InterruptedException {
-//        MDC.put("adminId", id);
-//
-//        logger.info(myMarker, "admins {} has made a request", id);
-//        logger.info(myMarker, "Starting request");
-//        Thread.sleep(5000);
-//        logger.info(myMarker, "Finished request");
-//        MDC.clear();
-//        return "finished";
-//    }
-
     @GetMapping
     public List<Admin> getAllAdmins() {
         logger.info(myMarker, "Getting all admins");
         return adminService.findAll();
     }
 
+    //@PreAuthorize("#id ")
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable Long id) {
 //        MDC.put("adminId", String.valueOf(id));

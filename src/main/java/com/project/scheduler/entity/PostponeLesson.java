@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -30,6 +31,7 @@ public class PostponeLesson {
     @ToString.Exclude
     private Lesson canceledLesson;
 
+    @NotNull
     @Embedded
     private ScheduleDate newDate;
 

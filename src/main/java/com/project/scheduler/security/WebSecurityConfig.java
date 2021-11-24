@@ -28,19 +28,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //CSRF enabled
+        //CSRF disabled
         http
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/courses").permitAll()
                 .antMatchers("/user").authenticated()
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/teacher/**").hasAuthority("TEACHER")
                 .antMatchers("/student/**").hasAuthority("STUDENT")
                 .and().formLogin().permitAll()
                 .and().logout().permitAll();
-
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
         http.addFilterAfter(new CustomFilter(), HeaderWriterFilter.class);
     }
 
