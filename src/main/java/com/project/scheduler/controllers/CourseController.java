@@ -2,8 +2,10 @@ package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.entity.Student;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.service.CourseService;
+import com.project.scheduler.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +23,12 @@ public class CourseController {
     Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     private final CourseService courseService;
+    private final StudentService studentService;
 
     @Autowired
-    public CourseController(CourseService courseService){
+    public CourseController(CourseService courseService, StudentService studentService){
         this.courseService = courseService;
+        this.studentService = studentService;
     }
 
     @Operation(summary = "Get all the courses")
@@ -105,6 +109,15 @@ public class CourseController {
                 .orElseThrow(() -> new CourseNotFoundException(id));
         courseService.deleteAllGroups(course);
         logger.info("Deleting groups for course {}", course);
+    }
+
+
+    @Operation(summary = "Get all group courses by student")
+    @GetMapping("/{id}/group")
+    public List<GroupCourse> findAllGroupCourseByStudent(@PathVariable Long id){
+//        Student student = studentService.findById(id);
+
+        return courseService.findAllByStudents(id);
     }
 
 }

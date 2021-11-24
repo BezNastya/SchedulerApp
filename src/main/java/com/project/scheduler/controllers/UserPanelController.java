@@ -19,6 +19,7 @@ public class UserPanelController {
 
     @GetMapping("/user")
     public String userPanel(Principal principal, Model model){
+//        if (principal == null) return "login";
         User user = userService.findByEmail(principal.getName()).get();
 
         model.addAttribute("user", user);

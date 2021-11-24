@@ -3,6 +3,7 @@ package com.project.scheduler.service;
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Student;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +21,7 @@ public interface CourseService {
     void deleteGroupById(Long groupId);
     void deleteAllGroups(Course course);
 //    List<Course> findAllByStudent(Student student);
+
+
+    List<GroupCourse> findAllByStudents(Long id);
 }

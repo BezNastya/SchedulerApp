@@ -1,9 +1,6 @@
 package com.project.scheduler;
 
-import com.project.scheduler.entity.Admin;
-import com.project.scheduler.entity.Course;
-import com.project.scheduler.entity.Student;
-import com.project.scheduler.entity.Teacher;
+import com.project.scheduler.entity.*;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.service.UserService;
 import com.project.scheduler.service.impl.AdminServiceImpl;
@@ -16,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class StartupData implements CommandLineRunner {
@@ -73,6 +75,25 @@ public class StartupData implements CommandLineRunner {
         student.setRole("STUDENT");
         student.setAuthorized(true);
         studentService.save(student);
+
+        Course course = new Course();
+        course.setName("Test1");
+            Course course1 = new Course();
+            course1.setName("Test2");
+
+        GroupCourse groupCourse = new GroupCourse();
+        groupCourse.setCourse(course);
+        groupCourse.setGroupNum((byte) 1);
+            Set<Student> s = new HashSet<>();
+            s.add(student);
+            groupCourse.setStudents(s);
+
+
+            GroupCourse groupCourse1 = new GroupCourse();
+            groupCourse1.setCourse(course1);
+            groupCourse1.setGroupNum((byte) 2);
+            groupCourse1.setStudents(s);
+
 
         Student student2 = new Student();
         student2.setEmail("student2@ukma.edu.ua");

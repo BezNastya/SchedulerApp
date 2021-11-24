@@ -25,9 +25,10 @@ public class Course {
     private String name;
 
     @OneToMany(mappedBy = "course")
+    @ToString.Exclude
     private Set<GroupCourse> groups;
 
-    public Course(String name){
+    public Course(String name) {
         this.name = name;
     }
 
