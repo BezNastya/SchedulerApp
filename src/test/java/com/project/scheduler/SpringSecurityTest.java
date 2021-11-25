@@ -20,9 +20,9 @@ class SpringSecurityTest {
 
 
     @Test
-    @WithMockUser(username = "STUDENT1", password = "PASS", roles = "STUDENT")
+    @WithMockUser(username = "student@ukma.edu.ua", password = "student", roles = "STUDENT")
     public void myTest1() throws Exception {
-        mockMvc.perform(get(""))
+        mockMvc.perform(get("/login"))
                 .andExpect(status().isOk());
     }
 
