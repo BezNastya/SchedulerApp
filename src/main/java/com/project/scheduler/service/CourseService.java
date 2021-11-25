@@ -25,7 +25,8 @@ public interface CourseService {
 //    List<Course> findAllByStudent(Student student);
 
 
-    List<GroupCourse> findAllByStudents(Long id);
+    List<GroupCourse> findGroupCoursesByStudentId(Long id);
+    List<GroupCourse> findGroupCoursesByTeacherId(Long id);
     List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
 
     List<Lesson> findAllLessons();

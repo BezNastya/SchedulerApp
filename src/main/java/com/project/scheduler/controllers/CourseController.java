@@ -2,7 +2,6 @@ package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
-import com.project.scheduler.entity.Student;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.StudentService;
@@ -112,10 +111,10 @@ public class CourseController {
     }
 
 
-    @Operation(summary = "Get all group courses by student")
+    @Operation(summary = "Get all groupCourses by student")
     @GetMapping("/{id}/group")
     public List<GroupCourse> findAllGroupCourseByStudent(@PathVariable Long id){
-        return courseService.findAllByStudents(id);
+        return courseService.findGroupCoursesByStudentId(id);
     }
 
 }

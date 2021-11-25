@@ -1,5 +1,6 @@
 package com.project.scheduler.service;
 
+import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.entity.Student;
 
 import java.util.List;
@@ -18,5 +19,6 @@ public interface StudentService {
     //void updateAdmissionYear(final Student student, final int admissionYear);
     void delete(Student s);
 
+    List<Lesson> findLessonsByStudent(final Student student);
     //void joinCourse(Course course,Student student);
 }

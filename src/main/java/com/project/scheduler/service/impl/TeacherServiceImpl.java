@@ -1,9 +1,10 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.StartupData;
-import com.project.scheduler.entity.Admin;
-import com.project.scheduler.entity.Teacher;
+import com.project.scheduler.entity.*;
 import com.project.scheduler.exceptions.UserNotFoundException;
+import com.project.scheduler.repository.GroupCourseRepository;
+import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.repository.TeacherRepository;
 import com.project.scheduler.service.TeacherService;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,18 +21,17 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
     private final TeacherRepository teacherRepository;
-
-//    private ScheduleService scheduleService;
+    private GroupCourseRepository groupCourseRepository;
+    private LessonRepository lessonRepository;
 
     @Autowired
-    public TeacherServiceImpl(TeacherRepository teacherRepository) {
+    public TeacherServiceImpl(TeacherRepository teacherRepository,
+                              GroupCourseRepository groupCourseRepository,
+                              LessonRepository lessonRepository) {
         this.teacherRepository = teacherRepository;
+        this.groupCourseRepository = groupCourseRepository;
+        this.lessonRepository = lessonRepository;
     }
-
-//    @Autowired
-//    public void setScheduleService(ScheduleService scheduleService) {
-//        this.scheduleService = scheduleService;
-//    }
 
     @Override
     public Optional<Teacher> findByEmail(String email) {
@@ -92,5 +93,16 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void updateDepartment(final long id, final String department) {
         teacherRepository.updateDepartment(id, department);
+    }
+
+    @Override
+    public List<Lesson> findLessonsByTeacher(Teacher teacher) {
+        List<GroupCourse> groupCourseList =
+                groupCourseRepository.findGroupCoursesByTeacherId(teacher.getUserId());
+        List<Lesson> allLessonsList = new ArrayList<>();
+        groupCourseList.forEach((groupCourse) -> {
+            allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse));
+        });
+        return allLessonsList;
     }
 }

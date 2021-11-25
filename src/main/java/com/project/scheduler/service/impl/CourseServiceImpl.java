@@ -103,8 +103,13 @@ courseRepository.deleteById(courseId);
     }
 
     @Override
-    public List<GroupCourse> findAllByStudents(Long id) {
-        return groupRepository.findAllByStudentsId(id);
+    public List<GroupCourse> findGroupCoursesByStudentId(Long id) {
+        return groupRepository.findGroupCoursesByStudentId(id);
+    }
+
+    @Override
+    public List<GroupCourse> findGroupCoursesByTeacherId(Long id) {
+        return groupRepository.findGroupCoursesByTeacherId(id);
     }
 
     @Override

@@ -1,21 +1,32 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Admin;
+import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.entity.Student;
+import com.project.scheduler.repository.GroupCourseRepository;
+import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
+    private GroupCourseRepository groupCourseRepository;
+    private LessonRepository lessonRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository,
+                              GroupCourseRepository groupCourseRepository,
+                              LessonRepository lessonRepository) {
         this.studentRepository = studentRepository;
+        this.groupCourseRepository = groupCourseRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @Autowired
@@ -79,5 +90,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void updateTicketNumber(final Student student, final String ticketNumber) {
         studentRepository.updateTicketNumber(student.getUserId(), ticketNumber);
+    }
+
+
+    @Override
+    public List<Lesson> findLessonsByStudent(Student student) {
+        List<GroupCourse> groupCourseList =
+                groupCourseRepository.findGroupCoursesByStudentId(student.getUserId());
+        List<Lesson> allLessonsList = new ArrayList<>();
+        groupCourseList.forEach((groupCourse) -> {
+            allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse));
+        });
+        return allLessonsList;
     }
 }

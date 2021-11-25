@@ -11,18 +11,4 @@ import java.util.List;
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
-    @Override
-    public List<Lesson> findAllLessonsByCourse(final Course course) {
-        return null;
-    }
-
-    @Override
-    public List<Lesson> findLessonsByCourseAndGroup(final Course course, final int group) {
-        return null;
-    }
-
-    @Override
-    public List<Lesson> findLessonsByTeacher(final Teacher teacher) {
-        return null;
-    }
 }
