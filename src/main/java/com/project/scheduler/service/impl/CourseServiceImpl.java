@@ -1,5 +1,7 @@
 package com.project.scheduler.service.impl;
 
+import com.project.scheduler.advice.TrackExecutionTime;
+import com.project.scheduler.advice.TrackParameters;
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Lesson;
@@ -8,6 +10,7 @@ import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
 import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
@@ -113,9 +117,13 @@ courseRepository.deleteById(courseId);
     }
 
     @Override
+    @TrackParameters
     public List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse) {
         return lessonRepository.findLessonsByGroupCourse(groupCourse);
     }
+
+    @Override
+    @TrackExecutionTime
 
     @Override
     public List<Lesson> findAllLessons() {

@@ -2,6 +2,7 @@ package com.project.scheduler.controllers;
 
 
 import com.project.scheduler.entity.Lesson;
+import com.project.scheduler.entity.ScheduleDate;
 import com.project.scheduler.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,17 @@ public class LessonController {
     public List<Lesson> findLessonsByGroupCourse(@PathVariable Long id){
         return courseService.findLessonsByGroupCourse(courseService.findGroupById(id));
     }
+
     @Operation(summary = "Get all lessons")
     @GetMapping("/lessons")
-    public List<Lesson> findLessons(){
+    public List<Lesson> findLessons() {
         return courseService.findAllLessons();
+    }
+
+
+    @Operation(summary = "Get all lessons")
+    @GetMapping("/lesson")
+    public ScheduleDate s() {
+        return courseService.findAllLessons().get(0).getDate();
     }
 }

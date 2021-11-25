@@ -24,6 +24,11 @@ public class Lesson {
     String place;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "dayOfTheWeek", column = @Column(name = "scheduleDate_dayOfTheWeek")),
+            @AttributeOverride( name = "lessonOrder", column = @Column(name = "scheduleDate_lessonOrder")),
+            @AttributeOverride( name = "week", column = @Column(name = "scheduleDate_week"))
+    })
     ScheduleDate date;
 
     @ManyToOne
@@ -35,5 +40,10 @@ public class Lesson {
         this.place = place;
         this.date = date;
         this.groupCourse = groupCourse;
+    }
+    public Lesson(LessonType type, String place, ScheduleDate date){
+        this.type = type;
+        this.place = place;
+        this.date = date;
     }
 }
