@@ -122,10 +122,10 @@ courseRepository.deleteById(courseId);
         return lessonRepository.findLessonsByGroupCourse(groupCourse);
     }
 
-    @Override
-    @TrackExecutionTime
+
 
     @Override
+    @TrackExecutionTime
     public List<Lesson> findAllLessons() {
         return lessonRepository.findAll();
     }
