@@ -26,19 +26,19 @@ public class Aspects {
         long startTime = System.currentTimeMillis();
         Object object = point.proceed();
         long endTime = System.currentTimeMillis();
-        logger.warn("Class Name: "+ point.getSignature().getDeclaringTypeName() +". Method Name: "
-                + point.getSignature().getName() + ". Time taken for Execution is : "
-                + (endTime-startTime) +"ms");
+        logger.warn("[Time]Class: {}. Method: {}. Executed in: {} ms", point.getSignature().getDeclaringTypeName(),
+                point.getSignature().getName(), (endTime-startTime));
         return object;
     }
 
 
     @Around("@annotation(com.project.scheduler.advice.TrackParameters)")
     public Object params(ProceedingJoinPoint point) throws Throwable {
-        logger.info("[logSignatureAspect] Entered: {}.{}() with arguments = {}", point.getSignature().getDeclaringTypeName(),
+        logger.warn("[Parameters]Class: {}. Method: {}. Arguments: {}", point.getSignature().getDeclaringTypeName(),
                 point.getSignature().getName(), Arrays.toString(point.getArgs()) );
         Object proceed = point.proceed();
-        logger.info("[logSignatureAspect] Exited: {}.{}() with result = {}", point.getSignature().getDeclaringTypeName(),
+        logger.warn("[Parameters]Class: {} Method: {}. Return: {}",
+                point.getSignature().getDeclaringTypeName(),
                 point.getSignature().getName(), proceed);
         return proceed;
     }

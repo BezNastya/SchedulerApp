@@ -1,18 +1,23 @@
 package com.project.scheduler.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Setter
+@Setter @Getter
 public class ScheduleDate {
 
+    @JsonProperty("dayOfTheWeek")
     int dayOfTheWeek;
+    @JsonProperty("lessonOrder")
     int lessonOrder;
+    @JsonProperty("week")
     int week;
 
     public ScheduleDate(int day, int lesson, int week) {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Lessons</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-8 offset-2" th:each="lessonsByDay : ${lessonsByWeek}">
+            <h3 th:text="${lessonsByDay.get(0)}"></h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Place</th>
+                    <th>Group</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="les : ${lessonsByDay}">
+                    <td th:text="${les.getDate().getLessonOrder()}">Period</td>
+                    <td th:text="${les.getGroupCourse().getCourse().getName()}">Name</td>
+                    <td th:text="${les.getType()}">Type</td>
+                    <td th:text="${les.getPlace()}">Place</td>
+                    <td th:text="${les.getGroupCourse().getGroupNum()}">Group</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

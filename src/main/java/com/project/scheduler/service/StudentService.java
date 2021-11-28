@@ -21,4 +21,8 @@ public interface StudentService {
 
     List<Lesson> findLessonsByStudent(final Student student);
     //void joinCourse(Course course,Student student);
+
+    //schedule
+    List<List<Lesson>> findLessonsByWeek(final int week, final Student student);
+
 }

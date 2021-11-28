@@ -138,12 +138,21 @@ public class StartupData implements CommandLineRunner {
             lesson1.setGroupCourse(groupCourse);
             lessonRepository.save(lesson1);
 
+            Lesson lesson3 = new Lesson();
+            lesson3.setDate(new ScheduleDate(3,3,1));
+            lesson3.setPlace("208a");
+            lesson3.setType(LessonType.PRACTICE);
+            lesson3.setGroupCourse(groupCourse);
+            lessonRepository.save(lesson3);
+            
             Lesson lesson2 = new Lesson();
             lesson2.setDate(new ScheduleDate(1,2,1));
             lesson2.setPlace("20a");
             lesson2.setType(LessonType.PRACTICE);
             lesson2.setGroupCourse(groupCourse);
             lessonRepository.save(lesson2);
+
+
         //Set of groups
         Set<GroupCourse> s = new HashSet<>();
         s.add(groupCourse);

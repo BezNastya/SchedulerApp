@@ -1,6 +1,5 @@
 package com.project.scheduler.service.impl;
 
-import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.entity.Student;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -98,9 +98,60 @@ public class StudentServiceImpl implements StudentService {
         List<GroupCourse> groupCourseList =
                 groupCourseRepository.findGroupCoursesByStudentId(student.getUserId());
         List<Lesson> allLessonsList = new ArrayList<>();
-        groupCourseList.forEach((groupCourse) -> {
-            allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse));
-        });
+        groupCourseList.forEach((groupCourse) ->
+                allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
         return allLessonsList;
+    }
+
+    @Override
+    public List<List<Lesson>> findLessonsByWeek(int week, Student student) {
+        List<Lesson> allLessonsList = findLessonsByStudent(student);
+        List<Lesson> allLessonsByWeek = new ArrayList<>();
+        List<List<Lesson>> allByWeekSorted = new ArrayList<>();
+        allLessonsList.forEach((lesson) -> {
+            if (lesson.getDate().getWeek() == week) allLessonsByWeek.add(lesson);
+        });
+
+        sortC(allLessonsByWeek, true);
+
+        IntStream.range(1, 7).forEach(i -> {
+            List<Lesson> temp = new ArrayList<>();
+            for (Lesson lesson : allLessonsList) {
+                if (lesson.getDate().getDayOfTheWeek() == i) temp.add(lesson);
+            }
+            sortC(temp, false);
+            allByWeekSorted.add(temp);
+        });
+        return allByWeekSorted;
+    }
+
+    private void sortC(List<Lesson> list, boolean byWeek) {
+        Lesson temp;
+        boolean sorted = false;
+
+        if (byWeek)
+            while (!sorted) {
+                sorted = true;
+                for (int i = 0; i < list.size()-1; i++) {
+                    if (list.get(i).getDate().getDayOfTheWeek() > (list.get(i + 1).getDate().getDayOfTheWeek())) {
+                        temp = list.get(i);
+                        list.set(i, list.get(i + 1));
+                        list.set(i + 1, temp);
+                        sorted = false;
+                    }
+                }
+            }
+        else
+            while (!sorted) {
+                sorted = true;
+                for (int i = 0; i < list.size()-1; i++) {
+                    if (list.get(i).getDate().getLessonOrder() > (list.get(i + 1).getDate().getLessonOrder())) {
+                        temp = list.get(i);
+                        list.set(i, list.get(i + 1));
+                        list.set(i + 1, temp);
+                        sorted = false;
+                    }
+                }
+            }
     }
 }

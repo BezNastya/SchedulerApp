@@ -106,7 +106,7 @@ courseRepository.deleteById(courseId);
         }
     }
 
-    @Override
+    @Override @TrackParameters
     public List<GroupCourse> findGroupCoursesByStudentId(Long id) {
         return groupRepository.findGroupCoursesByStudentId(id);
     }

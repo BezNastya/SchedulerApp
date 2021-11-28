@@ -9,64 +9,73 @@
       crossorigin="anonymous">
 <body>
 
-<div class="container" th:switch="${user.role}">
+<div class="container" th:switch="${user.getRole()}">
     <div class="row">
 
-        <div class="col-6 offset-3 border border-primary rounded"
+        <div class="col-6 offset-3 border border-primary rounded border-3"
              th:case="'ADMIN'">
             <h2 class="mb-3 text-center">Personal profile</h2>
 
             <div class="mb-3">
                 <h6 th:text="#{user.firstname} + ':'">First name label:</h6>
-                <h3 th:text="${user.firstName}">First name</h3>
+                <h3 th:text="${user.getFirstName()}">First name</h3>
             </div>
             <div class="mb-3">
                 <h6 th:text="#{user.lastname} + ':'">Last name label:</h6>
-                <h3 th:text="${user.lastName}">Last name</h3>
+                <h3 th:text="${user.getLastName()}">Last name</h3>
             </div>
         </div>
 
-        <div class="col-6 offset-3 border border-primary rounded"
+        <div class="col-6 offset-3 border border-primary rounded border-3"
              th:case="'TEACHER'">
             <h2 class="mb-3 text-center">Personal profile</h2>
 
             <div class="mb-3">
                 <h6 th:text="#{user.firstname} + ':'">First name label:</h6>
-                <h3 th:text="${user.firstName}">First name</h3>
+                <h3 th:text="${user.getFirstName()}">First name</h3>
             </div>
             <div class="mb-3">
                 <h6 th:text="#{user.lastname} + ':'">Last name label:</h6>
-                <h3 th:text="${user.lastName}">Last name</h3>
+                <h3 th:text="${user.getLastName()}">Last name</h3>
             </div>
             <div class="mb-3">
                 <h6 th:text="#{teacher.academicDegree} + ':'"></h6>
-                <h3 th:text="${user.academicDegree}"></h3>
+                <h3 th:text="${user.getAcademicDegree()}"></h3>
             </div>
             <div class="mb-3">
                 <h6 th:text="#{teacher.department} + ':'"></h6>
-                <h3 th:text="${user.department}"></h3>
+                <h3 th:text="${user.getDepartment()}"></h3>
             </div>
         </div>
 
-        <div class="col-6 offset-3 border border-primary rounded"
+        <div class="col-6 offset-3 border border-primary rounded border-3"
              th:case="'STUDENT'">
             <h2 class="mb-3 text-center">Personal profile</h2>
 
             <div class="mb-3">
                 <h6 th:text="#{user.firstname} + ':'">First name label:</h6>
-                <h3 th:text="${user.firstName}">First name</h3>
+                <h3 th:text="${user.getFirstName()}">First name</h3>
             </div>
             <div class="mb-3">
                 <h6 th:text="#{user.lastname} + ':'">Last name label:</h6>
-                <h3 th:text="${user.lastName}">Last name</h3>
+                <h3 th:text="${user.getLastName()}">Last name</h3>
             </div>
-            <div>
+            <div class="mb-3">
                 <h6 th:text="#{student.ticket} + ':'"></h6>
-                <h3 th:text="${user.studTicketSeries}"></h3>
+                <h3 th:text="${user.getStudTicketSeries()}"></h3>
             </div>
-<!--            <h3 th:text="#{student.faculty} + ': ' + ${user.faculty}"></h3>-->
-<!--            <h3 th:text="#{student.specialty} + ': ' + ${user.specialty}"></h3>-->
-<!--            <h3 th:text="#{student.yearAdmission} + ': ' + ${user.yearAdmission}"></h3>-->
+            <div class="mb-3">
+                <h6 th:text="#{student.faculty} + ':'"></h6>
+                <h3 th:text="${user.getFaculty()}"></h3>
+            </div>
+            <div class="mb-3">
+                <h6 th:text="#{student.specialty} + ':'"></h6>
+                <h3 th:text="${user.getSpecialty()}"></h3>
+            </div>
+            <div class="mb-3">
+                <h6 th:text="#{student.yearAdmission} + ':'"></h6>
+                <h3 th:text="${user.getYearAdmission()}"></h3>
+            </div>
         </div>
 
     </div>
