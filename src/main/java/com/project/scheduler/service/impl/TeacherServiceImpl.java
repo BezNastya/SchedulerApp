@@ -6,6 +6,7 @@ import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.repository.GroupCourseRepository;
 import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.repository.TeacherRepository;
+import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +24,17 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
     private GroupCourseRepository groupCourseRepository;
     private LessonRepository lessonRepository;
+    private CourseService courseService;
 
     @Autowired
     public TeacherServiceImpl(TeacherRepository teacherRepository,
                               GroupCourseRepository groupCourseRepository,
-                              LessonRepository lessonRepository) {
+                              LessonRepository lessonRepository,
+                              CourseService courseService) {
         this.teacherRepository = teacherRepository;
         this.groupCourseRepository = groupCourseRepository;
         this.lessonRepository = lessonRepository;
+        this.courseService = courseService;
     }
 
     @Override
@@ -104,5 +108,11 @@ public class TeacherServiceImpl implements TeacherService {
             allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse));
         });
         return allLessonsList;
+    }
+
+    @Override
+    public List<List<Lesson>> findLessonsByWeekTeacher(int week, Teacher teacher) {
+        List<Lesson> allLessonsList = findLessonsByTeacher(teacher);
+        return courseService.findLessonsByWeek(week, allLessonsList);
     }
 }

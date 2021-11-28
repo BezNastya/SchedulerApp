@@ -23,6 +23,6 @@ public interface StudentService {
     //void joinCourse(Course course,Student student);
 
     //schedule
-    List<List<Lesson>> findLessonsByWeek(final int week, final Student student);
+    List<List<Lesson>> findLessonsByWeekStudent(final int week, final Student student);
 
 }

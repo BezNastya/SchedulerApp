@@ -1,6 +1,7 @@
 package com.project.scheduler.service;
 
 import com.project.scheduler.entity.Lesson;
+import com.project.scheduler.entity.Student;
 import com.project.scheduler.entity.Teacher;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface TeacherService {
     //Schedule getTeacherLessons(long id);
 
     List<Lesson> findLessonsByTeacher(Teacher teacher);
+
+
+    //schedule
+    List<List<Lesson>> findLessonsByWeekTeacher(final int week, final Teacher teacher);
 }

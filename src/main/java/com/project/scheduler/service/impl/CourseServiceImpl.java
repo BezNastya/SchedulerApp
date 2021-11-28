@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Slf4j
@@ -122,11 +123,60 @@ courseRepository.deleteById(courseId);
         return lessonRepository.findLessonsByGroupCourse(groupCourse);
     }
 
-
-
     @Override
     @TrackExecutionTime
     public List<Lesson> findAllLessons() {
         return lessonRepository.findAll();
+    }
+
+    @Override
+    public List<List<Lesson>> findLessonsByWeek(int week, List<Lesson> lessons){
+        List<Lesson> allLessonsByWeek = new ArrayList<>();
+        List<List<Lesson>> allByWeekSorted = new ArrayList<>();
+        lessons.forEach((lesson) -> {
+            if (lesson.getDate().getWeek() == week) allLessonsByWeek.add(lesson);
+        });
+
+        sortC(allLessonsByWeek, true);
+
+        IntStream.range(1, 7).forEach(i -> {
+            List<Lesson> temp = new ArrayList<>();
+            for (Lesson lesson : lessons) {
+                if (lesson.getDate().getDayOfTheWeek() == i) temp.add(lesson);
+            }
+            sortC(temp, false);
+            allByWeekSorted.add(temp);
+        });
+        return allByWeekSorted;
+    }
+
+    private void sortC(List<Lesson> list, boolean byWeek) {
+        Lesson temp;
+        boolean sorted = false;
+
+        if (byWeek)
+            while (!sorted) {
+                sorted = true;
+                for (int i = 0; i < list.size()-1; i++) {
+                    if (list.get(i).getDate().getDayOfTheWeek() > (list.get(i + 1).getDate().getDayOfTheWeek())) {
+                        temp = list.get(i);
+                        list.set(i, list.get(i + 1));
+                        list.set(i + 1, temp);
+                        sorted = false;
+                    }
+                }
+            }
+        else
+            while (!sorted) {
+                sorted = true;
+                for (int i = 0; i < list.size()-1; i++) {
+                    if (list.get(i).getDate().getLessonOrder() > (list.get(i + 1).getDate().getLessonOrder())) {
+                        temp = list.get(i);
+                        list.set(i, list.get(i + 1));
+                        list.set(i + 1, temp);
+                        sorted = false;
+                    }
+                }
+            }
     }
 }

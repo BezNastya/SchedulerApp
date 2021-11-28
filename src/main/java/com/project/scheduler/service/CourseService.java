@@ -29,5 +29,7 @@ public interface CourseService {
     List<GroupCourse> findGroupCoursesByTeacherId(Long id);
     List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
 
+    List<List<Lesson>> findLessonsByWeek(final int week, final List<Lesson> lessons);
+
     List<Lesson> findAllLessons();
 }
