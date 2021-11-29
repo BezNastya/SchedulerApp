@@ -10,21 +10,22 @@
 </head>
 <body>
 <div class="container">
-<!--    <div class="row">-->
-<!--        <div class="col-4 offset-4 input-group my-2">-->
-<!--            <form th:action="@{/update}" method="post">-->
-<!--                <div class="input-group-prepend">-->
-<!--                    <button class="btn btn-outline-secondary" type="submit">Submit</button>-->
-<!--                </div>-->
-<!--                <select class="custom-select" id="inputSelect" name="inputSelect">-->
-<!--                    <option th:each="i : ${#numbers.sequence(1, 15)}"-->
-<!--                            th:value="${i}"-->
-<!--                            th:text="${i}">-->
-<!--                    </option>-->
-<!--                </select>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="row">
+        <div class="col-4 offset-4 input-group my-2">
+            <form th:action="@{/my-lessons}" method="get" style="display: inline;">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                </div>
+                <select class="custom-select" id="inputSelect" name="inputSelect">
+                    <option th:each="i : ${#numbers.sequence(1, 15)}"
+                            th:value="${i}"
+                            th:text="${i}">
+                    </option>
+                </select>
+            </form>
+
+        </div>
+    </div>
     <div class="row">
         <div class="col-8 offset-2" th:each="lessonsByDay : ${lessonsByWeek}">
             <div th:if="${not #lists.isEmpty(lessonsByDay)}">

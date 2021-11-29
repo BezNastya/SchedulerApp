@@ -141,7 +141,7 @@ courseRepository.deleteById(courseId);
 
         IntStream.range(1, 7).forEach(i -> {
             List<Lesson> temp = new ArrayList<>();
-            for (Lesson lesson : lessons) {
+            for (Lesson lesson : allLessonsByWeek) {
                 if (lesson.getDate().getDayOfTheWeek() == i) temp.add(lesson);
             }
             sortC(temp, false);
