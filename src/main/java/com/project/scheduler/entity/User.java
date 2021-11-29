@@ -75,4 +75,12 @@ public class User {
         return Long.hashCode(userId);
     }
 
+    public User(String email, String password, String firstName, String lastName, String role) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+    }
+
 }

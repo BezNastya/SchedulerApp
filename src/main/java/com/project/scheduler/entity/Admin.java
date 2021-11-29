@@ -16,5 +16,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "userId")
 public class Admin extends User{
 
-
+    public Admin(String email, String password, String firstName, String lastName) {
+        super(email, password, firstName, lastName, "ADMIN");
+    }
 }
