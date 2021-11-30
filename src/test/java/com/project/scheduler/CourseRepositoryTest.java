@@ -10,16 +10,26 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import javax.validation.ConstraintViolationException;
+import javax.validation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CourseRepositoryTest {
+
+
+    private static Validator validator;
+
+    @BeforeAll
+    public static void setUpValidator() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @Autowired
     CourseRepository courseRepository;
@@ -77,12 +87,13 @@ public class CourseRepositoryTest {
         assertEquals(before.size() + 1, after.size());
     }
 
-//    @Test
-//    void returnNullWhenInvalidAdded() {
-//        Course course = new Course(null);
-//        Assertions.assertThrows(ConstraintViolationException.class,
-//                () -> courseRepository.save(course));
-//    }
+    @Test
+    void returnNullWhenInvalidAdded() {
+        Course course = new Course(null);
+        Set<ConstraintViolation<Course>> constraintViolationSet = validator.validate(course);
+        assertFalse(constraintViolationSet.isEmpty());
+        //Assertions.assertThrows(ConstraintViolationException.class, () -> courseRepository.save(course));
+    }
 
     @Test
     void returnCourseByName() {
