@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -31,6 +31,7 @@ public class PostponeLesson {
     @ToString.Exclude
     private Lesson canceledLesson;
 
+    @Valid
     @NotNull
     @Embedded
     private ScheduleDate newDate;

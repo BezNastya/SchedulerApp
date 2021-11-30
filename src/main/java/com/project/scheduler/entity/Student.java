@@ -19,6 +19,13 @@ import java.util.Set;
 @PrimaryKeyJoinColumn(name = "userId")
 public class Student extends User {
 
+    public Student(final String firstName, final String lastName, final String faculty, final String specialty,
+                   final String email, final String password){
+        super(email, password, firstName, lastName, "STUDENT");
+        this.faculty = faculty;
+        this.specialty = specialty;
+    }
+
     @NotNull
     private String studTicketSeries;
 

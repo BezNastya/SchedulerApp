@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang = "uk">
+      lang="uk">
 <head>
     <title>Form</title>
 </head>
@@ -10,7 +10,7 @@
     Fill in the fields
 </div>
 
-<form th:action="@{/postponeLesson/submit}" th:object="${postponeLesson}" th:method="POST">
+<form th:action="@{/postponeLesson}" th:object="${postponeLesson}" th:method="POST">
 
     <label for="id">Id:</label>
     <input type="number" class="form-control" name="id" id="id">

@@ -22,9 +22,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
     private final TeacherRepository teacherRepository;
-    private GroupCourseRepository groupCourseRepository;
-    private LessonRepository lessonRepository;
-    private CourseService courseService;
+    private final GroupCourseRepository groupCourseRepository;
+    private final LessonRepository lessonRepository;
+    private final CourseService courseService;
 
     @Autowired
     public TeacherServiceImpl(TeacherRepository teacherRepository,
@@ -104,9 +104,7 @@ public class TeacherServiceImpl implements TeacherService {
         List<GroupCourse> groupCourseList =
                 groupCourseRepository.findGroupCoursesByTeacherId(teacher.getUserId());
         List<Lesson> allLessonsList = new ArrayList<>();
-        groupCourseList.forEach((groupCourse) -> {
-            allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse));
-        });
+        groupCourseList.forEach((groupCourse) -> allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
         return allLessonsList;
     }
 

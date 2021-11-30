@@ -7,8 +7,8 @@ import com.project.scheduler.repository.PostponeLessonRepository;
 import com.project.scheduler.service.PostponeLessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -21,8 +21,8 @@ public class PostponeLessonServiceImpl implements PostponeLessonService {
     PostponeLessonRepository postponeLessonRepository;
 
     @Override
-    public PostponeLesson postponeLesson(long id, PostponeLesson postponeLesson) {
-        Lesson lessonToPostpone= lessonRepository.getById(id);
+    public PostponeLesson postponeLesson(final long id, @Valid final PostponeLesson postponeLesson) {
+        Lesson lessonToPostpone = lessonRepository.getById(id);
         postponeLesson.setCanceledLesson(lessonToPostpone);
         postponeLessonRepository.save(postponeLesson);
         return postponeLesson;

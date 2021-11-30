@@ -14,7 +14,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @RequiredArgsConstructor
 @Entity
 @PrimaryKeyJoinColumn(name = "userId")
-public class Admin extends User{
+public class Admin extends User {
 
     public Admin(String email, String password, String firstName, String lastName) {
         super(email, password, firstName, lastName, "ADMIN");
