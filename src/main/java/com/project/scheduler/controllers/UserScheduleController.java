@@ -43,10 +43,12 @@ public class UserScheduleController {
         if(Objects.equals(user.getRole(), "STUDENT")){
             model.addAttribute("lessonsByWeek",
                     studentService.findLessonsByWeekStudent(week,(Student) user));
+            model.addAttribute("week", week);
         }
         else if(Objects.equals(user.getRole(), "TEACHER")){
             model.addAttribute("lessonsByWeek",
                     teacherService.findLessonsByWeekTeacher(week,(Teacher) user));
+            model.addAttribute("week", week);
         }
         return "schedule";
     }
