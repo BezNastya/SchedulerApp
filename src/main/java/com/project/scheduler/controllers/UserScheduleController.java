@@ -35,11 +35,6 @@ public class UserScheduleController {
         this.userService = userService;
     }
 
-//    @PostMapping("/update")
-//    public void search(@RequestParam(name = "inputSelect") int week) {
-//        System.out.println(week);
-//    }
-
     @Operation(summary = "Get user lessons")
     @GetMapping("/my-lessons")
     public String findLessonsByUser(Principal principal, Model model, @RequestParam(name="inputSelect",required = false, defaultValue = "1") Integer week){
