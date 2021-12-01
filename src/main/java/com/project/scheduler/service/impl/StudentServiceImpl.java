@@ -23,6 +23,7 @@ public class StudentServiceImpl implements StudentService {
     private LessonRepository lessonRepository;
     private CourseService courseService;
 
+    @Autowired
     public StudentServiceImpl(StudentRepository studentRepository,
                               GroupCourseRepository groupCourseRepository,
                               LessonRepository lessonRepository,
@@ -31,11 +32,6 @@ public class StudentServiceImpl implements StudentService {
         this.groupCourseRepository = groupCourseRepository;
         this.lessonRepository = lessonRepository;
         this.courseService = courseService;
-    }
-
-    @Autowired
-    public void setStudentRepository(StudentRepository studentRepository){
-        this.studentRepository = studentRepository;
     }
 
     @Override
