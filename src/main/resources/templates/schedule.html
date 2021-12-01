@@ -7,6 +7,7 @@
           rel="stylesheet"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
           crossorigin="anonymous">
+    <link th:href="@{resources/styles/button.css}" rel="stylesheet" />
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,7 +30,8 @@
            <select class="custom-select" id="inputSelect" name="inputSelect">
                <option th:each="i : ${#numbers.sequence(1, 15)}"
                        th:value="${i}"
-                       th:text="${i}">
+                       th:text="${i}"
+                       >
                </option>
            </select>
        </form>
@@ -74,6 +76,10 @@
         </div>
     </div>
 </div>
+
+<form th:align="center" th:action="@{my-lessons/downloadExcel}" th:method="GET">
+    <button type="submit">Download in Excel</button>
+</form>
 
 </body>
 </html>

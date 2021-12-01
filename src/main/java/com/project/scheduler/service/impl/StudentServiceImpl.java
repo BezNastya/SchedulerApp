@@ -98,9 +98,9 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public List<Lesson> findLessonsByStudent(Student student) {
+    public List<Lesson> findLessonsByStudent(long studentId) {
         List<GroupCourse> groupCourseList =
-                groupCourseRepository.findGroupCoursesByStudentId(student.getUserId());
+                groupCourseRepository.findGroupCoursesByStudentId(studentId);
         List<Lesson> allLessonsList = new ArrayList<>();
         groupCourseList.forEach((groupCourse) ->
                 allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
@@ -108,8 +108,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<List<Lesson>> findLessonsByWeekStudent(int week, Student student) {
-        List<Lesson> allLessonsList = findLessonsByStudent(student);
+    public List<List<Lesson>> findLessonsByWeekStudent(int week, long studentId) {
+        List<Lesson> allLessonsList = findLessonsByStudent(studentId);
         return courseService.findLessonsByWeek(week, allLessonsList);
     }
 }
