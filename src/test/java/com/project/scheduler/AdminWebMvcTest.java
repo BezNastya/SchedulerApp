@@ -49,7 +49,7 @@ public class AdminWebMvcTest {
                 .andExpect(status().is3xxRedirection());
     }
 
-    @WithMockUser(username = "admin@ukma.edu.ua", password = "admin", authorities = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     @Test
     void shouldReturnAllAdmins() throws Exception {
         when(adminService.findAll()).thenReturn(ADMINS);
@@ -58,7 +58,7 @@ public class AdminWebMvcTest {
                 .andExpect(jsonPath("$[0]").value(ADMINS.get(0)));
     }
 
-    @WithMockUser(username = "admin@ukma.edu.ua", password = "admin", authorities = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     @Test
     void shouldReturnExistingAdmin() throws Exception {
         when(adminService.findById((long) 1)).thenReturn(Optional.of(ADMINS.get(0)));
@@ -67,7 +67,7 @@ public class AdminWebMvcTest {
                 .andExpect(jsonPath("$").value(ADMINS.get(0)));
     }
 
-    @WithMockUser(username = "admin@ukma.edu.ua", password = "admin", authorities = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     @Test
     void shouldReturnValidationError_whenNonExistingAdmin() throws Exception {
         String validationOutput = "There is no user with id 1";
@@ -77,7 +77,7 @@ public class AdminWebMvcTest {
                 .andExpect(jsonPath("$").value(validationOutput));
     }
 
-    @WithMockUser(username = "admin@ukma.edu.ua", password = "admin", authorities = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     @Test
     void shouldAddSuccessfully_whenValidAdmin() throws Exception {
         when(adminService.save(any())).thenReturn(TO_ADD_VALID);
@@ -88,7 +88,7 @@ public class AdminWebMvcTest {
                 .andExpect(jsonPath("$").value(TO_ADD_VALID));
     }
 
-    @WithMockUser(username = "admin@ukma.edu.ua", password = "admin", authorities = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     @Test
     void shouldReturnValidationError_whenInvalidAdmin() throws Exception {
         when(adminService.save(any())).thenReturn(TO_ADD_INVALID);
