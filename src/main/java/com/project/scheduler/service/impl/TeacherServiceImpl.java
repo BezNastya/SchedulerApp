@@ -75,19 +75,4 @@ public class TeacherServiceImpl implements TeacherService {
         teacherRepository.updateDepartment(id, department);
     }
 
-    @Override
-    public List<Lesson> findLessonsByTeacher(Teacher teacher) {
-        List<GroupCourse> groupCourseList =
-                groupCourseRepository.findGroupCoursesByTeacherId(teacher.getUserId());
-        List<Lesson> allLessonsList = new ArrayList<>();
-        groupCourseList.forEach((groupCourse)
-                -> allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
-        return allLessonsList;
-    }
-
-    @Override
-    public List<List<Lesson>> findLessonsByWeekTeacher(int week, Teacher teacher) {
-        List<Lesson> allLessonsList = findLessonsByTeacher(teacher);
-        return courseService.findLessonsByWeek(week, allLessonsList);
-    }
 }

@@ -25,11 +25,13 @@ public interface CourseService {
 //    List<Course> findAllByStudent(Student student);
 
 
-    List<GroupCourse> findGroupCoursesByStudentId(Long id);
-    List<GroupCourse> findGroupCoursesByTeacherId(Long id);
+    List<GroupCourse> findGroupCoursesByEducationUserId(Long id);
     List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
 
     List<List<Lesson>> findLessonsByWeek(final int week, final List<Lesson> lessons);
+
+    List<List<Lesson>> findLessonsForWeekByEducationUserId(int week, long id);
+    List<Lesson> findLessonsByEducationUserId(long id);
 
     List<Lesson> findAllLessons();
 }

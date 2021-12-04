@@ -1,15 +1,14 @@
 package com.project.scheduler.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -17,7 +16,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Entity
 @PrimaryKeyJoinColumn(name = "userId")
-public class Teacher extends User {
+public class Teacher extends EducationUser {
+
+    public Teacher(final String firstName, final String lastName, final String department, final String academicDegree,
+                   final String email, final String password) {
+        super(firstName, lastName, email, password, "TEACHER");
+        this.department = department;
+        this.academicDegree = academicDegree;
+    }
 
     @NotNull
     @NotBlank(message = "Every teacher must have an academic degree")
@@ -26,15 +32,6 @@ public class Teacher extends User {
     @NotNull
     @NotBlank(message = "Every user must have a department!")
     private String department;
-
-    @JsonBackReference
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "groupCourse_teacher",
-            joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "groupCourse_id"))
-    @ToString.Exclude
-    Set<GroupCourse> groupCourse;
 
 
 }
