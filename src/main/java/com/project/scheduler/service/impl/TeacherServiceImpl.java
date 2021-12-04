@@ -42,30 +42,6 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherRepository.findByEmail(email);
     }
 
-    /*
-    @Override
-    public Teacher findByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    public Teacher findByLastName(String lastName) {
-        return null;
-    }
-
-    @Override
-    public PostponeLesson postponeLesson(String description, Lesson canceledLesson,
-                                         ScheduleDate newDate, String newPlace){
-        //Request updateCourse lesson using old lesson + newDate and newPlace
-        return null;
-    }
-
-    @Override
-    public Schedule getTeacherLessons(long id){
-        return null;
-    }
-    */
-
     @Override
     public Optional<Teacher> findById(long id) {
         return teacherRepository.findById(id);
@@ -104,7 +80,8 @@ public class TeacherServiceImpl implements TeacherService {
         List<GroupCourse> groupCourseList =
                 groupCourseRepository.findGroupCoursesByTeacherId(teacher.getUserId());
         List<Lesson> allLessonsList = new ArrayList<>();
-        groupCourseList.forEach((groupCourse) -> allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
+        groupCourseList.forEach((groupCourse)
+                -> allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
         return allLessonsList;
     }
 

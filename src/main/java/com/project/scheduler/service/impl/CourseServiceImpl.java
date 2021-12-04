@@ -142,7 +142,7 @@ courseRepository.deleteById(courseId);
         IntStream.range(1, 7).forEach(i -> {
             List<Lesson> temp = new ArrayList<>();
             for (Lesson lesson : allLessonsByWeek) {
-                if (lesson.getDate().getDayOfTheWeek() == i) temp.add(lesson);
+                if (lesson.getDate().getDayOfTheWeek().ordinal() == i) temp.add(lesson);
             }
             sortC(temp, false);
             allByWeekSorted.add(temp);
@@ -158,7 +158,7 @@ courseRepository.deleteById(courseId);
             while (!sorted) {
                 sorted = true;
                 for (int i = 0; i < list.size()-1; i++) {
-                    if (list.get(i).getDate().getDayOfTheWeek() > (list.get(i + 1).getDate().getDayOfTheWeek())) {
+                    if (list.get(i).getDate().getDayOfTheWeek().ordinal() > (list.get(i + 1).getDate().getDayOfTheWeek().ordinal())) {
                         temp = list.get(i);
                         list.set(i, list.get(i + 1));
                         list.set(i + 1, temp);

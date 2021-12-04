@@ -1,9 +1,6 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.Student;
-import com.project.scheduler.entity.WeekDay;
-import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.service.ExcelService;
 import com.project.scheduler.service.StudentService;
 import org.apache.poi.ss.usermodel.Row;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -47,7 +43,7 @@ public class ExcelServiceImpl implements ExcelService {
                 Row row = sheet.createRow(rowIdx++);
                 row.createCell(0).setCellValue(lesson.getGroupCourse().getCourse().getName());
                 row.createCell(1).setCellValue(lesson.getDate().getWeek());
-                row.createCell(2).setCellValue(WeekDay.fromId(lesson.getDate().getDayOfTheWeek()).toString());
+                row.createCell(2).setCellValue(lesson.getDate().getDayOfTheWeek().getDay());
                 row.createCell(3).setCellValue(lesson.getDate().getLessonOrder());
                 row.createCell(4).setCellValue(lesson.getType().toString());
             }

@@ -44,14 +44,7 @@
     <div class="row">
         <div class="col-8 offset-2" th:each="lessonsByDay : ${lessonsByWeek}">
             <div th:if="${not #lists.isEmpty(lessonsByDay)}">
-                <div class="mt-3" th:switch="${lessonsByDay.get(0).getDate().getDayOfTheWeek()}">
-                    <h3 th:case="1" class="text-center">Monday</h3>
-                    <h3 th:case="2" class="text-center">Tuesday</h3>
-                    <h3 th:case="3" class="text-center">Wednesday</h3>
-                    <h3 th:case="4" class="text-center">Thursday</h3>
-                    <h3 th:case="5" class="text-center">Friday</h3>
-                    <h3 th:case="6" class="text-center">Saturday</h3>
-                </div>
+                <h3 class="text-center" th:text="${lessonsByDay.get(0).getDate().getDayOfTheWeek().getDay()}"></h3>
                 <table class="table table-bordered " style="width:100%">
                     <thead class="thead-light">
                     <tr>
