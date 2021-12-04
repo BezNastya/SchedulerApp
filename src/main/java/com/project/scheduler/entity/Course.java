@@ -8,9 +8,12 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
+@Valid
 @Getter
 @Setter
 @ToString
@@ -18,21 +21,23 @@ import java.util.Set;
 @Entity
 public class Course {
 
+    public Course(String name){
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Valid
     @NotNull
+    @NotBlank
     private String name;
 
     @OneToMany(mappedBy = "course")
     @JsonIgnore
     @ToString.Exclude
     private Set<GroupCourse> groups;
-
-    public Course(String name){
-        this.name = name;
-    }
 
     @Override
     public boolean equals(Object o) {

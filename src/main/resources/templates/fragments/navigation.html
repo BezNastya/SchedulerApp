@@ -1,0 +1,30 @@
+!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>NavigationBar</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+        crossorigin="anonymous">
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li><a class="nav-link" th:href="@{/}">Home</a></li>
+      <li><a class="nav-link" th:href="@{/user}">Profile</a></li>
+      <li><a class="nav-link" th:href="@{/my-lessons}">Schedule</a></li>
+      <li><a class="nav-link" th:href="@{/requests}">Postpone Requests</a></li>
+      <li><a class="nav-link" th:href="@{/postponeLesson}">Create Postpone Request</a></li>
+      <li><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+</body>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+<script>
+</script>
+</html>

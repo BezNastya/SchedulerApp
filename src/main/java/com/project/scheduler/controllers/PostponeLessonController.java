@@ -41,7 +41,7 @@ public class PostponeLessonController {
         logger.warn("Received submit request with id {}, week {}, day {}, lesson order {} ", id, day, week, lesson);
         ScheduleDate scheduleDate = new ScheduleDate();
         scheduleDate.setWeek(week);
-        scheduleDate.setDayOfTheWeek(day);
+        //scheduleDate.setDayOfTheWeek(day);
         scheduleDate.setLessonOrder(lesson);
         postponeLesson.setNewDate(scheduleDate);
         postponeLessonService.postponeLesson(id, postponeLesson);

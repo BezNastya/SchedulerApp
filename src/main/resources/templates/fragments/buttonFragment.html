@@ -1,0 +1,8 @@
+<div class="text-nowrap" th:fragment="requestAdmin (reqId)" th:if="${user.getRole() == 'ADMIN'}">
+    <a title="Approve" th:href="@{/requests/approve(id = ${reqId})}">
+        <i class="fas fa-thumbs-up"></i></a>
+    </a>&emsp;
+    <a title="Decline" th:href="@{/requests/decline(id = ${reqId})}">
+        <i class="fas fa-thumbs-down"></i></a>
+    </a>
+</div>

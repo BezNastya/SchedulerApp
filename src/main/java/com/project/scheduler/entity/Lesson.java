@@ -18,7 +18,7 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long lessonId;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     LessonType type;
 
     String place;

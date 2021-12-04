@@ -78,17 +78,17 @@ public class StartupData implements CommandLineRunner {
         groupCourseRepository.save(group3);
         groupCourseRepository.save(group4);
 
-        Lesson lesson1 = new Lesson(LessonType.LECTURE, "201a", new ScheduleDate(1, 1, 1), group1);
-        Lesson lesson2 = new Lesson(LessonType.LAB, "201", new ScheduleDate(3, 3, 3), group2);
-        Lesson lesson3 = new Lesson(LessonType.PRACTICE, "324", new ScheduleDate(2, 1, 1), group3);
-        Lesson lesson4 = new Lesson(LessonType.SEMINAR, "224", new ScheduleDate(3, 2, 3), group4);
+        Lesson lesson1 = new Lesson(LessonType.LECTURE, "201a", new ScheduleDate(WeekDay.MONDAY, 1, 1), group1);
+        Lesson lesson2 = new Lesson(LessonType.LAB, "201", new ScheduleDate(WeekDay.WEDNESDAY, 3, 3), group2);
+        Lesson lesson3 = new Lesson(LessonType.PRACTICE, "324", new ScheduleDate(WeekDay.TUESDAY, 1, 1), group3);
+        Lesson lesson4 = new Lesson(LessonType.SEMINAR, "224", new ScheduleDate(WeekDay.WEDNESDAY, 2, 3), group4);
         lessonRepository.save(lesson1);
         lessonRepository.save(lesson2);
         lessonRepository.save(lesson3);
         lessonRepository.save(lesson4);
-        postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(2, 2, 2)));
-        postponeLessonRepository.save(new PostponeLesson(lesson4, new ScheduleDate(2, 2, 2)));
-        postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(4, 1, 6)));
+        postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(WeekDay.TUESDAY, 2, 2)));
+        postponeLessonRepository.save(new PostponeLesson(lesson4, new ScheduleDate(WeekDay.TUESDAY, 2, 2)));
+        postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(WeekDay.THURSDAY, 1, 6)));
     }
 
         private void studentAccount() {
@@ -134,21 +134,21 @@ public class StartupData implements CommandLineRunner {
 
             //Lesson
             Lesson lesson1 = new Lesson();
-            lesson1.setDate(new ScheduleDate(1,1,1));
+            lesson1.setDate(new ScheduleDate(WeekDay.MONDAY,1,1));
             lesson1.setPlace("20");
             lesson1.setType(LessonType.LECTURE);
             lesson1.setGroupCourse(groupCourse);
             lessonRepository.save(lesson1);
 
             Lesson lesson3 = new Lesson();
-            lesson3.setDate(new ScheduleDate(3,3,1));
+            lesson3.setDate(new ScheduleDate(WeekDay.WEDNESDAY,3,1));
             lesson3.setPlace("208a");
             lesson3.setType(LessonType.PRACTICE);
             lesson3.setGroupCourse(groupCourse);
             lessonRepository.save(lesson3);
 
             Lesson lesson2 = new Lesson();
-            lesson2.setDate(new ScheduleDate(1,2,1));
+            lesson2.setDate(new ScheduleDate(WeekDay.MONDAY,2,1));
             lesson2.setPlace("20a");
             lesson2.setType(LessonType.PRACTICE);
             lesson2.setGroupCourse(groupCourse);
