@@ -11,4 +11,6 @@ public interface PostponeLessonService {
 
     PostponeLesson postponeLesson(long id, PostponeLesson postponeLesson);
     List<PostponeLesson> getAllRequests();
+    boolean approveRequest(long id);
+    boolean declineRequest(long id);
 }

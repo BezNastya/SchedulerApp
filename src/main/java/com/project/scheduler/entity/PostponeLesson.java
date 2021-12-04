@@ -22,7 +22,7 @@ public class PostponeLesson {
     private long id;
 
     //Коментарі
-    private String description;
+    private String description = "";
 
     //Предмет, що перенесено
     @OneToOne
@@ -39,10 +39,18 @@ public class PostponeLesson {
     //Нове місце(за потреби)
     private String newPlace;
 
+    @Enumerated(EnumType.STRING)
+    private PostponeStatus status = PostponeStatus.PENDING;
+
     public PostponeLesson(Lesson lesson, ScheduleDate newDate){
         this.canceledLesson = lesson;
         this.newDate = newDate;
-        this.description = "Description for postponing";
+    }
+
+    public PostponeLesson(Lesson lesson, ScheduleDate newDate, String description){
+        this.canceledLesson = lesson;
+        this.newDate = newDate;
+        this.description = description;
     }
 
     @Override

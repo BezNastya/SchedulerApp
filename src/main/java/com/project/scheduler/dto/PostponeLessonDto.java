@@ -14,6 +14,8 @@ public class PostponeLessonDto {
     private String teacher;
     private ScheduleDate oldDate;
     private ScheduleDate newDate;
+    private String status;
+    private Long id;
 
     public PostponeLessonDto(PostponeLesson postponeLesson){
         Lesson canceled = postponeLesson.getCanceledLesson();
@@ -23,5 +25,7 @@ public class PostponeLessonDto {
         this.teacher = canceled.getGroupCourse().getTeachers().toString();
         this.oldDate = canceled.getDate();
         this.newDate = postponeLesson.getNewDate();
+        this.status = postponeLesson.getStatus().toString();
+        this.id = postponeLesson.getId();
     }
 }
