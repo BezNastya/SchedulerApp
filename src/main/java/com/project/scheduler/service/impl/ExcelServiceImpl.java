@@ -45,7 +45,7 @@ public class ExcelServiceImpl implements ExcelService {
                 row.createCell(0).setCellValue(lesson.getGroupCourse().getCourse().getName());
                 row.createCell(1).setCellValue(lesson.getDate().getWeek());
                 row.createCell(2).setCellValue(lesson.getDate().getDayOfTheWeek().getDay());
-                row.createCell(3).setCellValue(lesson.getDate().getLessonOrder());
+                row.createCell(3).setCellValue(lesson.getDate().getLessonOrder().getOrder());
                 row.createCell(4).setCellValue(lesson.getType().toString());
             }
 

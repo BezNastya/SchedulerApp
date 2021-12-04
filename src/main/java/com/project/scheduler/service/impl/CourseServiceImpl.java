@@ -153,39 +153,11 @@ courseRepository.deleteById(courseId);
             for (Lesson lesson : allLessonsByWeek) {
                 if (lesson.getDate().getDayOfTheWeek().ordinal() == i) temp.add(lesson);
             }
-            sortC(temp, false);
+            temp.sort(Comparator.comparingInt(o -> o.getDate().getLessonOrder().ordinal()));
+
             allByWeekSorted.add(temp);
         });
         return allByWeekSorted;
     }
 
-    private void sortC(List<Lesson> list, boolean byWeek) {
-        Lesson temp;
-        boolean sorted = false;
-
-        if (byWeek)
-            while (!sorted) {
-                sorted = true;
-                for (int i = 0; i < list.size()-1; i++) {
-                    if (list.get(i).getDate().getDayOfTheWeek().ordinal() > (list.get(i + 1).getDate().getDayOfTheWeek().ordinal())) {
-                        temp = list.get(i);
-                        list.set(i, list.get(i + 1));
-                        list.set(i + 1, temp);
-                        sorted = false;
-                    }
-                }
-            }
-        else
-            while (!sorted) {
-                sorted = true;
-                for (int i = 0; i < list.size()-1; i++) {
-                    if (list.get(i).getDate().getLessonOrder() > (list.get(i + 1).getDate().getLessonOrder())) {
-                        temp = list.get(i);
-                        list.set(i, list.get(i + 1));
-                        list.set(i + 1, temp);
-                        sorted = false;
-                    }
-                }
-            }
-    }
 }

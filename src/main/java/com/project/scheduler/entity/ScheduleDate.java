@@ -16,15 +16,14 @@ public class ScheduleDate {
     @Enumerated(EnumType.ORDINAL)
     WeekDay dayOfTheWeek;
 
-    @Min(0)
-    @JsonProperty("lessonOrder")
-    int lessonOrder;
+    @Enumerated(EnumType.ORDINAL)
+    LessonOrder lessonOrder;
 
     @Min(0)
     @JsonProperty("week")
     int week;
 
-    public ScheduleDate(WeekDay day, int lesson, int week) {
+    public ScheduleDate(WeekDay day, LessonOrder lesson, int week) {
         this.dayOfTheWeek = day;
         this.lessonOrder = lesson;
         this.week = week;
@@ -34,7 +33,7 @@ public class ScheduleDate {
 
     @Override
     public String toString() {
-        return String.format("Week %d Day %s Lesson %d", week, dayOfTheWeek.getDay(), lessonOrder);
+        return String.format("Week %d Day %s Lesson %s", week, dayOfTheWeek.getDay(), lessonOrder.getOrder());
     }
 }
 

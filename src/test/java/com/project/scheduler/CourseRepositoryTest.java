@@ -92,7 +92,6 @@ public class CourseRepositoryTest {
         Course course = new Course(null);
         Set<ConstraintViolation<Course>> constraintViolationSet = validator.validate(course);
         assertFalse(constraintViolationSet.isEmpty());
-        //Assertions.assertThrows(ConstraintViolationException.class, () -> courseRepository.save(course));
     }
 
     @Test

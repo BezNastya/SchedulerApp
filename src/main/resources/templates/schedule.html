@@ -19,7 +19,7 @@
            <div class="input-group-prepend">
                <button class="btn btn-outline-secondary" type="submit">Choose week</button>
            </div>
-           <select class="custom-select" id="inputSelect" name="inputSelect">
+           <select class="custom-select" id="inputSelect" name="inputSelect" onchange="this.form.submit()">
                <option th:each="i : ${#numbers.sequence(1, 15)}"
                        th:value="${i}"
                        th:text="${i}"
@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="les : ${lessonsByDay}">
-                        <td th:text="${les.getDate().getLessonOrder()}">Period</td>
+                        <td th:text="${les.getDate().getLessonOrder().getOrder()}">Period</td>
                         <td th:text="${les.getGroupCourse().getCourse().getName()}">Name</td>
                         <td th:text="${les.getType()}">Type</td>
                         <td th:text="${les.getPlace()}">Place</td>
@@ -63,7 +63,7 @@
 </div>
 
 <form th:align="center" th:action="@{my-lessons/downloadExcel}" th:method="GET">
-    <button type="submit">Download in Excel</button>
+    <button class="btn btn-success" type="submit">Download in Excel</button>
 </form>
 
 </body>

@@ -1,5 +1,7 @@
 package com.project.scheduler.service;
 
+import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.EducationUser;
 import com.project.scheduler.entity.User;
 
 import java.util.List;

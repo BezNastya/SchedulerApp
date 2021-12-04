@@ -1,8 +1,6 @@
 package com.project.scheduler.service.impl;
 
-import com.project.scheduler.entity.GroupCourse;
-import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.Student;
+import com.project.scheduler.entity.*;
 import com.project.scheduler.repository.GroupCourseRepository;
 import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.repository.StudentRepository;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -92,4 +91,23 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.updateTicketNumber(student.getUserId(), ticketNumber);
     }
 
+    @Override
+    public Student addGroupForUser(Long studentId, Course course, byte groupNum) {
+        GroupCourse go = groupCourseRepository.findGroupCourseByCourseAndGroupNum(course, groupNum);
+        Student student = findById(studentId);
+        Set<GroupCourse> groupCourses = student.getGroupCourse();
+        groupCourses.add(go);
+        student.setGroupCourse(groupCourses);
+        return save(student);
+    }
+
+    @Override
+    public Student deleteGroupForUser(Long studentId, Course course, byte groupNum) {
+        GroupCourse go = groupCourseRepository.findGroupCourseByCourseAndGroupNum(course, groupNum);
+        Student student = findById(studentId);
+        Set<GroupCourse> groupCourses = student.getGroupCourse();
+        groupCourses.remove(go);
+        student.setGroupCourse(groupCourses);
+        return save(student);
+    }
 }

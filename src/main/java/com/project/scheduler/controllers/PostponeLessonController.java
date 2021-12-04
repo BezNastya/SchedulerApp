@@ -42,7 +42,7 @@ public class PostponeLessonController {
         ScheduleDate scheduleDate = new ScheduleDate();
         scheduleDate.setWeek(week);
         //scheduleDate.setDayOfTheWeek(day);
-        scheduleDate.setLessonOrder(lesson);
+//        scheduleDate.setLessonOrder(lesson);
         postponeLesson.setNewDate(scheduleDate);
         postponeLessonService.postponeLesson(id, postponeLesson);
         return "/postponeLesson";
