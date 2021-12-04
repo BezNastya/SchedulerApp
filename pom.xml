@@ -171,6 +171,7 @@
                     <useDefaultDelimiters>false</useDefaultDelimiters>
                     <nonFilteredFileExtensions>
                         <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
                     </nonFilteredFileExtensions>
                 </configuration>
             </plugin>

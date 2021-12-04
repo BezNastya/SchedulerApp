@@ -10,15 +10,7 @@
     <link th:href="@{resources/styles/button.css}" rel="stylesheet" />
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="#">Home</a>
-            <a class="nav-item nav-link active" href="#">Schedule</a>
-            <a class="nav-item nav-link" th:href="@{/user}">User panel</a>
-        </div>
-    </div>
-</nav>
+<div th:insert="fragments/navigation :: navbar"></div>
 <div class="container">
     <div class="row">
        <form th:action="@{/my-lessons}"
