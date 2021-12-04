@@ -13,12 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Profile("dev")
 @Component
 public class StartupData implements CommandLineRunner {
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
@@ -144,7 +146,7 @@ public class StartupData implements CommandLineRunner {
             lesson3.setType(LessonType.PRACTICE);
             lesson3.setGroupCourse(groupCourse);
             lessonRepository.save(lesson3);
-            
+
             Lesson lesson2 = new Lesson();
             lesson2.setDate(new ScheduleDate(1,2,1));
             lesson2.setPlace("20a");
