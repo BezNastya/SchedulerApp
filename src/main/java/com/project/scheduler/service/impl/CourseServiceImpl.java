@@ -5,6 +5,7 @@ import com.project.scheduler.advice.TrackParameters;
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Lesson;
+import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -68,9 +68,7 @@ courseRepository.deleteById(courseId);
 
     @Override
     public Set<GroupCourse> findAllGroupsForCourse(Course course) {
-        return groupRepository.findAllGroupsCourseByCourse(course)
-                .stream()
-                .collect(Collectors.toSet());
+        return new HashSet<>(groupRepository.findAllGroupsCourseByCourse(course));
     }
 
     @Override
@@ -108,13 +106,8 @@ courseRepository.deleteById(courseId);
     }
 
     @Override @TrackParameters
-    public List<GroupCourse> findGroupCoursesByStudentId(Long id) {
-        return groupRepository.findGroupCoursesByStudentId(id);
-    }
-
-    @Override
-    public List<GroupCourse> findGroupCoursesByTeacherId(Long id) {
-        return groupRepository.findGroupCoursesByTeacherId(id);
+    public List<GroupCourse> findGroupCoursesByEducationUserId(Long id) {
+        return groupRepository.findGroupCoursesByEducationUserId(id);
     }
 
     @Override
@@ -130,6 +123,22 @@ courseRepository.deleteById(courseId);
     }
 
     @Override
+    public List<Lesson> findLessonsByEducationUserId(long id) {
+        List<GroupCourse> groupCourseList =
+                groupRepository.findGroupCoursesByEducationUserId(id);
+        List<Lesson> allLessonsList = new ArrayList<>();
+        groupCourseList.forEach((groupCourse) ->
+                allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
+        return allLessonsList;
+    }
+
+    @Override
+    public List<List<Lesson>> findLessonsForWeekByEducationUserId(int week, long id) {
+        List<Lesson> allLessonsList = findLessonsByEducationUserId(id);
+        return findLessonsByWeek(week, allLessonsList);
+    }
+
+    @Override
     public List<List<Lesson>> findLessonsByWeek(int week, List<Lesson> lessons){
         List<Lesson> allLessonsByWeek = new ArrayList<>();
         List<List<Lesson>> allByWeekSorted = new ArrayList<>();
@@ -137,9 +146,9 @@ courseRepository.deleteById(courseId);
             if (lesson.getDate().getWeek() == week) allLessonsByWeek.add(lesson);
         });
 
-        sortC(allLessonsByWeek, true);
+        allLessonsByWeek.sort(Comparator.comparingInt(o -> o.getDate().getDayOfTheWeek().ordinal()));
 
-        IntStream.range(1, 7).forEach(i -> {
+        IntStream.range(0, 6).forEach(i -> {
             List<Lesson> temp = new ArrayList<>();
             for (Lesson lesson : allLessonsByWeek) {
                 if (lesson.getDate().getDayOfTheWeek().ordinal() == i) temp.add(lesson);

@@ -4,7 +4,6 @@ import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.service.CourseService;
-import com.project.scheduler.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +21,10 @@ public class CourseController {
     Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     private final CourseService courseService;
-    private final StudentService studentService;
 
     @Autowired
-    public CourseController(CourseService courseService, StudentService studentService){
+    public CourseController(CourseService courseService){
         this.courseService = courseService;
-        this.studentService = studentService;
     }
 
     @Operation(summary = "Get all the courses")
@@ -114,7 +111,7 @@ public class CourseController {
     @Operation(summary = "Get all groupCourses by student")
     @GetMapping("/{id}/group")
     public List<GroupCourse> findAllGroupCourseByStudent(@PathVariable Long id){
-        return courseService.findGroupCoursesByStudentId(id);
+        return courseService.findGroupCoursesByEducationUserId(id);
     }
 
 }

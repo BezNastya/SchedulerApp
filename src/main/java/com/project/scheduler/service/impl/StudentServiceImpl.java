@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    private StudentRepository studentRepository;
-    private GroupCourseRepository groupCourseRepository;
-    private LessonRepository lessonRepository;
-    private CourseService courseService;
+
+    private final StudentRepository studentRepository;
+    private final GroupCourseRepository groupCourseRepository;
+    private final LessonRepository lessonRepository;
+    private final CourseService courseService;
 
     @Autowired
     public StudentServiceImpl(StudentRepository studentRepository,
@@ -92,20 +92,4 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.updateTicketNumber(student.getUserId(), ticketNumber);
     }
 
-
-    @Override
-    public List<Lesson> findLessonsByStudent(long studentId) {
-        List<GroupCourse> groupCourseList =
-                groupCourseRepository.findGroupCoursesByStudentId(studentId);
-        List<Lesson> allLessonsList = new ArrayList<>();
-        groupCourseList.forEach((groupCourse) ->
-                allLessonsList.addAll(lessonRepository.findLessonsByGroupCourse(groupCourse)));
-        return allLessonsList;
-    }
-
-    @Override
-    public List<List<Lesson>> findLessonsByWeekStudent(int week, long studentId) {
-        List<Lesson> allLessonsList = findLessonsByStudent(studentId);
-        return courseService.findLessonsByWeek(week, allLessonsList);
-    }
 }

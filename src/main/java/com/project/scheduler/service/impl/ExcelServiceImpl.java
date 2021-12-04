@@ -1,6 +1,7 @@
 package com.project.scheduler.service.impl;
 
 import com.project.scheduler.entity.Lesson;
+import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.ExcelService;
 import com.project.scheduler.service.StudentService;
 import org.apache.poi.ss.usermodel.Row;
@@ -20,7 +21,7 @@ import java.util.List;
 public class ExcelServiceImpl implements ExcelService {
 
     @Autowired
-    StudentService studentService;
+    CourseService courseService;
 
 
     @Override
@@ -36,7 +37,7 @@ public class ExcelServiceImpl implements ExcelService {
             headerRow.createCell(3).setCellValue("Lesson order");
             headerRow.createCell(4).setCellValue("Type");
 
-            List<Lesson> lessons = studentService.findLessonsByStudent(id);
+            List<Lesson> lessons = courseService.findLessonsByEducationUserId(id);
 
             int rowIdx = 1;
             for (Lesson lesson : lessons) {

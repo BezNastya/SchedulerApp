@@ -22,10 +22,4 @@ public interface TeacherService {
     //PostponeLesson postponeLesson(String description, Lesson canceledLesson,
               //                    ScheduleDate newDate, String newPlace);
     //Schedule getTeacherLessons(long id);
-
-    List<Lesson> findLessonsByTeacher(Teacher teacher);
-
-
-    //schedule
-    List<List<Lesson>> findLessonsByWeekTeacher(final int week, final Teacher teacher);
 }
