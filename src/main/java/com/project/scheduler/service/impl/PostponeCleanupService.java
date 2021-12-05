@@ -2,6 +2,7 @@ package com.project.scheduler.service.impl;
 
 import com.project.scheduler.controllers.AdminController;
 import com.project.scheduler.entity.PostponeLesson;
+import com.project.scheduler.entity.PostponeStatus;
 import com.project.scheduler.service.PostponeLessonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,8 @@ public class PostponeCleanupService {
     @Autowired
     private PostponeLessonService postponeLessonService;
 
-//    @Scheduled(cron = "0 15 15 ? * SUN")
-    @Scheduled(fixedDelay = 604800000)
+    @Scheduled(cron = "0 41 18 ? * SUN")
+//    @Scheduled(fixedDelay = 604800000)
     public void cleanPostponeRepository() {
         LocalDate now = LocalDate.now();
         List<PostponeLesson> requests = postponeLessonService.getAllRequests();
@@ -33,7 +34,7 @@ public class PostponeCleanupService {
         for (PostponeLesson r : requests) {
             LocalDate create = r.getCreated().toLocalDate();
             long between = Duration.between(create.atStartOfDay(), now.atStartOfDay()).toDays();
-            if (between > 7) {
+            if (between > 7 && !r.getStatus().equals(PostponeStatus.PENDING)) {
                 idsToDelete.add(r.getId());
             }
         }
