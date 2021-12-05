@@ -110,4 +110,13 @@ public class StudentServiceImpl implements StudentService {
         student.setGroupCourse(groupCourses);
         return save(student);
     }
+
+    @Override
+    public Student deleteGroupForUserByGroupCourse(Long studentId, GroupCourse groupCourse) {
+        Student student = findById(studentId);
+        Set<GroupCourse> groupCourses = student.getGroupCourse();
+        groupCourses.remove(groupCourse);
+        student.setGroupCourse(groupCourses);
+        return save(student);
+    }
 }

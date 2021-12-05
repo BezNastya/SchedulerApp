@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My groups</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div th:insert="fragments/navigation :: navbar"></div>
+    <div class="container">
+        <div class="row my-3">
+            <div class="col-8 offset-2">
+                <h2 class="text-center">My courses</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 offset-2">
+                <table class="table table-bordered" style="width: 100%">
+                    <thead class="thead-light">
+                    <tr>
+                        <th style="width: 60%">Name</th>
+                        <th style="width: 15%">Group</th>
+                        <th style="width: 25%">Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="groupCourse : ${groupCourseList}">
+                        <td th:text="${groupCourse.getCourse().getName()}">Name</td>
+                        <td th:text="${groupCourse.getGroupNum()}">Group</td>
+                        <td>
+                            <a type="button" class="btn btn-outline-danger"
+                               th:href="@{/delete-group-course(id = ${groupCourse.getId()})}">
+                            Delete
+                            </a>&emsp;
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

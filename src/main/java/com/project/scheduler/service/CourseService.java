@@ -34,4 +34,6 @@ public interface CourseService {
     List<Lesson> findLessonsByEducationUserId(long id);
 
     List<Lesson> findAllLessons();
+
+    List<Course> findNotAttendedCourses(final Long id);
 }

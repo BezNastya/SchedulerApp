@@ -123,6 +123,13 @@ courseRepository.deleteById(courseId);
     }
 
     @Override
+    public List<Course> findNotAttendedCourses(Long id) {
+        List<GroupCourse> groupCourses = findGroupCoursesByEducationUserId(id);
+
+        return null;
+    }
+
+    @Override
     public List<Lesson> findLessonsByEducationUserId(long id) {
         List<GroupCourse> groupCourseList =
                 groupRepository.findGroupCoursesByEducationUserId(id);

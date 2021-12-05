@@ -1,9 +1,6 @@
 package com.project.scheduler.service;
 
-import com.project.scheduler.entity.Course;
-import com.project.scheduler.entity.EducationUser;
-import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.Student;
+import com.project.scheduler.entity.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +20,6 @@ public interface StudentService {
 
     Student addGroupForUser(Long studentId, Course course, byte groupNum);
     Student deleteGroupForUser(Long studentId, Course course, byte groupNum);
+    Student deleteGroupForUserByGroupCourse(Long studentId, GroupCourse groupCourse);
 }
+
