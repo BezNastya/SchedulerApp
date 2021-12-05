@@ -6,9 +6,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
 @Entity
 @Getter
@@ -41,6 +44,9 @@ public class PostponeLesson {
 
     @Enumerated(EnumType.STRING)
     private PostponeStatus status = PostponeStatus.PENDING;
+
+    @CreationTimestamp
+    private Date created;
 
     public PostponeLesson(Lesson lesson, ScheduleDate newDate){
         this.canceledLesson = lesson;

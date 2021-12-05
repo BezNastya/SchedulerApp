@@ -13,4 +13,5 @@ public interface PostponeLessonService {
     List<PostponeLesson> getAllRequests();
     boolean approveRequest(long id);
     boolean declineRequest(long id);
+    void deleteRequest(long id);
 }
