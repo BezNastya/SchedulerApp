@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class Lesson {
+public class Lesson implements Comparable<Lesson>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,5 +45,16 @@ public class Lesson {
         this.type = type;
         this.place = place;
         this.date = date;
+    }
+
+    @Override
+    public int compareTo(Lesson that) {
+        int compareDates = this.date.compareTo(that.date);
+        if (compareDates != 0)
+            return compareDates;
+        int compareNames = this.groupCourse.getCourse().getName().compareTo(that.groupCourse.getCourse().getName());
+        if (compareNames != 0)
+            return compareNames;
+        return Integer.compare(this.groupCourse.getGroupNum(), that.groupCourse.getGroupNum());
     }
 }

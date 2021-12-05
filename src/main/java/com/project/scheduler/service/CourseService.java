@@ -1,12 +1,10 @@
 package com.project.scheduler.service;
 
-import com.project.scheduler.entity.Course;
-import com.project.scheduler.entity.GroupCourse;
-import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.Student;
+import com.project.scheduler.entity.*;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,6 +30,8 @@ public interface CourseService {
 
     List<List<Lesson>> findLessonsForWeekByEducationUserId(int week, long id);
     List<Lesson> findLessonsByEducationUserId(long id);
+
+    Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id);
 
     List<Lesson> findAllLessons();
 

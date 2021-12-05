@@ -146,6 +146,13 @@ public class StartupData implements CommandLineRunner {
             lesson1.setGroupCourse(groupCourse);
             lessonRepository.save(lesson1);
 
+            Lesson lessonOnTheSameTime = new Lesson();
+            lessonOnTheSameTime.setDate(new ScheduleDate(WeekDay.MONDAY,LessonOrder.FIRST,1));
+            lessonOnTheSameTime.setPlace("302");
+            lessonOnTheSameTime.setType(LessonType.PRACTICE);
+            lessonOnTheSameTime.setGroupCourse(groupCourse);
+            lessonRepository.save(lessonOnTheSameTime);
+
             Lesson lesson3 = new Lesson();
             lesson3.setDate(new ScheduleDate(WeekDay.WEDNESDAY,LessonOrder.THIRD,1));
             lesson3.setPlace("208a");

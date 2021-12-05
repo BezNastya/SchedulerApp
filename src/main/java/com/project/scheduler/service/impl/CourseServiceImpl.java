@@ -5,7 +5,7 @@ import com.project.scheduler.advice.TrackParameters;
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.Teacher;
+import com.project.scheduler.entity.WeekDay;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
@@ -16,7 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -145,25 +146,23 @@ courseRepository.deleteById(courseId);
         return findLessonsByWeek(week, allLessonsList);
     }
 
+    public Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id) {
+        List<Lesson> lessonsList = findLessonsByEducationUserId(id).stream().filter(l -> l.getDate().getWeek() == week).collect(Collectors.toList());
+        Map<WeekDay, List<Lesson>> result = new TreeMap<>();
+        Stream.of(WeekDay.values()).forEach((weekDay -> result.put(weekDay, lessonsList.stream().filter(l -> l.getDate().getDayOfTheWeek() == weekDay).collect(Collectors.toList()))));
+        return result;
+    }
+
     @Override
     public List<List<Lesson>> findLessonsByWeek(int week, List<Lesson> lessons){
-        List<Lesson> allLessonsByWeek = new ArrayList<>();
+        List<Lesson> allLessonsByWeek = lessons.stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
         List<List<Lesson>> allByWeekSorted = new ArrayList<>();
-        lessons.forEach((lesson) -> {
-            if (lesson.getDate().getWeek() == week) allLessonsByWeek.add(lesson);
-        });
 
-        allLessonsByWeek.sort(Comparator.comparingInt(o -> o.getDate().getDayOfTheWeek().ordinal()));
-
-        IntStream.range(0, 6).forEach(i -> {
-            List<Lesson> temp = new ArrayList<>();
-            for (Lesson lesson : allLessonsByWeek) {
-                if (lesson.getDate().getDayOfTheWeek().ordinal() == i) temp.add(lesson);
-            }
-            temp.sort(Comparator.comparingInt(o -> o.getDate().getLessonOrder().ordinal()));
-
+        Stream.of(WeekDay.values()).forEach(w -> {
+            List<Lesson> temp = allLessonsByWeek.stream().filter(lesson -> lesson.getDate().getDayOfTheWeek() == w).sorted().collect(Collectors.toList());
             allByWeekSorted.add(temp);
         });
+
         return allByWeekSorted;
     }
 

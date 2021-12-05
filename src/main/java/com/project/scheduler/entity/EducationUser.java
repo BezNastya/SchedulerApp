@@ -27,7 +27,7 @@ public class EducationUser extends User {
     @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "groupCourse_user",
+            name = "GROUP_USER",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "groupCourse_id"))
     @ToString.Exclude

@@ -32,16 +32,6 @@ create table GROUP_COURSE
     course_id int
 );
 
-create table GROUP_COURSE_STUDENT
-(
-    user_id int,
-    group_course_id int
-);
-create table GROUP_COURSE_TEACHER
-(
-    user_id int,
-    group_course_id int
-);
 create table LESSON
 (
     lesson_id int,

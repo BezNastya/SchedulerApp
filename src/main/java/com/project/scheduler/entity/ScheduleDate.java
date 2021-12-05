@@ -11,7 +11,7 @@ import javax.validation.constraints.Min;
 
 @Embeddable
 @Setter @Getter
-public class ScheduleDate {
+public class ScheduleDate implements Comparable<ScheduleDate>{
 
     @Enumerated(EnumType.ORDINAL)
     WeekDay dayOfTheWeek;
@@ -34,6 +34,17 @@ public class ScheduleDate {
     @Override
     public String toString() {
         return String.format("Week %d Day %s Lesson %s", week, dayOfTheWeek.getDay(), lessonOrder.getOrder());
+    }
+
+    @Override
+    public int compareTo(ScheduleDate that) {
+        int compareWeeks = Integer.compare(this.week,that.week);
+        if (compareWeeks != 0)
+            return compareWeeks;
+        int compareDays = this.dayOfTheWeek.compareTo(that.dayOfTheWeek);
+        if (compareDays != 0)
+            return compareDays;
+        return this.getLessonOrder().compareTo(that.getLessonOrder());
     }
 }
 
