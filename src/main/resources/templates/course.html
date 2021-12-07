@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="title" id="exampleModalLabel">Add new course</h5>
+        </div>
+        <form id="addCurse" method="post" th:action="@{/course/add}">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="name" >Name</span>
+                </div>
+                <input name="name" type="text" class="form-control"
+                       placeholder="Computing" th:value="${data[0]}"
+                       aria-label="Surname" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="numG">Number of groups</span>
+                </div>
+                <input name="name" type="text" class="form-control"
+                       placeholder="3"
+                       aria-label="numG" th:value="${data[1]}"
+                       aria-describedby="basic-addon1">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="this.form.reset();">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary ">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

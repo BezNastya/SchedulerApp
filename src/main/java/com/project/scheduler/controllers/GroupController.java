@@ -1,5 +1,6 @@
 package com.project.scheduler.controllers;
 
+import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.service.CourseService;
@@ -7,6 +8,7 @@ import com.project.scheduler.service.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -25,10 +27,18 @@ public class GroupController {
     @GetMapping("/view-new-groups")
     public String addGroupCourse(Principal principal, Model model) {
         Student student = studentService.findByEmail(principal.getName()).get();
-        List<GroupCourse> groupCourseList = courseService.findGroupCoursesByEducationUserId(student.getUserId());
-
-        model.addAttribute("groupCourseList", groupCourseList);
+//        List<GroupCourse> groupCourseList = courseService.findGroupCoursesByEducationUserId(student.getUserId());
+        List<Course> courses = courseService.findNotAttendedCourses(student.getUserId());
+        model.addAttribute("courses", courses);
+        model.addAttribute("courseService", courseService);
         return "addGroup";
+    }
+
+    @GetMapping("/add-group")
+    public String addGroup(Principal principal, @RequestParam(name="inputSelect") int group, @ModelAttribute("course") Course course) {
+        Student student = studentService.findByEmail(principal.getName()).get();
+        studentService.addGroupForUser(student.getUserId(), course, (byte) group);
+        return "redirect:/view-new-groups";
     }
 
 //    @GetMapping("/add-group-course")
