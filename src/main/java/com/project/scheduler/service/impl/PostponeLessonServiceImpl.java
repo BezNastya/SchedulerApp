@@ -45,9 +45,6 @@ public class PostponeLessonServiceImpl implements PostponeLessonService {
             postponeLessonRepository.save(postpone);
             Lesson canceled = postpone.getCanceledLesson();
             canceled.setDate(postpone.getNewDate());
-            if (StringUtils.isNotBlank(postpone.getNewPlace())) {
-                canceled.setPlace(postpone.getNewPlace());
-            }
             lessonRepository.save(canceled);
             return true;
         }

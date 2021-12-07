@@ -43,14 +43,20 @@ public class PostponeViewController {
     @GetMapping("/approve")
     public String approveRequest(@RequestParam Long id){
         if (postponeLessonService.approveRequest(id))
-            return "approve";
+            return "redirect:/requests";
         return "errorReq";
     }
 
     @GetMapping("/decline")
     public String declineRequest(@RequestParam Long id){
         if (postponeLessonService.declineRequest(id))
-            return "decline";
+            return "redirect:/requests";
         return "errorReq";
+    }
+
+    @GetMapping("/delete")
+    public String deleteRequest(@RequestParam Long id){
+        postponeLessonService.deleteRequest(id);
+        return "redirect:/requests";
     }
 }

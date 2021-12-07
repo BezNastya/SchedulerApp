@@ -65,6 +65,7 @@ public class UserScheduleController {
                     courseService.findLessonsForWeekByEducationUserId(week, user.getUserId()));
             model.addAttribute("week", week);
         }
+        model.addAttribute("user", user);
         return "schedule";
     }
 }

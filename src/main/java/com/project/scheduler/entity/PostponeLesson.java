@@ -29,7 +29,7 @@ public class PostponeLesson {
 
     //Предмет, що перенесено
     @OneToOne
-    @JoinColumn(name = "canceledLesson", nullable = false)
+    @JoinColumn(nullable = false)
     @JsonIgnore
     @ToString.Exclude
     private Lesson canceledLesson;
@@ -38,9 +38,6 @@ public class PostponeLesson {
     @NotNull
     @Embedded
     private ScheduleDate newDate;
-
-    //Нове місце(за потреби)
-    private String newPlace;
 
     @Enumerated(EnumType.STRING)
     private PostponeStatus status = PostponeStatus.PENDING;
