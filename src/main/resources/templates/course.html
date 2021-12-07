@@ -11,37 +11,95 @@
 <body>
 
 <div class="container">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="title" id="exampleModalLabel">Add new course</h5>
+    <div class="row mt-4">
+        <div class="col-6">
+            <form id="addCourse" method="POST" th:action="@{/course/add}">
+                <div class="form-row mb-3">
+                    <div class="col-9">
+                        <label for="name">Course name</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               placeholder="Computing"
+                               name="courseName">
+                    </div>
+                    <div class="col-3">
+                        <label for="grNum">Group number</label>
+                        <input type="text"
+                               class="form-control"
+                               id="grNum"
+                               placeholder="3"
+                               name="grNum">
+                    </div>
+                </div>
+
+                <div class="form-group d-flex justify-content-between">
+                    <button type="submit"
+                            class="btn btn-primary ">Save</button>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            onclick="this.form.reset()">Cancel</button>
+                </div>
+            </form>
         </div>
-        <form id="addCurse" method="post" th:action="@{/course/add}">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="name" >Name</span>
+        <div class="col-6">
+            <div class="row my-2">
+                <div class="col">
+                    <label for="myInput"></label>
+                    <input type="text"
+                           id="myInput"
+                           onkeyup="myFunction()"
+                           placeholder="Course">
                 </div>
-                <input name="name" type="text" class="form-control"
-                       placeholder="Computing" th:value="${data[0]}"
-                       aria-label="Surname" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="numG">Number of groups</span>
-                </div>
-                <input name="name" type="text" class="form-control"
-                       placeholder="3"
-                       aria-label="numG" th:value="${data[1]}"
-                       aria-describedby="basic-addon1">
             </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="this.form.reset();">
-                    Cancel
-                </button>
-                <button type="submit" class="btn btn-primary ">Save</button>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered" style="width: 100%">
+                        <thead class="thead-light">
+                        <tr>
+                            <th style="width: 75%">Name</th>
+                            <th style="width: 25%">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="course : ${courses}">
+                            <td class="items">
+                                <a th:text="${course.getName()}"></a>
+                            </td>
+                            <td>
+                                <a type="button" class="btn btn-outline-danger"
+                                   th:href="@{/course/delete(id = ${course.getId()})}">
+                                    Delete
+                                </a>&emsp;
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 </body>
+
+<script th:inline="javascript">
+    function myFunction() {
+        let input, filter, items, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        items = document.getElementsByClassName("items");
+
+        for (i = 0; i < items.length; i++) {
+            a = items[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                items[i].parentElement.style.display = "";
+            } else {
+                items[i].parentElement.style.display = "none";
+            }
+        }
+    }
+</script>
+
 </html>

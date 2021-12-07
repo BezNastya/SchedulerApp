@@ -13,8 +13,7 @@ import java.util.Set;
 
 @Repository
 public interface GroupCourseRepository extends JpaRepository<GroupCourse, Long> {
-    @Transactional
-    @Modifying
+
     @Query(value = "SELECT u FROM GroupCourse u WHERE u.course = :course")
     List<GroupCourse> findAllGroupsCourseByCourse(@Param(value = "course") Course course);
 
