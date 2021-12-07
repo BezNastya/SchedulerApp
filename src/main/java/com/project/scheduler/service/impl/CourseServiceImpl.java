@@ -126,8 +126,15 @@ courseRepository.deleteById(courseId);
     @Override
     public List<Course> findNotAttendedCourses(Long id) {
         List<GroupCourse> groupCourses = findGroupCoursesByEducationUserId(id);
-
-        return null;
+        List<Course> courses = new ArrayList<>();
+        groupCourses.forEach((groupCourse -> {
+            if (!courses.contains(groupCourse.getCourse()))
+                courses.add(groupCourse.getCourse());
+        }
+        ));
+        List<Course> notAtt = findAll();
+        notAtt.removeAll(courses);
+        return notAtt;
     }
 
     @Override

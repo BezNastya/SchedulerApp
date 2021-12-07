@@ -11,23 +11,35 @@
 <body>
 
 <div class="container">
+    <br>
     <div class="row">
       <div class="col-4 offset-8">
+        <label for="myInput"></label>
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Course">
       </div>
     </div>
+    <br>
   <div class="row">
     <div class="col-8 offset-2">
-      <ul id="myUL">
-        <li><a href="#">Adele</a></li>
-        <li><a href="#">Agnes</a></li>
+      <ul id="myUL" class="list-group">
+        <li th:each="course : ${courses}" class="list-group-item list-group-item-action">
+            <a onclick="show()" th:text="${course.getName()}"></a>
 
-        <li><a href="#">Billy</a></li>
-        <li><a href="#">Bob</a></li>
-
-        <li><a href="#">Calvin</a></li>
-        <li><a href="#">Christina</a></li>
-        <li><a href="#">Cindy</a></li>
+            <form th:action="@{/add-group}" id="groups" th:object="${course}"
+                  method="get"
+                  class="col-4 offset-8 input-group my-2" style="display: none">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary" type="submit">Choose week</button>
+              </div>
+              <select class="custom-select" id="inputSelect" name="inputSelect" onchange="this.form.submit()">
+                <option th:each="i : ${courseService.findAllGroupsForCourse(course)}"
+                        th:value="${i.getGroupNum()}"
+                        th:text="${i.getGroupNum()}"
+                >
+                </option>
+              </select>
+            </form>
+        </li>
       </ul>
     </div>
   </div>
@@ -51,6 +63,16 @@
       } else {
         li[i].style.display = "none";
       }
+    }
+  }
+
+  function show() {
+    // let message = [[${c}]];
+    let x = document.getElementById("groups");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
     }
   }
 </script>
