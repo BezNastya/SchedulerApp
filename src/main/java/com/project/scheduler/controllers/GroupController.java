@@ -3,9 +3,11 @@ package com.project.scheduler.controllers;
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Student;
+import com.project.scheduler.entity.User;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.StudentService;
+import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,27 +22,31 @@ import java.util.List;
 public class GroupController {
     private final StudentService studentService;
     private final CourseService courseService;
+    private final UserService userService;
 
-    public GroupController(StudentService studentService, CourseService courseService) {
+    public GroupController(StudentService studentService, CourseService courseService, UserService userService) {
         this.studentService = studentService;
         this.courseService = courseService;
+        this.userService = userService;
     }
 
-    @GetMapping("/view-new-groups")
+    @GetMapping("/new-groups")
     public String addGroupCourse(Principal principal, Model model) {
-        Student student = studentService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
-//        List<GroupCourse> groupCourseList = courseService.findGroupCoursesByEducationUserId(student.getUserId());
-        List<Course> courses = courseService.findNotAttendedCourses(student.getUserId());
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+        List<Course> courses = courseService.findNotAttendedCourses(user.getUserId());
         model.addAttribute("courses", courses);
+        model.addAttribute("user", user);
         model.addAttribute("courseService", courseService);
+        Course course = new Course();
+        model.addAttribute("curr", course);
         return "addGroup";
     }
 
-    @GetMapping("/add-group")
+    @GetMapping("/new-groups/add")
     public String addGroup(Principal principal, @RequestParam(name="inputSelect") int group, @ModelAttribute("course") Course course) {
         Student student = studentService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         studentService.addGroupForUser(student.getUserId(), course, (byte) group);
-        return "redirect:/view-new-groups";
+        return "redirect:/new-groups";
     }
 
 //    @GetMapping("/add-group-course")
@@ -50,22 +56,23 @@ public class GroupController {
 
     // TODO Add the summary
     @Operation(summary = "")
-    @GetMapping("/view-my-groups")
+    @GetMapping("/my-groups")
     public String viewGroups(Principal principal, Model model) {
-        Student student = studentService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
-        List<GroupCourse> groupCourseList = courseService.findGroupCoursesByEducationUserId(student.getUserId());
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+        List<GroupCourse> groupCourseList = courseService.findGroupCoursesByEducationUserId(user.getUserId());
         model.addAttribute("groupCourseList", groupCourseList);
+        model.addAttribute("user", user);
         return "myGroups";
     }
 
     // TODO Add the summary
     @Operation(summary = "")
-    @GetMapping("/delete-group-course")
+    @GetMapping("/my-groups/delete-group")
     public String deleteGroupCourse(Principal principal, @RequestParam Long id){
         Student student = studentService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         studentService.deleteGroupForUserByGroupCourse(
                 student.getUserId(),
                 courseService.findGroupById(id));
-        return "redirect:/view-my-groups";
+        return "redirect:/my-groups";
     }
 }

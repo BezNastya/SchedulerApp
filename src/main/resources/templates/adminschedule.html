@@ -23,6 +23,7 @@
                <option th:each="i : ${#numbers.sequence(1, 15)}"
                        th:value="${i}"
                        th:text="${i}"
+                       th:selected="${i==week}"
                        >
                </option>
            </select>
@@ -33,84 +34,88 @@
             <h1 th:text="'Week ' + ${week}" class="text-center"></h1>
         </div>
     </div>
-    <form id="addLesson" method="POST" th:action="@{/admin-lessons/add}">
-    <div class="form-row mb-3">
-        <div class="col-1">
-            <label >Day</label>
-            <select name="day">
-                <option th:each="lessontyp : ${T(com.project.scheduler.entity.WeekDay).values()}"
-                        th:value="${lessontyp}" th:text="${lessontyp}"></option>
-            </select>
-        </div>
-        <div class="col-1">
-            <label > Order</label>
-            <select name="order">
-                <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonOrder).values()}"
-                        th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
-            </select>
-        </div>
-        <div class="col-1">
-            <label for="week">Week</label>
-            <input type="number"
-                   class="form-control"
-                   id="week"
-                   value="1"
-                   name="week">
-        </div>
-        <div class="col-3">
-            <label for="place">Place</label>
-            <input type="text"
-                   class="form-control"
-                   id="place"
-                   value="209a"
-                   name="place">
-        </div>
-
-        <div class="col-1">
-            <label>Type</label>
-            <select name="type">
-                <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonType).values()}"
-                        th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
-            </select>
-        </div>
-        <div class="col-1">
-            <label for="grNum">Group</label>
-            <input type="number"
-                   class="form-control"
-                   id="grNum"
-                   value="3"
-                   name="grNum">
-        </div>
-        <button type="submit" class="btn btn-outline-success btn-sm">Add lesson</button>
-
-
-    </div>
-    </form>
     <div class="row">
-        <div class="col-8 offset-2" th:each="lessonsByDay : ${lessonsByWeek}">
-            <div >
+        <div class="col-8 offset-2">
+            <form id="addLesson" method="POST" th:action="@{/admin-lessons/add}">
+            <div class="form-row mb-3">
+                <div class="col-2">
+                    <label >Day</label>
+                    <select name="day">
+                        <option th:each="lessontyp : ${T(com.project.scheduler.entity.WeekDay).values()}"
+                                th:value="${lessontyp}" th:text="${lessontyp}"></option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label > Order</label>
+                    <select name="order">
+                        <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonOrder).values()}"
+                                th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
+                    </select>
+                </div>
+                <div class="col-1">
+                    <label for="week">Week</label>
+                    <input type="number"
+                           class="form-control"
+                           id="week"
+                           value="1"
+                           name="week">
+                </div>
+                <div class="col-2">
+                    <label for="place">Place</label>
+                    <input type="text"
+                           class="form-control"
+                           id="place"
+                           value="209a"
+                           name="place">
+                </div>
+
+                <div class="col-2">
+                    <label>Type</label>
+                    <select name="type">
+                        <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonType).values()}"
+                                th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
+                    </select>
+                </div>
+                <div class="col-1">
+                    <label for="grNum">Group</label>
+                    <input type="number"
+                           class="form-control"
+                           id="grNum"
+                           value="3"
+                           name="grNum">
+                </div>
+                <button type="submit" class="btn btn-outline-success btn-sm">Add lesson</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div>
 
                 <table class="table table-bordered " style="width:100%">
                     <thead class="thead-light">
                     <tr>
-                        <th style="width:20%">Period</th>
-                        <th style="width:35%">Name</th>
-                        <th style="width:20%">Type</th>
-                        <th style="width:15%">Place</th>
+                        <th style="width:15%">Period</th>
+                        <th style="width:25%">Name</th>
+                        <th style="width:15%">Type</th>
+                        <th style="width:10%">Place</th>
                         <th style="width:10%">Group</th>
+                        <th style="width:25%">Action</th>
+
                     </tr>
                     </thead>
                     <tbody>
-                    <tr >
+                    <tr th:each="lessonsByDay : ${lessonsByWeek}">
                         <td th:text="${lessonsByDay.getDate().getLessonOrder().getOrder()}">Period</td>
                         <td th:text="${lessonsByDay.getGroupCourse().getCourse().getName()}">Name</td>
                         <td th:text="${lessonsByDay.getType()}">Type</td>
                         <td th:text="${lessonsByDay.getPlace()}">Place</td>
                         <td th:text="${lessonsByDay.getGroupCourse().getGroupNum()}">Group</td>
                         <td><a type="button" class="btn btn-outline-danger"
-                               th:href="@{/admin-lessons/delete(id = ${lessonsByDay.getLessonId()})}">Delete</a>&emsp;</td>
-                        <td><a type="button" class="btn btn-outline-secondary"
-                               th:href="@{/admin-lessons/edit(id = ${lessonsByDay.getLessonId()})}">Edit</a></td>
+                               th:href="@{/admin-lessons/delete(id = ${lessonsByDay.getLessonId()})}">Delete</a>&emsp;
+                            <button type="button" class="btn btn-secondary">Edit</button></td>
 
                     </tr>
                     </tbody>

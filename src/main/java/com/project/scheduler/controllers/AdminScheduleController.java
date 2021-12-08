@@ -36,7 +36,7 @@ public class AdminScheduleController {
         User user=userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         week = week < 1 ? 1 : week;
         model.addAttribute("lessonsByWeek",
-                courseService.findAllLessons());
+                courseService.findAllLessonsByWeek(week));
         model.addAttribute("week", week);
         model.addAttribute("user",user);
         return "adminschedule";
@@ -61,7 +61,7 @@ public class AdminScheduleController {
 
         model.addAttribute("lesson",new Lesson());
 
-        return "editLessonForm";
+        return "redirect:/admin-lessons";
     }
     @PostMapping("/admin-lessons/edit")
     public String editCourse(@RequestParam("id") Long id,

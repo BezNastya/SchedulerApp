@@ -22,6 +22,7 @@ public interface CourseService {
     void deleteGroupById(Long groupId);
     void deleteGroupCoursesByCourse(Course course);
 //    List<Course> findAllByStudent(Student student);
+    void deleteCourseWithAll(Course course);
 
 
     List<GroupCourse> findGroupCoursesByEducationUserId(Long id);
@@ -35,9 +36,11 @@ public interface CourseService {
     Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id);
 
     List<Lesson> findAllLessons();
+    List<Lesson> findAllLessonsByWeek(int week);
 
     List<Course> findNotAttendedCourses(final Long id);
 
 
     void deleteLessonsByGroupCourse_Course(Course course);
+
 }

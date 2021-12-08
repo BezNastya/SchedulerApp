@@ -9,7 +9,7 @@
         crossorigin="anonymous">
 </head>
 <body>
-<div th:insert="fragments/navigation :: navbar"></div>
+<!--<div th:insert="fragments/navigation :: navbar"></div>-->
 
 <div class="container">
     <br>
@@ -24,30 +24,74 @@
     <div class="col-8 offset-2">
       <ul id="myUL" class="list-group">
         <li th:each="course : ${courses}" class="list-group-item list-group-item-action">
-            <a onclick="show()" th:text="${course.getName()}"></a>
+            <a data-target="#createModal" th:text="${course.getName()}"></a>
 
-            <form th:action="@{/add-group}" id="groups" th:object="${course}"
-                  method="get"
-                  class="col-4 offset-8 input-group my-2" style="display: none">
-              <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="submit">Choose week</button>
-              </div>
-              <select class="custom-select" id="inputSelect" name="inputSelect" onchange="this.form.submit()">
-                <option th:each="i : ${courseService.findAllGroupsForCourse(course)}"
-                        th:value="${i.getGroupNum()}"
-                        th:text="${i.getGroupNum()}"
-                >
-                </option>
-              </select>
-            </form>
+<!--            <form th:action="@{/add-group}" id="groups" th:object="${course}"-->
+<!--                  method="get"-->
+<!--                  class="col-4 offset-8 input-group my-2" style="display: none">-->
+<!--              <div class="input-group-prepend">-->
+<!--                <button class="btn btn-outline-secondary" type="submit">Choose week</button>-->
+<!--              </div>-->
+
+<!--            </form>-->
         </li>
       </ul>
     </div>
   </div>
 </div>
 
-</body>
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="this.form.close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createAddress" method="post" th:action="@{/new-groups/add}">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon">Group number</span>
+                        </div>
+<!--                        <select class="custom-select" id="inputSelect" name="inputSelect">-->
+<!--                            <option th:each="i : ${courseService.findAllGroupsForCourse(curr)}"-->
+<!--                                    th:value="${i.getGroupNum()}"-->
+<!--                                    th:text="${i.getGroupNum()}"-->
+<!--                            >-->
+<!--                            </option>-->
+<!--                        </select>-->
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Ім'я</span>
+                        </div>
+                        <input name="name" type="text" class="form-control"
+                               placeholder="Іван"
+                               aria-label="Name"
+                               aria-describedby="basic-addon1">
+                    </div>
 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                onclick="this.form.close()">
+                            Відмінити
+                        </button>
+                        <button type="submit" class="btn btn-primary" onclick="this.form.submit()">Зберегти
+                            адресу
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:inline="javascript">
   function myFunction() {
     let input, filter, ul, li, a, i, txtValue;
@@ -69,12 +113,15 @@
 
   function show() {
     // let message = [[${c}]];
-    let x = document.getElementById("groups");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
+      $('#createModal').toggle();
+      // $('#createAddress').trigger('reset')
+
+    //   let x = document.getElementById("createModal");
+    // if (x.style.display === "none") {
+    //   x.style.display = "block";
+    // } else {
+    //   x.style.display = "none";
+    // }
   }
 </script>
 

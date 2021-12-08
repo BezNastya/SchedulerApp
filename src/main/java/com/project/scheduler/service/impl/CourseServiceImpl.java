@@ -2,10 +2,7 @@ package com.project.scheduler.service.impl;
 
 import com.project.scheduler.advice.TrackExecutionTime;
 import com.project.scheduler.advice.TrackParameters;
-import com.project.scheduler.entity.Course;
-import com.project.scheduler.entity.GroupCourse;
-import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.WeekDay;
+import com.project.scheduler.entity.*;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
@@ -25,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -118,8 +117,30 @@ public class CourseServiceImpl implements CourseService {
         groupRepository.deleteGroupCoursesByCourse(course);
     }
 
+    @Override
+    public void deleteCourseWithAll(Course course) {
+        deleteLessonsByGroupCourse_Course(course);
+        findAllGroupsForCourse(course).forEach((group) -> {
+            group.getStudents().forEach(student -> {
+                Set<GroupCourse> t = student.getGroupCourse();
+                t.remove(group);
+                student.setGroupCourse(t);
+            });
+            group.getTeachers().forEach((teacher -> {
+                Set<GroupCourse> t = teacher.getGroupCourse();
+                t.remove(group);
+                teacher.setGroupCourse(t);
+            }));
+            group.setStudents(new HashSet<>());
+            group.setTeachers(new HashSet<>());
+            groupRepository.save(group);
+        });
+        deleteGroupCoursesByCourse(course);
+        deleteCourseById(course.getId());
+    }
 
-    @Cacheable(cacheNames = "groups")
+
+    @Cacheable(cacheNames = "groups") // not for work
     @Override @TrackParameters
     public List<GroupCourse> findGroupCoursesByEducationUserId(Long id) {
         logger.warn("Getting all groups for the user with id " + id);
@@ -137,6 +158,12 @@ public class CourseServiceImpl implements CourseService {
     public List<Lesson> findAllLessons() {
         return lessonRepository.findAll();
     }
+
+    @Override
+    public List<Lesson> findAllLessonsByWeek(int week) {
+        return lessonRepository.findLessonsByDate_Week(week);
+    }
+
 
     @Override
     public List<Course> findNotAttendedCourses(Long id) {
