@@ -211,7 +211,7 @@ public class StartupDataProd implements CommandLineRunner {
         student.setStudTicketSeries("RG12461");
         student.setYearAdmission(2024);
         student.setSpecialty("Social work");
-        student.setRole("STUDENT");
+        student.setRole(Role.STUDENT);
         student.setAuthorized(true);
         studentService.save(student);
         //----------------------------------------
@@ -225,7 +225,7 @@ public class StartupDataProd implements CommandLineRunner {
         student2.setStudTicketSeries("RD19204");
         student2.setYearAdmission(2023);
         student2.setSpecialty("Biology");
-        student2.setRole("STUDENT");
+        student2.setRole(Role.STUDENT);
         student2.setAuthorized(true);
         studentService.save(student2);
 
@@ -238,7 +238,7 @@ public class StartupDataProd implements CommandLineRunner {
         student3.setStudTicketSeries("FE538923");
         student3.setYearAdmission(2022);
         student3.setSpecialty("SE");
-        student3.setRole("STUDENT");
+        student3.setRole(Role.STUDENT);
         student3.setAuthorized(true);
         studentService.save(student3);
 
@@ -249,7 +249,7 @@ public class StartupDataProd implements CommandLineRunner {
         student4.setPassword(encoder.encode("password"));
         student4.setFaculty("FI");
         student4.setSpecialty("SE");
-        student4.setRole("STUDENT");
+        student4.setRole(Role.STUDENT);
         student4.setAuthorized(true);
         studentService.save(student4);
     }
@@ -264,7 +264,7 @@ public class StartupDataProd implements CommandLineRunner {
         teacher.setFirstName("Alina");
         teacher.setLastName("Petrivna");
         teacher.setDepartment("FI");
-        teacher.setRole("TEACHER");
+        teacher.setRole(Role.TEACHER);
         teacher.setAuthorized(true);
         teacherService.save(teacher);
 
@@ -275,7 +275,7 @@ public class StartupDataProd implements CommandLineRunner {
         teacher2.setFirstName("Maksym");
         teacher2.setLastName("Demchenko");
         teacher2.setDepartment("FI");
-        teacher2.setRole("TEACHER");
+        teacher2.setRole(Role.TEACHER);
         teacher2.setAuthorized(true);
         teacherService.save(teacher2);
 
@@ -286,7 +286,7 @@ public class StartupDataProd implements CommandLineRunner {
         teacher3.setFirstName("Igor");
         teacher3.setLastName("Chick");
         teacher3.setDepartment("FI");
-        teacher3.setRole("TEACHER");
+        teacher3.setRole(Role.TEACHER);
         teacher3.setAuthorized(true);
         teacherService.save(teacher3);
 
@@ -297,7 +297,7 @@ public class StartupDataProd implements CommandLineRunner {
         teacher4.setFirstName("Halyna");
         teacher4.setLastName("Pushyk");
         teacher4.setDepartment("FSNST");
-        teacher4.setRole("TEACHER");
+        teacher4.setRole(Role.TEACHER);
         teacher4.setAuthorized(true);
         teacherService.save(teacher4);
 
@@ -308,7 +308,7 @@ public class StartupDataProd implements CommandLineRunner {
         teacher5.setFirstName("Maryna");
         teacher5.setLastName("Kucher");
         teacher5.setDepartment("FPRN");
-        teacher5.setRole("TEACHER");
+        teacher5.setRole(Role.TEACHER);
         teacher5.setAuthorized(true);
         teacherService.save(teacher5);
     }
