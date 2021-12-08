@@ -23,8 +23,8 @@ import java.util.Set;
 @Profile("dev")
 @Component
 public class StartupData implements CommandLineRunner {
-    private final Logger logger = LoggerFactory.getLogger(StartupData.class);
 
+    private final Logger logger = LoggerFactory.getLogger(StartupData.class);
 
     private final StudentServiceImpl studentService;
     private final TeacherServiceImpl teacherService;

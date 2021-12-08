@@ -19,6 +19,8 @@
       <li th:if ="${user.getRole() == 'ADMIN'}"><a class="nav-link" th:href="@{/admin-lessons}">Schedule</a></li>
       <li th:if ="${user.getRole() == 'ADMIN' or user.getRole() == 'TEACHER'}"><a class="nav-link" th:href="@{/requests}">Postpone Requests</a></li>
       <li th:if ="${user.getRole() == 'TEACHER'}"><a class="nav-link" th:href="@{/postponeLesson}">Create Postpone Request</a></li>
+<!--      <li th:if ="${user.getRole() == 'ADMIN'}"><a class="nav-link" th:href="@{/course}">Courses</a></li>-->
+<!--      <li th:if ="${user.getRole() == 'TEACHER' or user.getRole() == 'STUDENT'}"><a class="nav-link" th:href="@{/view-my-groups}">My Groups</a></li>-->
       <li><a class="nav-link" th:href="@{/logout}">Logout</a></li>
     </ul>
   </div>

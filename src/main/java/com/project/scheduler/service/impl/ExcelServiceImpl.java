@@ -54,7 +54,7 @@ public class ExcelServiceImpl implements ExcelService {
                 setHeaders(sheet);
 
                 int rowIndex = 1;
-                Map<WeekDay, List<Lesson>> schedule = courseService.findScheduleForWeek(1, id);
+                Map<WeekDay, List<Lesson>> schedule = courseService.findScheduleForWeek(week, id);
                 for (Map.Entry<WeekDay, List<Lesson>> day : schedule.entrySet()) {
                     if (day.getValue().isEmpty())
                         continue;
