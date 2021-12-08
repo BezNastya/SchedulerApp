@@ -5,6 +5,8 @@ import com.project.scheduler.entity.PostponeLesson;
 import com.project.scheduler.entity.ScheduleDate;
 import lombok.Data;
 
+import java.util.stream.Collectors;
+
 @Data
 public class PostponeLessonDto {
 
@@ -22,7 +24,7 @@ public class PostponeLessonDto {
         this.lesson = canceled.getGroupCourse().getCourse().getName();
         this.lessonType = canceled.getType().toString();
         this.description = postponeLesson.getDescription();
-        this.teacher = canceled.getGroupCourse().getTeachers().toString();
+        this.teacher = canceled.getGroupCourse().getTeachers().stream().map(x -> x.getFirstName() + x.getLastName()).collect(Collectors.joining());
         this.oldDate = canceled.getDate();
         this.newDate = postponeLesson.getNewDate();
         this.status = postponeLesson.getStatus().toString();

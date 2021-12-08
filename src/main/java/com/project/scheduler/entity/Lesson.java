@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Lesson implements Comparable<Lesson>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long lessonId;
 
     @Enumerated(EnumType.ORDINAL)

@@ -26,7 +26,7 @@ public class Course {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Valid
@@ -34,7 +34,7 @@ public class Course {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @ToString.Exclude
     private Set<GroupCourse> groups;
