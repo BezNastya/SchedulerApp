@@ -4,6 +4,7 @@ import com.project.scheduler.entity.PostponeLesson;
 import com.project.scheduler.entity.ScheduleDate;
 import com.project.scheduler.entity.User;
 import com.project.scheduler.exceptions.UserNotFoundException;
+import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.PostponeLessonService;
 import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,20 +28,21 @@ public class PostponeLessonController {
     Logger logger = LoggerFactory.getLogger(PostponeLessonController.class);
 
     @Autowired
-    PostponeLessonService postponeLessonService;
+    private PostponeLessonService postponeLessonService;
+
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CourseService courseService;
+
     @Operation(summary = "Show the teacher all of their lessons and allow them to create a postpone-request")
     @GetMapping("/postponeLesson")
-    public String postponeLessonForm(Principal principal, Model model, @RequestParam("page") Optional<Integer> page,
-                                     @RequestParam("size") Optional<Integer> size) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(Integer.MAX_VALUE);
-        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+    public String postponeLessonForm(Principal principal, Model model,
+                                     @RequestParam(name = "week", required = false, defaultValue = "1") int week) {
 
-        model.addAttribute("postponeLesson",new PostponeLesson());
-        model.addAttribute("user", user);
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+        model.addAttribute("lessons", courseService.findLessonsByEducationUserIdForWeek(user.getUserId(), week));
         return "postponeLesson";
     }
 

@@ -1,6 +1,7 @@
 package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.*;
+import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.UserService;
@@ -32,7 +33,7 @@ public class AdminScheduleController {
     @Operation(summary = "Get all lessons")
     @GetMapping("/admin-lessons")
     public String findLessonsByUser(Principal principal, Model model, @RequestParam(name = "inputSelect", required = false, defaultValue = "1") Integer week) {
-        User user=userService.findByEmail(principal.getName()).get();
+        User user=userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         week = week < 1 ? 1 : week;
         model.addAttribute("lessonsByWeek",
                 courseService.findAllLessons());
@@ -48,11 +49,7 @@ public class AdminScheduleController {
                             @RequestParam("type") LessonType type,
                             @RequestParam("grNum") GroupCourse grNum) {
         Lesson lesson = new Lesson();
-        ScheduleDate scheduleDate= new ScheduleDate();
-        scheduleDate.setLessonOrder(lessonOrder);
-        scheduleDate.setWeek(week);
-        scheduleDate.setDayOfTheWeek(day);
-        lesson.setDate(scheduleDate);
+        lesson.setDate(new ScheduleDate(day, lessonOrder, week));
         lesson.setPlace(place);
         lesson.setType(type);
         lesson.setGroupCourse(grNum);
@@ -76,11 +73,7 @@ public class AdminScheduleController {
                              @RequestParam("grNum") GroupCourse groupCourse,
                              @ModelAttribute("postponeLesson")Lesson lesson){
 
-        ScheduleDate scheduleDate= new ScheduleDate();
-        scheduleDate.setLessonOrder(lessonOrder);
-        scheduleDate.setWeek(week);
-        scheduleDate.setDayOfTheWeek(day);
-        lesson.setDate(scheduleDate);
+        lesson.setDate(new ScheduleDate(day, lessonOrder, week));
         lesson.setPlace(place);
         lesson.setType(type);
         lesson.setGroupCourse(groupCourse);

@@ -188,17 +188,4 @@ public class CourseServiceImpl implements CourseService {
         return result;
     }
 
-//    @Override
-//    public List<List<Lesson>> findLessonsByWeek(int week, List<Lesson> lessons){
-//        List<Lesson> allLessonsByWeek = lessons.stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
-//        List<List<Lesson>> allByWeekSorted = new ArrayList<>();
-//
-//        Stream.of(WeekDay.values()).forEach(w -> {
-//            List<Lesson> temp = allLessonsByWeek.stream().filter(lesson -> lesson.getDate().getDayOfTheWeek() == w).sorted().collect(Collectors.toList());
-//            allByWeekSorted.add(temp);
-//        });
-//
-//        return allByWeekSorted;
-//    }
-
 }
