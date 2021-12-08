@@ -19,14 +19,14 @@ public interface CourseService {
     GroupCourse findGroupById(Long id);
     Course saveGroupsForCourse(Course course, byte numberOfGroups);
     void deleteGroupById(Long groupId);
-    void deleteAllGroups(Course course);
+    void deleteGroupCoursesByCourse(Course course);
 //    List<Course> findAllByStudent(Student student);
 
 
     List<GroupCourse> findGroupCoursesByEducationUserId(Long id);
     List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
 
-    List<List<Lesson>> findLessonsByWeek(final int week, final List<Lesson> lessons);
+//    List<List<Lesson>> findLessonsByWeek(final int week, final List<Lesson> lessons);
 
     List<List<Lesson>> findLessonsForWeekByEducationUserId(int week, long id);
     List<Lesson> findLessonsByEducationUserId(long id);
@@ -36,4 +36,7 @@ public interface CourseService {
     List<Lesson> findAllLessons();
 
     List<Course> findNotAttendedCourses(final Long id);
+
+
+    void deleteLessonsByGroupCourse_Course(Course course);
 }

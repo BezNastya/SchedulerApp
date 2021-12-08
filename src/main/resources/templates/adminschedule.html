@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>all Lessons</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+    <link th:href="@{resources/styles/button.css}" rel="stylesheet" />
+</head>
+<body>
+<div th:insert="fragments/navigation :: navbar"></div>
+<div class="container">
+    <div class="row">
+       <form th:action="@{/admin-lessons}"
+             method="get"
+             class="col-4 offset-8 input-group my-2">
+           <div class="input-group-prepend">
+               <button class="btn btn-outline-secondary" type="submit">Choose week</button>
+           </div>
+           <select class="custom-select" id="inputSelect" name="inputSelect" onchange="this.form.submit()">
+               <option th:each="i : ${#numbers.sequence(1, 15)}"
+                       th:value="${i}"
+                       th:text="${i}"
+                       >
+               </option>
+           </select>
+       </form>
+    </div>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h1 th:text="'Week ' + ${week}" class="text-center"></h1>
+        </div>
+    </div>
+    <form id="addLesson" method="POST" th:action="@{/admin-lessons/add}">
+    <div class="form-row mb-3">
+        <div class="col-1">
+            <label >Day</label>
+            <select name="day">
+                <option th:each="lessontyp : ${T(com.project.scheduler.entity.WeekDay).values()}"
+                        th:value="${lessontyp}" th:text="${lessontyp}"></option>
+            </select>
+        </div>
+        <div class="col-1">
+            <label > Order</label>
+            <select name="order">
+                <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonOrder).values()}"
+                        th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
+            </select>
+        </div>
+        <div class="col-1">
+            <label for="week">Week</label>
+            <input type="number"
+                   class="form-control"
+                   id="week"
+                   value="1"
+                   name="week">
+        </div>
+        <div class="col-3">
+            <label for="place">Place</label>
+            <input type="text"
+                   class="form-control"
+                   id="place"
+                   value="209a"
+                   name="place">
+        </div>
+
+        <div class="col-1">
+            <label>Type</label>
+            <select name="type">
+                <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonType).values()}"
+                        th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
+            </select>
+        </div>
+        <div class="col-1">
+            <label for="grNum">Group</label>
+            <input type="number"
+                   class="form-control"
+                   id="grNum"
+                   value="3"
+                   name="grNum">
+        </div>
+        <button type="submit" class="btn btn-outline-success btn-sm">Add lesson</button>
+
+
+    </div>
+    </form>
+    <div class="row">
+        <div class="col-8 offset-2" th:each="lessonsByDay : ${lessonsByWeek}">
+            <div >
+
+                <table class="table table-bordered " style="width:100%">
+                    <thead class="thead-light">
+                    <tr>
+                        <th style="width:20%">Period</th>
+                        <th style="width:35%">Name</th>
+                        <th style="width:20%">Type</th>
+                        <th style="width:15%">Place</th>
+                        <th style="width:10%">Group</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr >
+                        <td th:text="${lessonsByDay.getDate().getLessonOrder().getOrder()}">Period</td>
+                        <td th:text="${lessonsByDay.getGroupCourse().getCourse().getName()}">Name</td>
+                        <td th:text="${lessonsByDay.getType()}">Type</td>
+                        <td th:text="${lessonsByDay.getPlace()}">Place</td>
+                        <td th:text="${lessonsByDay.getGroupCourse().getGroupNum()}">Group</td>
+                        <td><a type="button" class="btn btn-outline-danger"
+                               th:href="@{/admin-lessons/delete(id = ${lessonsByDay.getLessonId()})}">Delete</a>&emsp;</td>
+                        <td><button type="button" class="btn btn-secondary">Edit</button></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

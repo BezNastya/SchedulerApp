@@ -28,17 +28,17 @@ public class GroupCourse {
 
     private byte groupNum;
 
-    @ManyToMany(mappedBy = "groupCourse", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "groupCourse", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ToString.Exclude
     Set<Student> students;
 
-    @ManyToMany(mappedBy = "groupCourse")
+    @ManyToMany(mappedBy = "groupCourse", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ToString.Exclude
     Set<Teacher> teachers;
 
-    @OneToMany(mappedBy="lessonId")
+    @OneToMany(mappedBy="lessonId", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ToString.Exclude
     Set<Lesson> lessons;
