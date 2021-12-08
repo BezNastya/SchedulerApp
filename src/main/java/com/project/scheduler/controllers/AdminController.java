@@ -28,12 +28,14 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    //TODO Do we need this method?
     @GetMapping
     public List<Admin> getAllAdmins() {
         logger.info(myMarker, "Getting all admins");
         return adminService.findAll();
     }
 
+    //TODO Do we need this method?
     //@PreAuthorize("#id ")
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable Long id) {
@@ -41,6 +43,7 @@ public class AdminController {
         logger.info(myMarker, "Getting admin with id {}", id);
         return adminService.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
+
 
     @Operation(summary = "Add a new admin")
     @PostMapping("/add")
@@ -52,7 +55,7 @@ public class AdminController {
     @Operation(summary = "Change the last name of the specified admin")
     @PutMapping("/{id}/lastName")
     public void editAdminLastName(@PathVariable long id, @RequestParam String newName) {
-        Admin admin = adminService.findById(id).get();
+        Admin admin = adminService.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         admin.setLastName(newName);
         logger.info(myMarker, "Updating admin {} last name to {}", newName, id);
         adminService.update(admin);

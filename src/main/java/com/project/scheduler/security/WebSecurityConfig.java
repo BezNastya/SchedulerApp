@@ -9,10 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.header.HeaderWriterFilter;
 
+import static com.project.scheduler.entity.Role.*;
+
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -34,18 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").authenticated()
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/course/**").hasAuthority("ADMIN")
+                .antMatchers("/course/**").hasAuthority(ADMIN.getRoleStringRepresentation())
                 .antMatchers("/user").authenticated()
-                .antMatchers("/user/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/requests").hasAnyAuthority("ADMIN", "TEACHER")
-                .antMatchers("/requests/approve").hasAuthority("ADMIN")
-                .antMatchers("/requests/decline").hasAuthority("ADMIN")
-                .antMatchers("/requests/delete").hasAuthority("TEACHER")
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/teacher/**").hasAuthority("TEACHER")
-                .antMatchers("/student/**").hasAuthority("STUDENT")
-                .antMatchers("/my-lessons").hasAnyAuthority("TEACHER", "STUDENT")
+                .antMatchers("/requests").hasAnyAuthority(ADMIN.getRoleStringRepresentation(), TEACHER.getRoleStringRepresentation())
+                .antMatchers("/requests/approve").hasAuthority(ADMIN.getRoleStringRepresentation())
+                .antMatchers("/requests/decline").hasAuthority(ADMIN.getRoleStringRepresentation())
+                .antMatchers("/requests/delete").hasAuthority(TEACHER.getRoleStringRepresentation())
+                .antMatchers("/admin/**").hasAuthority(ADMIN.getRoleStringRepresentation())
+                .antMatchers("/teacher/**").hasAuthority(TEACHER.getRoleStringRepresentation())
+                .antMatchers("/postponeLesson/**").hasAuthority(TEACHER.getRoleStringRepresentation())
+                .antMatchers("/student/**").hasAuthority(STUDENT.getRoleStringRepresentation())
+                .antMatchers("/my-lessons").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
                 .antMatchers("/admin-lessons").hasAuthority("ADMIN")
 
                 .and().formLogin().permitAll()

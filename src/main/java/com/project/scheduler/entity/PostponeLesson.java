@@ -25,7 +25,7 @@ public class PostponeLesson {
     private long id;
 
     //Коментарі
-    private String description = "";
+    private String description;
 
     //Предмет, що перенесено
     @OneToOne

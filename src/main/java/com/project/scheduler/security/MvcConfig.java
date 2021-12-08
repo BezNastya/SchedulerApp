@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.validation.Valid;
 
+//TODO Consider removing the class
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 

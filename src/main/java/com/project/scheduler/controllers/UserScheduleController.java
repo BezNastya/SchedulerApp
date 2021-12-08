@@ -1,7 +1,8 @@
 package com.project.scheduler.controllers;
 
-import com.project.scheduler.entity.Teacher;
+import com.project.scheduler.entity.Role;
 import com.project.scheduler.entity.User;
+import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class UserScheduleController {
         this.excelService = excelService;
     }
 
-    @Operation(summary = "Download Excel file")
+    @Operation(summary = "Download the schedule in an Excel file")
     @GetMapping("/my-lessons/downloadExcel")
     public ResponseEntity<Resource> downloadExcel(Principal principal, @RequestParam("week") Integer week) {
         Optional<User> maybeUser =  userService.findByEmail(principal.getName());
@@ -50,21 +51,14 @@ public class UserScheduleController {
        return ResponseEntity.notFound().build();
     }
 
-    @Operation(summary = "Get user lessons")
+    @Operation(summary = "Get the user`s lessons")
     @GetMapping("/my-lessons")
     public String findLessonsByUser(Principal principal, Model model, @RequestParam(name="inputSelect",required = false, defaultValue = "1") Integer week){
         week = week < 1 ? 1: week;
-        User user = userService.findByEmail(principal.getName()).get();
-        if(user.getRole().equals("STUDENT")){
-            model.addAttribute("lessonsByWeek",
-                    courseService.findLessonsForWeekByEducationUserId(week, user.getUserId()));
-            model.addAttribute("week", week);
-        }
-        else if(user.getRole().equals("TEACHER")){
-            model.addAttribute("lessonsByWeek",
-                    courseService.findLessonsForWeekByEducationUserId(week, user.getUserId()));
-            model.addAttribute("week", week);
-        }
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+        model.addAttribute("lessonsByWeek",
+                    courseService.findScheduleForWeek(week, user.getUserId()));
+        model.addAttribute("week", week);
         model.addAttribute("user", user);
         return "schedule";
     }

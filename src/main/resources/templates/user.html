@@ -13,7 +13,7 @@
     <div class="row">
 
         <div class="col-6 offset-3 border border-primary rounded border-3"
-             th:case="'ADMIN'">
+             th:case = "${T(com.project.scheduler.entity.Role).ADMIN}">
             <h2 class="mb-3 text-center">Personal profile</h2>
 
             <div class="mb-3">
@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-6 offset-3 border border-primary rounded border-3"
-             th:case="'TEACHER'">
+             th:case="${T(com.project.scheduler.entity.Role).TEACHER}">
             <h2 class="mb-3 text-center">Personal profile</h2>
 
             <div class="mb-3">
@@ -49,7 +49,7 @@
         </div>
 
         <div class="col-6 offset-3 border border-primary rounded border-3"
-             th:case="'STUDENT'">
+             th:case = "${T(com.project.scheduler.entity.Role).STUDENT}">
             <h2 class="mb-3 text-center">Personal profile</h2>
 
             <div class="mb-3">

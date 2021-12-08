@@ -19,18 +19,13 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final GroupCourseRepository groupCourseRepository;
-    private final LessonRepository lessonRepository;
-    private final CourseService courseService;
+
 
     @Autowired
     public StudentServiceImpl(StudentRepository studentRepository,
-                              GroupCourseRepository groupCourseRepository,
-                              LessonRepository lessonRepository,
-                              CourseService courseService) {
+                              GroupCourseRepository groupCourseRepository) {
         this.studentRepository = studentRepository;
         this.groupCourseRepository = groupCourseRepository;
-        this.lessonRepository = lessonRepository;
-        this.courseService = courseService;
     }
 
     @Override

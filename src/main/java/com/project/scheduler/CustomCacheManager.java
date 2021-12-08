@@ -9,7 +9,6 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CountDownLatch;
 
 
 public class CustomCacheManager implements CacheManager {

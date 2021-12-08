@@ -17,6 +17,6 @@ import javax.persistence.PrimaryKeyJoinColumn;
 public class Admin extends User {
 
     public Admin(String email, String password, String firstName, String lastName) {
-        super(email, password, firstName, lastName, "ADMIN");
+        super(email, password, firstName, lastName, Role.ADMIN);
     }
 }

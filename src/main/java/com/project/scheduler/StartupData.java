@@ -88,7 +88,6 @@ public class StartupData implements CommandLineRunner {
         lessonRepository.save(lesson4);
         postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(WeekDay.TUESDAY, LessonOrder.SECOND, 2)));
         postponeLessonRepository.save(new PostponeLesson(lesson4, new ScheduleDate(WeekDay.TUESDAY, LessonOrder.SECOND, 2)));
-        postponeLessonRepository.save(new PostponeLesson(lesson1, new ScheduleDate(WeekDay.THURSDAY, LessonOrder.FIRST, 6)));
     }
 
         private void studentAccount() {
@@ -104,7 +103,7 @@ public class StartupData implements CommandLineRunner {
         student.setStudTicketSeries("T1");
         student.setYearAdmission(2019);
         student.setSpecialty("SE");
-        student.setRole("STUDENT");
+        student.setRole(Role.STUDENT);
         student.setAuthorized(true);
 
         //Test course
@@ -186,7 +185,7 @@ public class StartupData implements CommandLineRunner {
         student2.setStudTicketSeries("T2");
         student2.setYearAdmission(2020);
         student2.setSpecialty("CS");
-        student2.setRole("STUDENT");
+        student2.setRole(Role.STUDENT);
         student2.setAuthorized(true);
         studentService.save(student2);
 
@@ -199,7 +198,7 @@ public class StartupData implements CommandLineRunner {
         student3.setStudTicketSeries("T3");
         student3.setYearAdmission(2019);
         student3.setSpecialty("CS");
-        student3.setRole("STUDENT");
+        student3.setRole(Role.STUDENT);
         student3.setAuthorized(true);
         studentService.save(student3);
 
@@ -210,7 +209,7 @@ public class StartupData implements CommandLineRunner {
         student4.setPassword(encoder.encode("Melnyk"));
         student4.setFaculty("FI");
         student4.setSpecialty("SE");
-        student4.setRole("STUDENT");
+        student4.setRole(Role.STUDENT);
         student4.setAuthorized(true);
         studentService.save(student4);
 
@@ -231,7 +230,7 @@ public class StartupData implements CommandLineRunner {
         teacher.setFirstName("Alina");
         teacher.setLastName("Petrivna");
         teacher.setDepartment("FI");
-        teacher.setRole("TEACHER");
+        teacher.setRole(Role.TEACHER);
         teacher.setAuthorized(true);
         teacherService.save(teacher);
 
@@ -242,7 +241,7 @@ public class StartupData implements CommandLineRunner {
         teacher2.setFirstName("Maksym");
         teacher2.setLastName("Demchenko");
         teacher2.setDepartment("FI");
-        teacher2.setRole("TEACHER");
+        teacher2.setRole(Role.TEACHER);
         teacher2.setAuthorized(true);
         teacherService.save(teacher2);
         teacherService.updateAcademicDegree(teacher2.getUserId(), "PhD");
@@ -254,7 +253,7 @@ public class StartupData implements CommandLineRunner {
         Admin admin = new Admin();
         admin.setFirstName("Admin`s first name");
         admin.setLastName("Admin`s last name");
-        admin.setRole("ADMIN");
+        admin.setRole(Role.ADMIN);
         admin.setEmail("admin@ukma.edu.ua");
         admin.setPassword(encoder.encode("admin"));
         admin.setAuthorized(true);

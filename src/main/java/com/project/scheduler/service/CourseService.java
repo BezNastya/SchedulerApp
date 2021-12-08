@@ -1,7 +1,8 @@
 package com.project.scheduler.service;
 
 import com.project.scheduler.entity.*;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,10 @@ public interface CourseService {
     List<GroupCourse> findGroupCoursesByEducationUserId(Long id);
     List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
 
-//    List<List<Lesson>> findLessonsByWeek(final int week, final List<Lesson> lessons);
-
-    List<List<Lesson>> findLessonsForWeekByEducationUserId(int week, long id);
     List<Lesson> findLessonsByEducationUserId(long id);
+    List<Lesson> findLessonsByEducationUserIdForWeek(long id, int week);
+
+    Page<Lesson> findPaginatedLessons(long id, Pageable pageable);
 
     Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id);
 

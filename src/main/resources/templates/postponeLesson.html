@@ -10,41 +10,8 @@
 </head>
 <body>
 <div th:insert="fragments/navigation :: navbar"></div>
-<div >
-    Fill in the fields
-</div>
 
-<form th:action="@{/postponeLesson}" th:object="${postponeLesson}" th:method="POST">
 
-    <label for="id">Id:</label>
-    <input type="number" class="form-control" name="id" id="id">
-
-    <!--
-    <label for="date">New date:</label>
-    <input type="date" class="form-control" name="date" id="date">
-    -->
-
-    <label for="week">New date:</label>
-    <input type="number" class="form-control" name="week" id="week">
-<!--
-    <label for="day">New day:</label>
-    <input type="week" th:text="${#dates.dayOfWeekName()}" class="form-control" name="day" id="day">
--->
-
-    <label for="day">New week day:</label>
-    <input type="number" class="form-control" name="day" id="day">
-
-    <label for="lesson">Lesson:</label>
-    <input type="number" class="form-control" name="lesson" id="lesson">
-
-    <label for="description">Description:</label>
-    <input type="text" th:field="*{description}" class="form-control" name="description" id="description">
-
-    <label for="place">New place:</label>
-    <input type="text" th:field="*{newPlace}" class="form-control" name="place" id="place">
-
-    <div><input type="submit" value="Submit"/></div>
-</form>
 </body>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>

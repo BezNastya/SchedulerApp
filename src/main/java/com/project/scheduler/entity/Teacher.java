@@ -20,7 +20,7 @@ public class Teacher extends EducationUser {
 
     public Teacher(final String firstName, final String lastName, final String department, final String academicDegree,
                    final String email, final String password) {
-        super(firstName, lastName, email, password, "TEACHER");
+        super(firstName, lastName, email, password, Role.TEACHER);
         this.department = department;
         this.academicDegree = academicDegree;
     }

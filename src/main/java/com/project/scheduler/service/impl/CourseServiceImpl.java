@@ -17,6 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +52,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
-    //@CacheEvict(value = "groups", keyGenerator = "")
+    @CacheEvict(value = "groups", allEntries = true)
     @Override
     public void deleteCourseById(Long courseId) {
         courseRepository.deleteById(courseId);
@@ -164,17 +168,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<List<Lesson>> findLessonsForWeekByEducationUserId(int week, long id) {
-        List<Lesson> allLessonsList = findLessonsByEducationUserId(id);
-        List<Lesson> allLessonsByWeek = allLessonsList.stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
-        List<List<Lesson>> allByWeekSorted = new ArrayList<>();
+    public List<Lesson> findLessonsByEducationUserIdForWeek(long id, int week) {
+        return findLessonsByEducationUserId(id).stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
+    }
 
-        Stream.of(WeekDay.values()).forEach(w -> {
-            List<Lesson> temp = allLessonsByWeek.stream().filter(lesson -> lesson.getDate().getDayOfTheWeek() == w).sorted().collect(Collectors.toList());
-            allByWeekSorted.add(temp);
-        });
-
-        return allByWeekSorted;
+    @Override
+    public Page<Lesson> findPaginatedLessons(long id, Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        List<Lesson> lessons = findLessonsByEducationUserIdForWeek(id, pageSize);
+        return new PageImpl<>(lessons, PageRequest.of(currentPage, pageSize), lessons.size());
     }
 
     @Override

@@ -5,9 +5,11 @@ import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.entity.ScheduleDate;
 import com.project.scheduler.entity.WeekDay;
 import com.project.scheduler.repository.GroupCourseRepository;
+import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,9 @@ public class LessonController {
 
     @Autowired
     private GroupCourseRepository groupCourseRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
 
     @Autowired
     public LessonController(CourseService courseService) {
@@ -45,6 +50,12 @@ public class LessonController {
     public ScheduleDate s() {
         return courseService.findAllLessons().get(0).getDate();
     }
+
+    @GetMapping("/lesson/{id}")
+    public void removeLesson(@PathVariable long id) {
+        lessonRepository.deleteById(id);
+    }
+
 /*
     @GetMapping("/test/{id}")
     public List<Lesson> findLessonsForUserForWeekOne(@PathVariable Long id) {

@@ -1,8 +1,10 @@
 package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.User;
+import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.HomeService;
 import com.project.scheduler.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,10 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "Returns the home page of the website")
     @GetMapping
     public String homePage(Principal principal, Model model) {
-        User user = userService.findByEmail(principal.getName()).get();
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
         return "home";
     }

@@ -43,7 +43,7 @@ public class CourseController {
         course.setName(courseName);
         courseService.saveCourse(course);
         courseService.saveGroupsForCourse(course, (byte) Integer.parseInt(grNum));
-        logger.info("Added course with name{}", courseName);
+        logger.info("Added course with name {}", courseName);
         return "redirect:/course";
     }
 

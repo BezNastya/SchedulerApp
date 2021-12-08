@@ -1,6 +1,7 @@
 package com.project.scheduler;
 
 import com.project.scheduler.entity.Admin;
+import com.project.scheduler.entity.Role;
 import com.project.scheduler.entity.Teacher;
 import com.project.scheduler.repository.AdminRepository;
 import com.project.scheduler.repository.TeacherRepository;
@@ -48,7 +49,7 @@ public class TeacherJPATest {
         teacher.setFirstName("Alina");
         teacher.setLastName("Petrivna");
         teacher.setDepartment("FI");
-        teacher.setRole("TEACHER");
+        teacher.setRole(Role.TEACHER);
         teacher.setAuthorized(true);
         teacherRepository.save(teacher);
         Iterable<Teacher> teachers = teacherRepository.findAll();

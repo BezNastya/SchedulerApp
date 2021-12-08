@@ -22,7 +22,7 @@ public class CustomUserDetails implements UserDetails {
         this.password = user.getPassword();
         this.active = user.isAuthorized();
         this.authorities = new LinkedList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleStringRepresentation()));
     }
 
     @Override

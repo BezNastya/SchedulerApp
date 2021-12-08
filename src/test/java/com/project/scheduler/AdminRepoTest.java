@@ -60,7 +60,7 @@ public class AdminRepoTest {
     }
 
     @Test
-    void shouldDeleteExistingAdmin(){
+    void shouldDeleteExistingAdmin() {
         adminRepository.deleteById((long) 1);
         List<Admin> admins = adminRepository.findAll();
         assertEquals(2, admins.size());

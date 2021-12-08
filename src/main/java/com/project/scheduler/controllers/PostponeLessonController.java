@@ -3,8 +3,10 @@ package com.project.scheduler.controllers;
 import com.project.scheduler.entity.PostponeLesson;
 import com.project.scheduler.entity.ScheduleDate;
 import com.project.scheduler.entity.User;
+import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.PostponeLessonService;
 import com.project.scheduler.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 public class PostponeLessonController {
@@ -28,9 +31,14 @@ public class PostponeLessonController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "Show the teacher all of their lessons and allow them to create a postpone-request")
     @GetMapping("/postponeLesson")
-    public String postponeLessonForm(Principal principal, Model model){
-        User user = userService.findByEmail(principal.getName()).get();
+    public String postponeLessonForm(Principal principal, Model model, @RequestParam("page") Optional<Integer> page,
+                                     @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(Integer.MAX_VALUE);
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+
         model.addAttribute("postponeLesson",new PostponeLesson());
         model.addAttribute("user", user);
         return "postponeLesson";
@@ -38,6 +46,7 @@ public class PostponeLessonController {
 
 
     //@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date   - for requesting dates
+    @Operation(summary = "Add a new postpone request")
     @PostMapping("/postponeLesson")
     public String submitPostponeLessonForm(@RequestParam("id") long id, @RequestParam("week") int week,
                                            @RequestParam("day") int day, @RequestParam("lesson") int lesson,

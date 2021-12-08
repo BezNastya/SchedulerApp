@@ -50,12 +50,11 @@ public class User {
     @Getter
     private String lastName;
 
-
+    @Enumerated(EnumType.ORDINAL)
     @NotNull
-    @NotBlank(message = "Every user must have a role!")
     @Setter
     @Getter
-    private String role;
+    private Role role;
 
     @NotNull
     @Setter
@@ -75,7 +74,7 @@ public class User {
         return Long.hashCode(userId);
     }
 
-    public User(String email, String password, String firstName, String lastName, String role) {
+    public User(String email, String password, String firstName, String lastName, Role role) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;

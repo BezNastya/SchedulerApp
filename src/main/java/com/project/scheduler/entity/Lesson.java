@@ -19,9 +19,9 @@ public class Lesson implements Comparable<Lesson>{
     private long lessonId;
 
     @Enumerated(EnumType.ORDINAL)
-    LessonType type;
+    private LessonType type;
 
-    String place;
+    private String place;
 
     @Embedded
 //    @AttributeOverrides({
@@ -29,11 +29,14 @@ public class Lesson implements Comparable<Lesson>{
 //            @AttributeOverride( name = "lessonOrder", column = @Column(name = "scheduleDate_lessonOrder")),
 //            @AttributeOverride( name = "week", column = @Column(name = "scheduleDate_week"))
 //    })
-    ScheduleDate date;
+    private ScheduleDate date;
 
     @ManyToOne
     @JoinColumn
     private GroupCourse groupCourse;
+
+    @OneToOne(mappedBy = "canceledLesson", cascade = CascadeType.REMOVE)
+    private PostponeLesson postponeLesson;
 
     public Lesson(LessonType type, String place, ScheduleDate date, GroupCourse groupCourse){
         this.type = type;

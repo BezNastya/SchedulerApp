@@ -22,19 +22,11 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
     private final TeacherRepository teacherRepository;
-    private final GroupCourseRepository groupCourseRepository;
-    private final LessonRepository lessonRepository;
-    private final CourseService courseService;
+
 
     @Autowired
-    public TeacherServiceImpl(TeacherRepository teacherRepository,
-                              GroupCourseRepository groupCourseRepository,
-                              LessonRepository lessonRepository,
-                              CourseService courseService) {
+    public TeacherServiceImpl(TeacherRepository teacherRepository) {
         this.teacherRepository = teacherRepository;
-        this.groupCourseRepository = groupCourseRepository;
-        this.lessonRepository = lessonRepository;
-        this.courseService = courseService;
     }
 
     @Override

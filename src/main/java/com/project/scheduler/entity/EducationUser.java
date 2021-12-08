@@ -20,7 +20,7 @@ public class EducationUser extends User {
 
 
     public EducationUser(final String firstName, final String lastName, final String email,
-                         final String password, final String role) {
+                         final String password, final Role role) {
         super(email, password, firstName, lastName, role);
     }
 

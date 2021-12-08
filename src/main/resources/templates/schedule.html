@@ -35,9 +35,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-8 offset-2" th:each="lessonsByDay : ${lessonsByWeek}">
-            <div th:if="${not #lists.isEmpty(lessonsByDay)}">
-                <h3 class="text-center" th:text="${lessonsByDay.get(0).getDate().getDayOfTheWeek().getDay()}"></h3>
+        <div class="col-8 offset-2" th:each="entry : ${lessonsByWeek}">
+            <div th:if="${not #lists.isEmpty(entry.getValue())}">
+                <h3 class="text-center" th:text="${entry.getKey()}"></h3>
                 <table class="table table-bordered " style="width:100%">
                     <thead class="thead-light">
                     <tr>
@@ -49,12 +49,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="les : ${lessonsByDay}">
-                        <td th:text="${les.getDate().getLessonOrder().getOrder()}">Period</td>
-                        <td th:text="${les.getGroupCourse().getCourse().getName()}">Name</td>
-                        <td th:text="${les.getType()}">Type</td>
-                        <td th:text="${les.getPlace()}">Place</td>
-                        <td th:text="${les.getGroupCourse().getGroupNum()}">Group</td>
+                    <tr th:each="lesson : ${entry.getValue()}">
+                        <td th:text="${lesson.getDate().getLessonOrder().getOrder()}">Period</td>
+                        <td th:text="${lesson.getGroupCourse().getCourse().getName()}">Name</td>
+                        <td th:text="${lesson.getType()}">Type</td>
+                        <td th:text="${lesson.getPlace()}">Place</td>
+                        <td th:text="${lesson.getGroupCourse().getGroupNum()}">Group</td>
                     </tr>
                     </tbody>
                 </table>
