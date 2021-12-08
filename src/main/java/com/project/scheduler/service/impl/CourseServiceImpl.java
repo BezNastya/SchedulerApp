@@ -14,6 +14,7 @@ import com.project.scheduler.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
 
 @Service
 @Slf4j
+@Transactional
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
@@ -98,12 +100,10 @@ public class CourseServiceImpl implements CourseService {
         groupRepository.deleteById(groupId);
     }
 
+
     @Override
-    public void deleteAllGroups(Course course) {
-        Set<GroupCourse> groups = findAllGroupsForCourse(course);
-        for (GroupCourse group : groups){
-            deleteGroupById(group.getId());
-        }
+    public void deleteGroupCoursesByCourse(Course course) {
+        groupRepository.deleteGroupCoursesByCourse(course);
     }
 
     @Override @TrackParameters
@@ -138,6 +138,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public void deleteLessonsByGroupCourse_Course(Course course) {
+        lessonRepository.deleteLessonsByGroupCourse_Course(course);
+    }
+
+    @Override
     public List<Lesson> findLessonsByEducationUserId(long id) {
         List<GroupCourse> groupCourseList =
                 groupRepository.findGroupCoursesByEducationUserId(id);
@@ -150,19 +155,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<List<Lesson>> findLessonsForWeekByEducationUserId(int week, long id) {
         List<Lesson> allLessonsList = findLessonsByEducationUserId(id);
-        return findLessonsByWeek(week, allLessonsList);
-    }
-
-    public Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id) {
-        List<Lesson> lessonsList = findLessonsByEducationUserId(id).stream().filter(l -> l.getDate().getWeek() == week).collect(Collectors.toList());
-        Map<WeekDay, List<Lesson>> result = new TreeMap<>();
-        Stream.of(WeekDay.values()).forEach((weekDay -> result.put(weekDay, lessonsList.stream().filter(l -> l.getDate().getDayOfTheWeek() == weekDay).collect(Collectors.toList()))));
-        return result;
-    }
-
-    @Override
-    public List<List<Lesson>> findLessonsByWeek(int week, List<Lesson> lessons){
-        List<Lesson> allLessonsByWeek = lessons.stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
+        List<Lesson> allLessonsByWeek = allLessonsList.stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
         List<List<Lesson>> allByWeekSorted = new ArrayList<>();
 
         Stream.of(WeekDay.values()).forEach(w -> {
@@ -172,5 +165,25 @@ public class CourseServiceImpl implements CourseService {
 
         return allByWeekSorted;
     }
+
+    public Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id) {
+        List<Lesson> lessonsList = findLessonsByEducationUserId(id).stream().filter(l -> l.getDate().getWeek() == week).collect(Collectors.toList());
+        Map<WeekDay, List<Lesson>> result = new TreeMap<>();
+        Stream.of(WeekDay.values()).forEach((weekDay -> result.put(weekDay, lessonsList.stream().filter(l -> l.getDate().getDayOfTheWeek() == weekDay).collect(Collectors.toList()))));
+        return result;
+    }
+
+//    @Override
+//    public List<List<Lesson>> findLessonsByWeek(int week, List<Lesson> lessons){
+//        List<Lesson> allLessonsByWeek = lessons.stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
+//        List<List<Lesson>> allByWeekSorted = new ArrayList<>();
+//
+//        Stream.of(WeekDay.values()).forEach(w -> {
+//            List<Lesson> temp = allLessonsByWeek.stream().filter(lesson -> lesson.getDate().getDayOfTheWeek() == w).sorted().collect(Collectors.toList());
+//            allByWeekSorted.add(temp);
+//        });
+//
+//        return allByWeekSorted;
+//    }
 
 }

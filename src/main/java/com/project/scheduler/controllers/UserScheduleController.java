@@ -36,12 +36,12 @@ public class UserScheduleController {
 
     @Operation(summary = "Download Excel file")
     @GetMapping("/my-lessons/downloadExcel")
-    public ResponseEntity<Resource> downloadExcel(Principal principal) {
+    public ResponseEntity<Resource> downloadExcel(Principal principal, @RequestParam("week") Integer week) {
         Optional<User> maybeUser =  userService.findByEmail(principal.getName());
        if (maybeUser.isPresent()) {
            User user = maybeUser.get();
            long id = user.getUserId();
-           InputStreamResource file = new InputStreamResource(excelService.getScheduleForStudentForSpecifiedWeek(id, 1));
+           InputStreamResource file = new InputStreamResource(excelService.getScheduleForStudentForSpecifiedWeek(id, week));
            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                            "attachment; filename=" + user.getFirstName() + '_' + user.getLastName() + ".xlsx")
                    .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))

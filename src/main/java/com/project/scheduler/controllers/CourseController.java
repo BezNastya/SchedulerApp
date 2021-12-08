@@ -50,9 +50,11 @@ public class CourseController {
 
     @Operation(summary = "Delete the specified course")
     @GetMapping("/course/delete")
-    public String deleteCourse(@RequestParam("id") Long id){
+    public String deleteCourse(@RequestParam("id") Long id) {
         logger.info("Deleting course with id{}", id);
-        courseService.deleteAllGroups(courseService.findCourseById(id).get());
+        Course course = courseService.findCourseById(id).get();
+        courseService.deleteLessonsByGroupCourse_Course(course);
+        courseService.deleteGroupCoursesByCourse(course);
         courseService.deleteCourseById(id);
         return "redirect:/course";
     }

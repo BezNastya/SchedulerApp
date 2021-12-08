@@ -21,8 +21,9 @@
            </div>
            <select class="custom-select" id="inputSelect" name="inputSelect" onchange="this.form.submit()">
                <option th:each="i : ${#numbers.sequence(1, 15)}"
-                       th:value="${i}"
+                       th:value="${i}" class="opt"
                        th:text="${i}"
+                       th:selected="${i == week}"
                        >
                </option>
            </select>
@@ -60,11 +61,17 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <a th:href="@{/my-lessons/downloadExcel(week = ${week})}" th:method="GET" class="btn btn-success">
+                Download in Excel
+            </a>
+        </div>
+    </div>
 </div>
 
-<form th:align="center" th:action="@{my-lessons/downloadExcel}" th:method="GET">
-    <button class="btn btn-success" type="submit">Download in Excel</button>
-</form>
 
 </body>
+
 </html>
