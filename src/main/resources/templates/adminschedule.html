@@ -109,7 +109,8 @@
                         <td th:text="${lessonsByDay.getGroupCourse().getGroupNum()}">Group</td>
                         <td><a type="button" class="btn btn-outline-danger"
                                th:href="@{/admin-lessons/delete(id = ${lessonsByDay.getLessonId()})}">Delete</a>&emsp;</td>
-                        <td><button type="button" class="btn btn-secondary">Edit</button></td>
+                        <td><a type="button" class="btn btn-outline-secondary"
+                               th:href="@{/admin-lessons/edit(id = ${lessonsByDay.getLessonId()})}">Edit</a></td>
 
                     </tr>
                     </tbody>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit your lesson</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+        crossorigin="anonymous">
+  <link th:href="@{resources/styles/button.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+<form id="addLesson" method="POST"  th:action="@{/admin-lessons/edit}" >
+
+  <div class="form-row mb-3">
+    <div class="col-1">
+      <label >Day</label>
+      <select name="day">
+        <option th:each="lessontyp : ${T(com.project.scheduler.entity.WeekDay).values()}"
+                th:value="${lessontyp}" th:text="${lessontyp}"></option>
+      </select>
+    </div>
+    <div class="col-1">
+      <label > Order</label>
+      <select name="order">
+        <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonOrder).values()}"
+                th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
+      </select>
+    </div>
+    <div class="col-1">
+      <label for="week">Week</label>
+      <input type="number"
+             class="form-control"
+             id="week"
+             value="1"
+             name="week">
+    </div >
+    <div class="col-3">
+      <label for="place">Place</label>
+      <input type="text"
+             class="form-control"
+             id="place"
+             value="209a"
+             name="place">
+    </div>
+
+    <div class="col-1">
+      <label>Type</label>
+      <select name="type">
+        <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonType).values()}"
+                th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
+      </select>
+    </div>
+    <div class="col-1">
+      <label for="grNum">Group</label>
+      <input type="number"
+             class="form-control"
+             id="grNum"
+             value="3"
+             name="grNum">
+    </div>
+    <button type="submit" class="btn btn-outline-secondary btn-sm">Edit</button>
+
+
+  </div>
+</form>
+</div>
+</body>
+</html>
