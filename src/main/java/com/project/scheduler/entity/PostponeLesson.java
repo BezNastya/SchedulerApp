@@ -21,14 +21,14 @@ import java.sql.Date;
 public class PostponeLesson {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     //Коментарі
     private String description;
 
     //Предмет, що перенесено
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     @JsonIgnore
     @ToString.Exclude

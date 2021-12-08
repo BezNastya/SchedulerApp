@@ -19,7 +19,7 @@ import java.util.Set;
 @Entity
 public class GroupCourse {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -28,7 +28,7 @@ public class GroupCourse {
 
     private byte groupNum;
 
-    @ManyToMany(mappedBy = "groupCourse", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "groupCourse", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ToString.Exclude
     Set<Student> students;

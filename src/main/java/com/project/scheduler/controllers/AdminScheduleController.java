@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,8 +38,6 @@ public class AdminScheduleController {
                 courseService.findAllLessons());
         model.addAttribute("week", week);
         model.addAttribute("user",user);
-
-
         return "adminschedule";
     }
     @PostMapping("/admin-lessons/add")
@@ -60,6 +59,13 @@ public class AdminScheduleController {
         lessonRepository.save(lesson);
         return "redirect:/admin-lessons";
     }
+    @GetMapping("/admin-lessons/edit")
+    public String editCourse(Model model){
+
+        model.addAttribute("lesson",new Lesson());
+
+        return "editLessonForm";
+    }
     @PostMapping("/admin-lessons/edit")
     public String editCourse(@RequestParam("id") Long id,
                              @RequestParam("day") WeekDay day,
@@ -67,12 +73,19 @@ public class AdminScheduleController {
                              @RequestParam("week") int week,
                              @RequestParam("place") String place,
                              @RequestParam("type") LessonType type,
-                             @RequestParam("grNum") GroupCourse groupCourse){
-        Lesson lesson =lessonRepository.findById(id).get();
+                             @RequestParam("grNum") GroupCourse groupCourse,
+                             @ModelAttribute("postponeLesson")Lesson lesson){
+
+        ScheduleDate scheduleDate= new ScheduleDate();
+        scheduleDate.setLessonOrder(lessonOrder);
+        scheduleDate.setWeek(week);
+        scheduleDate.setDayOfTheWeek(day);
+        lesson.setDate(scheduleDate);
         lesson.setPlace(place);
         lesson.setType(type);
         lesson.setGroupCourse(groupCourse);
-        return "redirect:/adminschedule";
+        lessonRepository.save(lesson);
+        return "/admin-lessons";
     }
     @GetMapping("/admin-lessons/delete")
     public String deleteCourse(@RequestParam("id") Long id){

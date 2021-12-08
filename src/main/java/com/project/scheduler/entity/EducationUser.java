@@ -25,7 +25,7 @@ public class EducationUser extends User {
     }
 
     @JsonBackReference
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "GROUP_USER",
             joinColumns = @JoinColumn(name = "userId"),
