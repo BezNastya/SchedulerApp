@@ -41,7 +41,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourseById(Long courseId) {
-courseRepository.deleteById(courseId);
+        courseRepository.deleteById(courseId);
     }
 
     @Override

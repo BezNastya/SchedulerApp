@@ -28,21 +28,32 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @Operation(summary = "Add a new course")
+    @Operation(summary = "New course view")
     @GetMapping("/course")
     public String course(Model model){
-        Object[] data = new Object[2];
-        model.addAttribute("data", data);
+        List<Course> courses = courseService.findAll();
+        model.addAttribute("courses", courses);
         return "course";
     }
 
-    @Operation(summary = "Add a new course")
-    @PostMapping("course/add")
-    public String addCourse(@ModelAttribute(name = "data")Object[] data){
+    @Operation(summary = "Adding new course")
+    @PostMapping("/course/add")
+    public String addCourse(@RequestParam("courseName") String courseName,
+                            @RequestParam("grNum") String grNum) {
         Course course = new Course();
-        course.setName((String) data[0]);
-        courseService.saveGroupsForCourse(course, (byte) data[1]);
+        course.setName(courseName);
         courseService.saveCourse(course);
+        courseService.saveGroupsForCourse(course, (byte) Integer.parseInt(grNum));
+        logger.info("Added course with name{}", courseName);
+        return "redirect:/course";
+    }
+
+    @Operation(summary = "Delete the specified course")
+    @GetMapping("/course/delete")
+    public String deleteCourse(@RequestParam("id") Long id){
+        logger.info("Deleting course with id{}", id);
+        courseService.deleteAllGroups(courseService.findCourseById(id).get());
+        courseService.deleteCourseById(id);
         return "redirect:/course";
     }
 

@@ -24,11 +24,11 @@ public class Lesson implements Comparable<Lesson>{
     String place;
 
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride( name = "dayOfTheWeek", column = @Column(name = "scheduleDate_dayOfTheWeek")),
-            @AttributeOverride( name = "lessonOrder", column = @Column(name = "scheduleDate_lessonOrder")),
-            @AttributeOverride( name = "week", column = @Column(name = "scheduleDate_week"))
-    })
+//    @AttributeOverrides({
+//            @AttributeOverride( name = "dayOfTheWeek", column = @Column(name = "scheduleDate_dayOfTheWeek")),
+//            @AttributeOverride( name = "lessonOrder", column = @Column(name = "scheduleDate_lessonOrder")),
+//            @AttributeOverride( name = "week", column = @Column(name = "scheduleDate_week"))
+//    })
     ScheduleDate date;
 
     @ManyToOne
