@@ -12,7 +12,11 @@ import com.project.scheduler.repository.GroupCourseRepository;
 import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +28,8 @@ import java.util.stream.Stream;
 @Slf4j
 @Transactional
 public class CourseServiceImpl implements CourseService {
+
+    private final Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
 
     private final CourseRepository courseRepository;
     private final GroupCourseRepository groupRepository;
@@ -41,6 +47,8 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(course);
     }
 
+
+    //@CacheEvict(value = "groups", keyGenerator = "")
     @Override
     public void deleteCourseById(Long courseId) {
         courseRepository.deleteById(courseId);
@@ -106,8 +114,11 @@ public class CourseServiceImpl implements CourseService {
         groupRepository.deleteGroupCoursesByCourse(course);
     }
 
+
+    @Cacheable(cacheNames = "groups")
     @Override @TrackParameters
     public List<GroupCourse> findGroupCoursesByEducationUserId(Long id) {
+        logger.warn("Getting all groups for the user with id " + id);
         return groupRepository.findGroupCoursesByEducationUserId(id);
     }
 
@@ -166,6 +177,7 @@ public class CourseServiceImpl implements CourseService {
         return allByWeekSorted;
     }
 
+    @Override
     public Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id) {
         List<Lesson> lessonsList = findLessonsByEducationUserId(id).stream().filter(l -> l.getDate().getWeek() == week).collect(Collectors.toList());
         Map<WeekDay, List<Lesson>> result = new TreeMap<>();

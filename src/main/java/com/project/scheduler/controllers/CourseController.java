@@ -1,8 +1,6 @@
 package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.Course;
-import com.project.scheduler.entity.GroupCourse;
-import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
@@ -10,11 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Controller
 public class CourseController {
@@ -36,7 +35,7 @@ public class CourseController {
         return "course";
     }
 
-    @Operation(summary = "Adding new course")
+    @Operation(summary = "Add new course")
     @PostMapping("/course/add")
     public String addCourse(@RequestParam("courseName") String courseName,
                             @RequestParam("grNum") String grNum) {
@@ -52,10 +51,13 @@ public class CourseController {
     @GetMapping("/course/delete")
     public String deleteCourse(@RequestParam("id") Long id) {
         logger.info("Deleting course with id{}", id);
-        Course course = courseService.findCourseById(id).get();
-        courseService.deleteLessonsByGroupCourse_Course(course);
-        courseService.deleteGroupCoursesByCourse(course);
-        courseService.deleteCourseById(id);
+        Optional<Course> courseOptional = courseService.findCourseById(id);
+        if (courseOptional.isPresent()) {
+            Course course = courseOptional.get();
+            courseService.deleteLessonsByGroupCourse_Course(course);
+            courseService.deleteGroupCoursesByCourse(course);
+            courseService.deleteCourseById(id);
+        }
         return "redirect:/course";
     }
 
