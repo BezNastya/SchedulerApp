@@ -37,7 +37,7 @@
                             <td style="text-align: center; vertical-align: middle" th:text="${request.getLessonType()}">Type</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.description}">Description</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.teacher}">Teacher</td>
-                            <td style="text-align: center; vertical-align: middle" th:text="${request.oldDate}">Old</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.getOldDate()}">Old</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.newDate}">New Date</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.getStatus}">Status</td>
                             <td><div th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getId})"></div></td>

@@ -34,6 +34,8 @@ public class PostponeLesson {
     @ToString.Exclude
     private Lesson canceledLesson;
 
+    private String oldDate;
+
     @Valid
     @NotNull
     @Embedded
@@ -48,12 +50,14 @@ public class PostponeLesson {
     public PostponeLesson(Lesson lesson, ScheduleDate newDate){
         this.canceledLesson = lesson;
         this.newDate = newDate;
+        this.oldDate = canceledLesson.getDate().toString();
     }
 
     public PostponeLesson(Lesson lesson, ScheduleDate newDate, String description){
         this.canceledLesson = lesson;
         this.newDate = newDate;
         this.description = description;
+        this.oldDate = canceledLesson.getDate().toString();
     }
 
     @Override

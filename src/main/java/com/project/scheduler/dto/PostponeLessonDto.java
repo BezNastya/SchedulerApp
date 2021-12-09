@@ -1,8 +1,8 @@
 package com.project.scheduler.dto;
 
 import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.PostponeLesson;
 import com.project.scheduler.entity.ScheduleDate;
+import com.project.scheduler.entity.PostponeLesson;
 import lombok.Data;
 
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ public class PostponeLessonDto {
     private String lessonType;
     private String description;
     private String teacher;
-    private ScheduleDate oldDate;
+    private String oldDate;
     private ScheduleDate newDate;
     private String status;
     private Long id;
@@ -25,7 +25,7 @@ public class PostponeLessonDto {
         this.lessonType = canceled.getType().toString();
         this.description = postponeLesson.getDescription();
         this.teacher = canceled.getGroupCourse().getTeachers().stream().map(x -> x.getFirstName() + x.getLastName()).collect(Collectors.joining());
-        this.oldDate = canceled.getDate();
+        this.oldDate = postponeLesson.getOldDate();
         this.newDate = postponeLesson.getNewDate();
         this.status = postponeLesson.getStatus().toString();
         this.id = postponeLesson.getId();
