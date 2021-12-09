@@ -57,10 +57,12 @@ public class PostponeLessonController {
         Lesson lesson = lessonRepository.getById(id);
         model.addAttribute("lesson", lesson);
         model.addAttribute("description", lesson.getPostponeLesson().getDescription());
+        model.addAttribute("lessonWeek", lesson.getPostponeLesson().getNewDate().getWeek());
+        model.addAttribute("lessonDay", lesson.getPostponeLesson().getNewDate().getDayOfTheWeek());
+        model.addAttribute("lessonOrder", lesson.getPostponeLesson().getNewDate().getLessonOrder());
         return new ModelAndView("postponeLesson", model);
     }
 
-    //@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date   - for requesting dates
     @Operation(summary = "Add a new postpone request")
     @GetMapping("/postponeLessonForm")
     public ModelAndView chooseLessonToPostpone(@RequestParam("id") long id, Principal principal, ModelMap model) {
@@ -70,6 +72,9 @@ public class PostponeLessonController {
         Lesson lesson = lessonRepository.getById(id);
         model.addAttribute("lesson", lesson);
         model.addAttribute("description", "");
+        model.addAttribute("lessonWeek", lesson.getDate().getWeek());
+        model.addAttribute("lessonDay", lesson.getDate().getDayOfTheWeek());
+        model.addAttribute("lessonOrder", lesson.getDate().getLessonOrder());
         logger.warn("Received submit request for a lesson with id {}", id);
         return new ModelAndView("postponeLesson", model);
     }

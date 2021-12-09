@@ -217,7 +217,8 @@ public class CourseServiceImpl implements CourseService {
     public Map<WeekDay, List<Lesson>> findScheduleForWeek(int week, long id) {
         List<Lesson> lessonsList = findLessonsByEducationUserId(id).stream().filter(l -> l.getDate().getWeek() == week).collect(Collectors.toList());
         Map<WeekDay, List<Lesson>> result = new TreeMap<>();
-        Stream.of(WeekDay.values()).forEach((weekDay -> result.put(weekDay, lessonsList.stream().filter(l -> l.getDate().getDayOfTheWeek() == weekDay).collect(Collectors.toList()))));
+        Stream.of(WeekDay.values()).forEach((weekDay -> result.put(weekDay, lessonsList.stream().filter(l -> l.getDate().getDayOfTheWeek() == weekDay)
+                .sorted().collect(Collectors.toList()))));
         return result;
     }
 

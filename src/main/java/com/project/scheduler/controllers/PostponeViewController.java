@@ -3,6 +3,7 @@ package com.project.scheduler.controllers;
 import com.project.scheduler.dto.PostponeLessonDto;
 import com.project.scheduler.entity.PostponeLesson;
 import com.project.scheduler.entity.User;
+import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.PostponeLessonService;
 import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,12 +38,9 @@ public class PostponeViewController {
                 .stream()
                 .map(PostponeLessonDto::new)
                 .collect(Collectors.toList());
-        Optional<User> userOptional = userService.findByEmail(principal.getName());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            model.addAttribute("requests", requests);
-            model.addAttribute("user", user);
-        }
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+        model.addAttribute("requests", requests);
+        model.addAttribute("user", user);
         return "postponeTable";
     }
 

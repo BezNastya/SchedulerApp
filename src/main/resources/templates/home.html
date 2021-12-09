@@ -10,10 +10,19 @@
 </head>
 <body>
     <div th:insert="fragments/navigation :: navbar"></div>
+
     <div id="content">
             <h1 class="text-center cover-heading" style="margin-top: 40px">Welcome to UKMA Schedule!</h1>
-            <img src="ukma.jpg" alt="NaUKMA logo">
-    </div>
+
+        <style>
+            .center-img {
+            display: block;
+            margin: 0 auto;
+        }
+        </style>
+
+        <img alt="logo"  class="center-img"
+             height="128" th:src="@{/public/ukma.jpg}" width="128">    </div>
     <div th:text="${message}">
     </div>
 </body>
