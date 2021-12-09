@@ -47,7 +47,7 @@ public class GroupController {
             groupCourses = new ArrayList<>(courseService.findAllGroupsForCourse(course));
             model.addAttribute("course", course.getName());
         }
-        model.addAttribute("groupCourses", groupCourses);
+        model.addAttribute("groupCourses", groupCourses != null ? courseService.sortGroupCoursesByGroupNum(groupCourses): groupCourses);
         return "addGroup";
     }
 

@@ -29,8 +29,8 @@
                     <tbody>
                     <tr th:each="groupCourse : ${groupCourseList}">
                         <td th:text="${groupCourse.getCourse().getName()}">Name</td>
-                        <td th:text="${groupCourse.getGroupNum()}">Group</td>
-                        <td>
+                        <td class="text-center" th:text="${groupCourse.getGroupNum()}">Group</td>
+                        <td class="text-center">
                             <a type="button" class="btn btn-outline-danger"
                                th:href="@{/my-groups/delete-group(id = ${groupCourse.getId()})}">
                                 Unenroll

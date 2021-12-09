@@ -94,7 +94,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course saveGroupsForCourse(Course course, byte numberOfGroups) {
         Set<GroupCourse> res = new HashSet<>();
-        for (byte i = 1; i <= numberOfGroups; i++){
+        for (byte i = 1; i <= numberOfGroups; i++) {
             GroupCourse group = new GroupCourse(i);
             group.setCourse(course);
             group.setStudents(new HashSet<>());
@@ -197,6 +197,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Lesson> findLessonsByEducationUserIdForWeek(long id, int week) {
         return findLessonsByEducationUserId(id).stream().filter(lesson -> lesson.getDate().getWeek() == week).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GroupCourse> sortGroupCoursesByGroupNum(List<GroupCourse> groupCourseList) {
+        groupCourseList.sort(Comparator.naturalOrder());
+        return groupCourseList;
     }
 
     @Override

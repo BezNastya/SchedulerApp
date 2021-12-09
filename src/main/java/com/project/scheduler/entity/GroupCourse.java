@@ -15,7 +15,7 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class GroupCourse {
+public class GroupCourse  implements Comparable<GroupCourse> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -66,5 +66,10 @@ public class GroupCourse {
     @Override
     public int hashCode() {
         return Objects.hash(course, groupNum);
+    }
+
+    @Override
+    public int compareTo(GroupCourse o) {
+        return Integer.compare(groupNum, o.getGroupNum());
     }
 }
