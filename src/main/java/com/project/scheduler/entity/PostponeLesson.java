@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ public class PostponeLesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long lessonId;
 
     //Коментарі
     private String description;
@@ -65,11 +66,11 @@ public class PostponeLesson {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         PostponeLesson that = (PostponeLesson) o;
-        return id == that.id;
+        return canceledLesson.getLessonId() == that.canceledLesson.getLessonId();
     }
 
     @Override
     public int hashCode() {
-        return Long.hashCode(id);
+        return Long.hashCode(canceledLesson.getLessonId());
     }
 }

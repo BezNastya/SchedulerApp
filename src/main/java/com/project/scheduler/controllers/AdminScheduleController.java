@@ -39,8 +39,9 @@ public class AdminScheduleController {
                 courseService.findAllLessonsByWeek(week));
         model.addAttribute("week", week);
         model.addAttribute("user",user);
-        return "adminschedule";
+        return "adminSchedule";
     }
+
     @PostMapping("/admin-lessons/add")
     public String addLesson(@RequestParam("day") WeekDay day,
                             @RequestParam("order") LessonOrder lessonOrder,
@@ -56,6 +57,7 @@ public class AdminScheduleController {
         lessonRepository.save(lesson);
         return "redirect:/admin-lessons";
     }
+
     @GetMapping("/admin-lessons/edit")
     public String editCourse(Model model){
 
@@ -63,6 +65,7 @@ public class AdminScheduleController {
 
         return "redirect:/admin-lessons";
     }
+
     @PostMapping("/admin-lessons/edit")
     public String editCourse(@RequestParam("id") Long id,
                              @RequestParam("day") WeekDay day,
@@ -80,6 +83,8 @@ public class AdminScheduleController {
         lessonRepository.save(lesson);
         return "/admin-lessons";
     }
+
+    //TODO DeleteMapping
     @GetMapping("/admin-lessons/delete")
     public String deleteCourse(@RequestParam("id") Long id){
         lessonRepository.deleteById(id);

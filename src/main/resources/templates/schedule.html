@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <script src="jquery-3.5.1.min.js"></script>
     <meta charset="UTF-8">
     <title>My Lessons</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -9,6 +8,8 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
           crossorigin="anonymous">
     <link th:href="@{resources/styles/button.css}" rel="stylesheet" />
+    <script type="text/javascript" src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 <div th:insert="fragments/navigation :: navbar"></div>
@@ -59,8 +60,9 @@
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getType().getType()}">Type</td>
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getPlace()}">Place</td>
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getGroupCourse().getGroupNum()}">Group</td>
-                        <td th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#postpone">Postpone</button>
+                        <td th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}" th:switch="${lesson.getPostponeLesson()}">
+                            <a th:case = "null" th:href="@{/postponeLessonForm(id = ${lesson.getLessonId()})}" th:method="GET">Postpone</a>
+                            <a th:case = "*" th:href="@{/postponeLessonReview(id = ${lesson.getLessonId()})}" th:method="GET">Change</a>
                         </td>
                     </tr>
                     </tbody>
@@ -77,37 +79,6 @@
         </div>
     </div>
 </div>
-
-
-<div class="modal fade" id="postpone" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form>
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New date</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                    <div class="form-group">
-                        <label for="place" class="col-form-label">New place:</label>
-                        <input type="text" class="form-control" id="place">
-                    </div>
-                    <div class="form-group">
-                        <label for="description" class="col-form-label">Description:</label>
-                        <textarea class="form-control" id="description"></textarea>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add postpone request</button>
-            </div>
-        </div>
-    </div>
-    </form>
-</div>
-
 
 
 </body>

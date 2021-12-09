@@ -19,8 +19,6 @@ public class CustomCacheManager implements CacheManager {
 
     private final ConcurrentMap<String, Cache> cache = new ConcurrentHashMap<>(INITIAL_CAPACITY);
 
-    //private final Set<String> cacheNames = new HashSet<>(Arrays.asList("users", "groups"));
-
     @Override
     public Cache getCache(String s) {
         logger.info("Getting cache for " + s);

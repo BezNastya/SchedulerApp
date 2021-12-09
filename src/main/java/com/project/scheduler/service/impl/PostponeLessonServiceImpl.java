@@ -6,7 +6,6 @@ import com.project.scheduler.entity.PostponeStatus;
 import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.repository.PostponeLessonRepository;
 import com.project.scheduler.service.PostponeLessonService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -18,7 +18,7 @@
       <label >Day</label>
       <select name="day">
         <option th:each="lessontyp : ${T(com.project.scheduler.entity.WeekDay).values()}"
-                th:value="${lessontyp}" th:text="${lessontyp}"></option>
+                th:value="${lessontyp}" th:text="${lessontyp.getDay()}"></option>
       </select>
     </div>
     <div class="col-1">
@@ -46,8 +46,8 @@
     </div>
 
     <div class="col-1">
-      <label>Type</label>
-      <select name="type">
+      <label for = "type">Type</label>
+      <select name="type" id = "type">
         <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonType).values()}"
                 th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
       </select>

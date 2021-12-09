@@ -35,7 +35,7 @@ public class PostponeCleanupService {
             LocalDate create = r.getCreated().toLocalDate();
             long between = Duration.between(create.atStartOfDay(), now.atStartOfDay()).toDays();
             if (between > 7 && !r.getStatus().equals(PostponeStatus.PENDING)) {
-                idsToDelete.add(r.getId());
+                idsToDelete.add(r.getCanceledLesson().getLessonId());
             }
         }
         logger.warn("Requests we have to delete {}", idsToDelete.size());

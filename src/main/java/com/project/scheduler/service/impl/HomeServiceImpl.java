@@ -33,7 +33,7 @@ public class HomeServiceImpl implements HomeService {
     @Scheduled( cron = "0 0 1 * * ?", zone="Europe/Kiev")
     public void monthStat() {
 
-        logger.warn("Happy New Year! we are going to the next year with "+studentService.findAll().size()
+        logger.warn("Happy New Month! we are going to the next month with "+studentService.findAll().size()
                 +"students and  "+teacherService.findAll().size()+" teachers" );
     }
 
@@ -44,7 +44,7 @@ public class HomeServiceImpl implements HomeService {
     }
     @Scheduled( cron = " 0 0 * * 6-7 ?", zone="Europe/Kiev")
     public void happyWeekend() {
-        System.out.println("New month! we have  "+studentService.findAll().size()
+        System.out.println("Weekends! We have  "+studentService.findAll().size()
                 +"students and  "+teacherService.findAll().size()+" teachers" );
     }
 
