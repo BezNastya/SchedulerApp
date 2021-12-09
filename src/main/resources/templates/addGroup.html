@@ -9,89 +9,69 @@
         crossorigin="anonymous">
 </head>
 <body>
-<!--<div th:insert="fragments/navigation :: navbar"></div>-->
+<div th:insert="fragments/navigation :: navbar"></div>
 
-<div class="container">
-    <br>
-    <div class="row">
+<div th:if="${courseId == null}" class="container">
+    <div class="row my-3">
+        <div class="col">
+            <h2 class="text-center">Choose course</h2>
+        </div>
+    </div>
+    <div class="row mb-3">
       <div class="col-4 offset-8">
         <label for="myInput"></label>
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Course">
       </div>
     </div>
-    <br>
-  <div class="row">
-    <div class="col-8 offset-2">
-      <ul id="myUL" class="list-group">
-        <li th:each="course : ${courses}" class="list-group-item list-group-item-action">
-            <a data-target="#createModal" th:text="${course.getName()}"></a>
-
-<!--            <form th:action="@{/add-group}" id="groups" th:object="${course}"-->
-<!--                  method="get"-->
-<!--                  class="col-4 offset-8 input-group my-2" style="display: none">-->
-<!--              <div class="input-group-prepend">-->
-<!--                <button class="btn btn-outline-secondary" type="submit">Choose week</button>-->
-<!--              </div>-->
-
-<!--            </form>-->
-        </li>
-      </ul>
+    <div class="row">
+      <div class="col-8 offset-2">
+        <ul id="myUL" class="list-group">
+          <li th:each="courseItem : ${courses}" class="list-group-item list-group-item-action">
+              <a th:text="${courseItem.getName()}"
+                 th:href="@{/new-groups(courseId = ${courseItem.getId()})}"></a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
 </div>
 
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Choose group</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="this.form.close()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="createAddress" method="post" th:action="@{/new-groups/add}">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon">Group number</span>
-                        </div>
-<!--                        <select class="custom-select" id="inputSelect" name="inputSelect">-->
-<!--                            <option th:each="i : ${courseService.findAllGroupsForCourse(curr)}"-->
-<!--                                    th:value="${i.getGroupNum()}"-->
-<!--                                    th:text="${i.getGroupNum()}"-->
-<!--                            >-->
-<!--                            </option>-->
-<!--                        </select>-->
+<div th:if="${courseId != null}" class="container">
+    <div class="row my-3">
+        <div class="col">
+            <h2 th:text="'Choose group for ' + ${course}" class="text-center"></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 offset-4">
+            <form th:action="@{/new-groups/add}">
+                <div class="row">
+                    <div class="col-6">
+                        <select class="custom-select" id="inputSelect" name="inputSelect">
+                            <option th:each="groupCourse : ${groupCourses}"
+                                    th:value="${groupCourse.getGroupNum()}"
+                                    th:text="${groupCourse.getGroupNum()}">
+                            </option>
+                        </select>
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Ім'я</span>
-                        </div>
-                        <input name="name" type="text" class="form-control"
-                               placeholder="Іван"
-                               aria-label="Name"
-                               aria-describedby="basic-addon1">
+                    <input th:value="${courseId}"
+                           name="courseId"
+                           type="hidden"/>
+                    <div class="col-6 d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">Enroll</button>
+                        <a type="button"
+                           class="btn btn-secondary"
+                           th:href="@{/new-groups(courseId = null)}"
+                           style="color: white">Cancel
+                        </a>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                onclick="this.form.close()">
-                            Відмінити
-                        </button>
-                        <button type="submit" class="btn btn-primary" onclick="this.form.submit()">Зберегти
-                            адресу
-                        </button>
-                    </div>
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 </body>
-<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
 <script th:inline="javascript">
   function myFunction() {
     let input, filter, ul, li, a, i, txtValue;
@@ -109,19 +89,6 @@
         li[i].style.display = "none";
       }
     }
-  }
-
-  function show() {
-    // let message = [[${c}]];
-      $('#createModal').toggle();
-      // $('#createAddress').trigger('reset')
-
-    //   let x = document.getElementById("createModal");
-    // if (x.style.display === "none") {
-    //   x.style.display = "block";
-    // } else {
-    //   x.style.display = "none";
-    // }
   }
 </script>
 
