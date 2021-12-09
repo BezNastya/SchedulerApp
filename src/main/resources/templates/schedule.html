@@ -62,7 +62,7 @@
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getGroupCourse().getGroupNum()}">Group</td>
                         <td th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}" th:switch="${lesson.getPostponeLesson()}">
                             <a th:case = "null" th:href="@{/postponeLessonForm(id = ${lesson.getLessonId()})}" th:method="GET">Postpone</a>
-                            <a th:case = "*" th:href="@{/postponeLessonReview(id = ${lesson.getLessonId()})}" th:method="GET">Change</a>
+                            <a th:case = "*" th:text="${lesson.getPostponeLesson().getStatus()}"></a>
                         </td>
                     </tr>
                     </tbody>

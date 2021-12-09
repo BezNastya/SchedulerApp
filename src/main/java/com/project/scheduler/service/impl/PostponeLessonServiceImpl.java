@@ -26,6 +26,8 @@ public class PostponeLessonServiceImpl implements PostponeLessonService {
     public PostponeLesson postponeLesson(final long id, @Valid final PostponeLesson postponeLesson) {
         Lesson lessonToPostpone = lessonRepository.getById(id);
         postponeLesson.setCanceledLesson(lessonToPostpone);
+        postponeLesson.setOldDate(lessonToPostpone.getDate().toString());
+        postponeLessonRepository.deletePostponeLessonByCanceledLesson(lessonToPostpone);
         postponeLessonRepository.save(postponeLesson);
         return postponeLesson;
     }

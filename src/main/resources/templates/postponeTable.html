@@ -40,7 +40,16 @@
                             <td style="text-align: center; vertical-align: middle" th:text="${request.getOldDate()}">Old</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.newDate}">New Date</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.getStatus}">Status</td>
-                            <td><div th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getId})"></div></td>
+                            <td style="text-align: center; vertical-align: middle; width: 15%">
+
+                                <div th:if="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}">
+                                    <a title="Change" th:href="@{/postponeLessonReview(id = ${request.getCanceledId})}" th:method="GET">
+                                        <i class="fas fa-edit"></i></a>
+                                    </a>&emsp;
+                                </div>
+
+                                <div th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getId})"></div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

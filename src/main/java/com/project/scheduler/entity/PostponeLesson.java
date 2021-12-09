@@ -30,7 +30,7 @@ public class PostponeLesson {
 
     //Предмет, що перенесено
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "CANCELED_LESSON", nullable = false)
     @JsonIgnore
     @ToString.Exclude
     private Lesson canceledLesson;

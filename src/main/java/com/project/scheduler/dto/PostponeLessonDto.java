@@ -18,16 +18,18 @@ public class PostponeLessonDto {
     private ScheduleDate newDate;
     private String status;
     private Long id;
+    private Long canceledId;
 
     public PostponeLessonDto(PostponeLesson postponeLesson){
         Lesson canceled = postponeLesson.getCanceledLesson();
         this.lesson = canceled.getGroupCourse().getCourse().getName();
-        this.lessonType = canceled.getType().toString();
+        this.lessonType = canceled.getType().getType();
         this.description = postponeLesson.getDescription();
         this.teacher = canceled.getGroupCourse().getTeachers().stream().map(x -> x.getFirstName() + x.getLastName()).collect(Collectors.joining());
         this.oldDate = postponeLesson.getOldDate();
         this.newDate = postponeLesson.getNewDate();
         this.status = postponeLesson.getStatus().toString();
         this.id = postponeLesson.getLessonId();
+        this.canceledId = postponeLesson.getCanceledLesson().getLessonId();
     }
 }
