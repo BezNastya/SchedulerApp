@@ -37,10 +37,18 @@
     <div class="row">
         <div class="col-8 offset-2">
             <form id="addLesson" method="POST" th:action="@{/admin-lessons/add}">
-            <div class="form-row mb-3">
+            <div class="form-row mb-1">
+                <div class="col-2">
+                    <label>Type</label>
+                    <select name="type">
+                        <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonType).values()}"
+                                th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
+                    </select>
+                </div>
+
                 <div class="col-2">
                     <label >Day</label>
-                    <select name="day">
+                    <select th:marginwidth="10" name="day">
                         <option th:each="lessontyp : ${T(com.project.scheduler.entity.WeekDay).values()}"
                                 th:value="${lessontyp}" th:text="${lessontyp}"></option>
                     </select>
@@ -52,6 +60,7 @@
                                 th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
                     </select>
                 </div>
+
                 <div class="col-1">
                     <label for="week">Week</label>
                     <input type="number"
@@ -66,16 +75,11 @@
                            class="form-control"
                            id="place"
                            value="209a"
-                           name="place">
+                           name="place"
+                           >
                 </div>
 
-                <div class="col-2">
-                    <label>Type</label>
-                    <select name="type">
-                        <option th:each="lessontyp : ${T(com.project.scheduler.entity.LessonType).values()}"
-                                th:value="${lessontyp}" th:text="${lessontyp.name()}"></option>
-                    </select>
-                </div>
+
                 <div class="col-1">
                     <label for="grNum">Group</label>
                     <input type="number"
@@ -84,9 +88,10 @@
                            value="3"
                            name="grNum">
                 </div>
-                <button type="submit" class="btn btn-outline-success btn-sm">Add lesson</button>
+                <button type="submit" class="btn btn-outline-success">Add lesson</button>
 
-                </div>
+            </div>
+
             </form>
         </div>
     </div>
