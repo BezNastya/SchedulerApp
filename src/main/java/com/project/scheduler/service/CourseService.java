@@ -41,5 +41,5 @@ public interface CourseService {
 
 
     void deleteLessonsByGroupCourse_Course(Course course);
-
+    List<GroupCourse> sortGroupCoursesByGroupNum(List<GroupCourse> groupCourseList);
 }

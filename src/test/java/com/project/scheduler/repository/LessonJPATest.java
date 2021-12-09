@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -106,5 +107,10 @@ public class LessonJPATest {
     void shouldReturnEmpty_whenAllGroupsDeleted() {
         lessonRepository.deleteAll();
         assertTrue(lessonRepository.findAll().isEmpty());
+    }
+    @Test
+    void shouldReturnTrueWhenRepoIsEmpty() {
+        List<Lesson> lessons = any();
+        assertNull(lessons);
     }
 }

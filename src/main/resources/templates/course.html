@@ -12,13 +12,18 @@
 <div th:insert="fragments/navigation :: navbar"></div>
 
 <div class="container">
+    <div class="row" th:if="${error}">
+        <div class="alert alert-danger" role="alert">
+            A simple danger alert—check it out!
+        </div>
+    </div>
     <div class="row mt-4">
         <div class="col-6">
             <form id="addCourse" method="POST" th:action="@{/course/add}">
                 <div class="form-row mb-3">
                     <div class="col-9">
                         <label for="name">Course name</label>
-                        <input type="text"
+                        <input type="text" required
                                class="form-control"
                                id="name"
                                placeholder="Computing"
@@ -26,7 +31,7 @@
                     </div>
                     <div class="col-3">
                         <label for="grNum">Group number</label>
-                        <input type="text"
+                        <input type="text" min="1" max="10" required
                                class="form-control"
                                id="grNum"
                                placeholder="3"

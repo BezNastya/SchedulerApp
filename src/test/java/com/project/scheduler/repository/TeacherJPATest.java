@@ -61,6 +61,10 @@ public class TeacherJPATest {
         teacher.setFirstName("Alina");
         assertEquals(teacher.getFirstName(),"Alina");
     }
+    @Test
+    void shouldReturnTrueIfTeacherRepoLess50(){
+    assertTrue(teacherRepository.findAll().size()<50);
+    }
 }
 
 

@@ -44,15 +44,16 @@ public class CourseController {
     @PostMapping("/course/add")
     public String addCourse(@RequestParam("courseName") String courseName,
                             @RequestParam("grNum") String grNum) {
-        Course course = new Course();
-        course.setName(courseName);
-        courseService.saveCourse(course);
-        courseService.saveGroupsForCourse(course, (byte) Integer.parseInt(grNum));
-        logger.info("Added course with name {}", courseName);
+        if (!courseService.findCourseByName(courseName).isPresent()) {
+            Course course = new Course();
+            course.setName(courseName);
+            courseService.saveCourse(course);
+            courseService.saveGroupsForCourse(course, (byte) Integer.parseInt(grNum));
+            logger.info("Added course with name {}", courseName);
+        }
         return "redirect:/course";
     }
 
-    //TODO Change to delete mapping
     @Operation(summary = "Delete the specified course")
     @GetMapping("/course/delete")
     public String deleteCourse(@RequestParam("id") Long id) {
