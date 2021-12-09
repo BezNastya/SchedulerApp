@@ -38,17 +38,16 @@ public class UserScheduleController {
     @Operation(summary = "Download the schedule in an Excel file")
     @GetMapping("/my-lessons/downloadExcel")
     public ResponseEntity<Resource> downloadExcel(Principal principal, @RequestParam("week") Integer week) {
-        Optional<User> maybeUser =  userService.findByEmail(principal.getName());
-       if (maybeUser.isPresent()) {
-           User user = maybeUser.get();
-           long id = user.getUserId();
-           InputStreamResource file = new InputStreamResource(excelService.getScheduleForStudentForSpecifiedWeek(id, week));
-           return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                           "attachment; filename=" + user.getFirstName() + '_' + user.getLastName() + ".xlsx")
-                   .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-                   .body(file);
-       }
-       return ResponseEntity.notFound().build();
+        if (week <= 0 || week > 15) {
+            return ResponseEntity.notFound().build();
+        }
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+        long id = user.getUserId();
+        InputStreamResource file = new InputStreamResource(excelService.getScheduleForStudentForSpecifiedWeek(id, week));
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=" + user.getFirstName() + '_' + user.getLastName() + ".xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+                .body(file);
     }
 
     @Operation(summary = "Get the user`s lessons")

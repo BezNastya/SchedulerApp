@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-//    private ScheduleService scheduleService;
     private final AdminRepository adminRepository;
 
     @Autowired
@@ -21,23 +20,10 @@ public class AdminServiceImpl implements AdminService {
         this.adminRepository = adminRepository;
     }
 
-/*
-    @Override
-    public void setNewLessonDate(ScheduleDate date) {
-
-    }
-
-    @Override
-    public void deleteAdminById(Long adminId) {
-        adminRepository.deleteById(adminId);
-    }
-*/
-
     @Override
     public Admin save(Admin admin) {
         return adminRepository.save(admin);
     }
-
 
     @Override
     public Optional<Admin> findByEmail(String email) {

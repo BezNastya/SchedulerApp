@@ -19,9 +19,11 @@ class SpringSecurityTest {
     private MockMvc mockMvc;
 
     @Test
-    public void myTest1() throws Exception {
+    public void whenAccessLoginPage_thenReturn200() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk());
     }
+
+
 
 }
