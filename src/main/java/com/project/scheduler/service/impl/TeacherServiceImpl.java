@@ -76,4 +76,14 @@ public class TeacherServiceImpl implements TeacherService {
         return save(teacher);
     }
 
+    @Override
+    public Teacher addGroupForUser(Long teacherId, Course course, byte groupNum) {
+        GroupCourse go = groupCourseRepository.findGroupCourseByCourseAndGroupNum(course, groupNum);
+        Teacher teacher = findById(teacherId).get();
+        Set<GroupCourse> groupCourses = teacher.getGroupCourse();
+        groupCourses.add(go);
+        teacher.setGroupCourse(groupCourses);
+        return save(teacher);
+    }
+
 }

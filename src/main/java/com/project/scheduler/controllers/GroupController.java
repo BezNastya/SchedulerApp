@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,28 +32,42 @@ public class GroupController {
     }
 
     @GetMapping("/new-groups")
-    public String addGroupCourse(Principal principal, Model model) {
+    public String addGroupCourse(Principal principal,
+                                 Model model,
+                                 @RequestParam(value = "courseId", required = false) Long courseId){
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         List<Course> courses = courseService.findNotAttendedCourses(user.getUserId());
         model.addAttribute("courses", courses);
         model.addAttribute("user", user);
-        model.addAttribute("courseService", courseService);
-        Course course = new Course();
-        model.addAttribute("curr", course);
+        model.addAttribute("courseId", courseId);
+        List<GroupCourse> groupCourses = null;
+        Course course;
+        if (courseId != null) {
+            course = courseService.findCourseById(courseId).get();
+            groupCourses = new ArrayList<>(courseService.findAllGroupsForCourse(course));
+            model.addAttribute("course", course.getName());
+        }
+        model.addAttribute("groupCourses", groupCourses);
         return "addGroup";
     }
 
     @GetMapping("/new-groups/add")
-    public String addGroup(Principal principal, @RequestParam(name="inputSelect") int group, @ModelAttribute("course") Course course) {
-        Student student = studentService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
-        studentService.addGroupForUser(student.getUserId(), course, (byte) group);
+    public String addGroup(Principal principal,
+                           @RequestParam(name="inputSelect") byte group,
+                           @RequestParam(name="courseId") Long courseId) {
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
+        if (user.getRole() == Role.STUDENT)
+            studentService.addGroupForUser(
+                    user.getUserId(),
+                    courseService.findCourseById(courseId).get(),
+                    group);
+        else if (user.getRole() == Role.TEACHER)
+            teacherService.addGroupForUser(
+                    user.getUserId(),
+                    courseService.findCourseById(courseId).get(),
+                    group);
         return "redirect:/new-groups";
     }
-
-//    @GetMapping("/add-group-course")
-//    public Set<GroupCourse> addGroupCourse() {
-//        return studentService.addGroupForUser(2L, courseService.findCourseByName("Test1").get(), (byte)5).getGroupCourse();
-//    }
 
     @Operation(summary = "View my groups")
     @GetMapping("/my-groups")
