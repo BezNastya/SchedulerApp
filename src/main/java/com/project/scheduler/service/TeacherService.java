@@ -1,7 +1,7 @@
 package com.project.scheduler.service;
 
-import com.project.scheduler.entity.Lesson;
-import com.project.scheduler.entity.Student;
+import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Teacher;
 
 import java.util.List;
@@ -22,4 +22,5 @@ public interface TeacherService {
     //PostponeLesson postponeLesson(String description, Lesson canceledLesson,
               //                    ScheduleDate newDate, String newPlace);
     //Schedule getTeacherLessons(long id);
+    Teacher deleteGroupForUserByGroupCourse(Long teacherId, GroupCourse groupCourse);
 }

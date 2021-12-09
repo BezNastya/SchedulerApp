@@ -4,29 +4,29 @@ import com.project.scheduler.StartupData;
 import com.project.scheduler.entity.*;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.repository.GroupCourseRepository;
-import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.repository.TeacherRepository;
-import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.TeacherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
     private final Logger logger = LoggerFactory.getLogger(StartupData.class);
     private final TeacherRepository teacherRepository;
+    private final GroupCourseRepository groupCourseRepository;
 
 
     @Autowired
-    public TeacherServiceImpl(TeacherRepository teacherRepository) {
+    public TeacherServiceImpl(TeacherRepository teacherRepository, GroupCourseRepository groupCourseRepository) {
         this.teacherRepository = teacherRepository;
+        this.groupCourseRepository = groupCourseRepository;
     }
 
     @Override
@@ -65,6 +65,15 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void updateDepartment(final long id, final String department) {
         teacherRepository.updateDepartment(id, department);
+    }
+
+    @Override
+    public Teacher deleteGroupForUserByGroupCourse(Long teacherId, GroupCourse groupCourse) {
+        Teacher teacher = findById(teacherId).get();
+        Set<GroupCourse> groupCourses = teacher.getGroupCourse();
+        groupCourses.remove(groupCourse);
+        teacher.setGroupCourse(groupCourses);
+        return save(teacher);
     }
 
 }

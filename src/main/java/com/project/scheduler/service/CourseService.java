@@ -22,7 +22,7 @@ public interface CourseService {
     void deleteGroupCoursesByCourse(Course course);
 //    List<Course> findAllByStudent(Student student);
     void deleteCourseWithAll(Course course);
-
+    void deleteCourseById(Long courseId);
 
     List<GroupCourse> findGroupCoursesByEducationUserId(Long id);
     List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
