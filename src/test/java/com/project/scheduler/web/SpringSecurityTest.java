@@ -1,4 +1,4 @@
-package com.project.scheduler;
+package com.project.scheduler.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,7 @@ class SpringSecurityTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     @Test
-    @WithMockUser(roles = "STUDENT")
     public void myTest1() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk());

@@ -1,4 +1,4 @@
-package com.project.scheduler;
+package com.project.scheduler.repository;
 
 import com.project.scheduler.entity.Admin;
 import com.project.scheduler.entity.Role;

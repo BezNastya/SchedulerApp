@@ -1,4 +1,4 @@
-package com.project.scheduler;
+package com.project.scheduler.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.scheduler.controllers.AdminController;
