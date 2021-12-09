@@ -6,6 +6,8 @@ import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ public class AdminScheduleController {
     private final CourseService courseService;
     private final UserService userService;
     private final LessonRepository lessonRepository;
+    Logger logger = LoggerFactory.getLogger(PostponeLessonController.class);
+
 
     @Autowired
     public AdminScheduleController(CourseService courseService, UserService userService, LessonRepository lessonRepository) {
@@ -45,16 +49,21 @@ public class AdminScheduleController {
     @PostMapping("/admin-lessons/add")
     public String addLesson(@RequestParam("day") WeekDay day,
                             @RequestParam("order") LessonOrder lessonOrder,
-                            @RequestParam("week") int week,
+                            @RequestParam("week1") int weekStart,
+                            @RequestParam("week2") int weekEnd,
                             @RequestParam("place") String place,
                             @RequestParam("type") LessonType type,
-                            @RequestParam("grNum") GroupCourse grNum) {
-        Lesson lesson = new Lesson();
-        lesson.setDate(new ScheduleDate(day, lessonOrder, week));
-        lesson.setPlace(place);
-        lesson.setType(type);
-        lesson.setGroupCourse(grNum);
-        lessonRepository.save(lesson);
+                            @RequestParam("group") Long group) {
+        GroupCourse groupCourse = courseService.findGroupById(group);
+        if (weekStart <= 0 || weekStart > weekEnd || weekEnd > 15) {
+            throw new RuntimeException("Invalid week range set for lessons");
+        }
+        for (int i = weekStart; i <= weekEnd; i++) {
+            ScheduleDate date = new ScheduleDate(day, lessonOrder, i);
+            Lesson lesson = new Lesson(type, place, date, groupCourse);
+            lessonRepository.save(lesson);
+            logger.warn("New lesson added {}", lesson);
+        }
         return "redirect:/admin-lessons";
     }
 
@@ -73,13 +82,13 @@ public class AdminScheduleController {
                              @RequestParam("week") int week,
                              @RequestParam("place") String place,
                              @RequestParam("type") LessonType type,
-                             @RequestParam("grNum") GroupCourse groupCourse,
+                             @RequestParam("grNum") GroupCourse group,
                              @ModelAttribute("postponeLesson")Lesson lesson){
 
         lesson.setDate(new ScheduleDate(day, lessonOrder, week));
         lesson.setPlace(place);
         lesson.setType(type);
-        lesson.setGroupCourse(groupCourse);
+        lesson.setGroupCourse(group);
         lessonRepository.save(lesson);
         return "/admin-lessons";
     }

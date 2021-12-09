@@ -64,8 +64,9 @@
                     <table class="table table-bordered" style="width: 100%">
                         <thead class="thead-light">
                         <tr>
-                            <th style="width: 75%">Name</th>
-                            <th style="width: 25%">Delete</th>
+                            <th style="width: 50%">Name</th>
+                            <th style="width: 25%">Action</th>
+                            <th scope="width: 25%">AddLessons</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -78,6 +79,12 @@
                                    onclick="return confirm('Are you sure you want to delete this course')"
                                    th:href="@{/course/delete(id = ${course.getId()})}">
                                     Delete
+                                </a>&emsp;
+                            </td>
+                            <td>
+                                <a type="button" class="btn btn-secondary"
+                                   th:href="@{/course/addLessons(id = ${course.getId()})}">
+                                    AddLessons
                                 </a>&emsp;
                             </td>
                         </tr>

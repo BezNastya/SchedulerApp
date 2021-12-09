@@ -55,14 +55,11 @@
                         <td th:text="${lessonsByDay.getDate().getLessonOrder().getOrder()}">Time</td>
                         <td th:text="${lessonsByDay.getDate().getDayOfTheWeek().getDay()}">DayOfTheWeek</td>
                         <td th:text="${lessonsByDay.getGroupCourse().getCourse().getName()}">CourseName</td>
-                        <td th:text="${lessonsByDay.getType()}">Type</td>
+                        <td th:text="${lessonsByDay.getType().getType()}">Type</td>
                         <td th:text="${lessonsByDay.getPlace()}">Place</td>
                         <td th:text="${lessonsByDay.getGroupCourse().getTeachers().toString()}">Place</td>
                         <td th:text="${lessonsByDay.getGroupCourse().getGroupNum()}">Group</td>
-                        <td><a type="button" class="btn btn-outline-danger"
-                               th:href="@{/admin-lessons/delete(id = ${lessonsByDay.getLessonId()})}">Delete</a>&emsp;
-                            <button type="button" class="btn btn-secondary">Edit</button></td>
-
+                        <td><a title="Delete" th:href="@{/admin-lessons/delete(id = ${lessonsByDay.getLessonId()})}"><i class="fas fa-trash-alt"></i></a>&emsp;</td>
                     </tr>
                     </tbody>
                 </table>
@@ -70,8 +67,6 @@
         </div>
     </div>
 </div>
-
-
-
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
 </body>
 </html>
