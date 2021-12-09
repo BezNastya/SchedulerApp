@@ -18,8 +18,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "userId")
 public class Student extends EducationUser {
 
-    public Student(final String firstName, final String lastName, final String faculty, final String specialty,
-                   final String email, final String password) {
+    public Student(String firstName, String lastName, String faculty, String specialty,
+                   String email, String password) {
         super(email, password, firstName, lastName, Role.STUDENT);
         this.faculty = faculty;
         this.specialty = specialty;

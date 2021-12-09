@@ -26,8 +26,6 @@ public class User {
     protected long userId;
 
     @NotNull
-    @NotBlank(message = "Every user must have an email")
-    @Email
     @Setter
     @Getter
     String email;

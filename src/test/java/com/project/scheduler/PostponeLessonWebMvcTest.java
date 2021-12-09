@@ -29,33 +29,22 @@ public class PostponeLessonWebMvcTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Test
-    void whenValidInput_thenReturns200() throws Exception {
-        mockMvc.perform(get("/postponeLesson"))
-                .andExpect(view().name("postponeLesson"))
-                .andExpect(model().attributeExists("postponeLesson"));
-    }
-
+    @WithMockUser(authorities = "ADMIN")
     @Test
     void whenInvalidResource_thenReturn404() throws Exception {
         mockMvc.perform(get("/wrong")).andExpect(status().isNotFound());
     }
 
+    @WithMockUser(authorities = "ADMIN")
     @Test
     void whenTryGetAccessWithoutAuthentication_thenReturn302() throws Exception {
         mockMvc.perform(get("/admin/1")).andExpect(status().is3xxRedirection());
     }
 
     @Test
-    @WithMockUser(username = "admin@ukma.edu.ua", password = "admin", authorities = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     void whenTryGetAuthorizedAccess_thenReturn200() throws Exception {
         mockMvc.perform(get("/admin/1")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("email\":\"admin@ukma.edu.ua")));
-    }
-
-    @Test
-    @WithMockUser(username = "admin@ukma.edu.ua", password = "admin", authorities = "ADMIN")
-    void whenTryGetUnauthorizedAccess_thenReturn403() throws Exception {
-        mockMvc.perform(get("/teacher/1")).andExpect(status().isForbidden());
     }
 }

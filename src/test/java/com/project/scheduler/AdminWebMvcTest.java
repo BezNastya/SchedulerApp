@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -41,7 +41,7 @@ public class AdminWebMvcTest {
 
     private static final List<Admin> ADMINS = Collections.singletonList(new Admin("admin@ukma.edu.ua", encoder.encode("admin"), "Admin`s first name", "Admin`s last name"));
     private static final Admin TO_ADD_VALID = new Admin("email@e.com", "password", "First", "Last");
-    private static final Admin TO_ADD_INVALID = new Admin("email", "password", "First", "Last");
+    private static final Admin TO_ADD_INVALID = new Admin("email1@e.com", null, "First", "Last");
 
     @Test
     void shouldRedirectToLoginPage() throws Exception {
@@ -71,7 +71,7 @@ public class AdminWebMvcTest {
     @Test
     void shouldReturnValidationError_whenNonExistingAdmin() throws Exception {
         String validationOutput = "There is no user with id 1";
-        when(adminService.findById((long) 1)).thenReturn(Optional.empty());
+        when(adminService.findById(anyLong())).thenReturn(Optional.empty());
         mvc.perform(get("/admin/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$").value(validationOutput));

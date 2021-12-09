@@ -38,7 +38,6 @@ public class TeacherJPATest {
         assertNull(teachers);
     }
 
-
     @Test
     public void teachersTest() {
         Teacher teacher = new Teacher();

@@ -3,6 +3,7 @@ package com.project.scheduler;
 
 import com.project.scheduler.entity.Student;
 import com.project.scheduler.repository.StudentRepository;
+import com.project.scheduler.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,6 @@ import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -32,7 +32,9 @@ public class StudentRepositoryTest {
             );
 
     @BeforeAll
-    void saveStudents() {studentRepository.saveAll(STUDENTS);}
+    void saveStudents() {
+        studentRepository.saveAll(STUDENTS);
+    }
 
     @Test
     void shouldReturnAll_whenFindAll() {
@@ -64,8 +66,7 @@ public class StudentRepositoryTest {
 
     @Test
     void shouldFail_whenNonExistingEmailPassed() {
-        Assertions.assertNotEquals(studentRepository.findByEmail("wrongEmail@ukma.edu.ua"),
-                STUDENTS.stream().filter(student -> "anastasiia.bezruka@ukma.edu.ua".equals(student.getEmail())).findFirst());
+        Assertions.assertEquals(studentRepository.findByEmail("wrongEmail@ukma.edu.ua"), Optional.empty());
     }
 
 

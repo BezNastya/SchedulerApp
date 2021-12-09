@@ -38,8 +38,9 @@ public class AdminRepoTest {
 
     @Test
     void shouldFindExistingAdmin_whenAdminExists(){
-        Admin expected = ADMINS.get(0);
-        Optional<Admin> admin = adminRepository.findById((long) 1);
+        Admin expected = adminRepository.findAll().get(0);
+        long id = adminRepository.findAll().get(0).getUserId();
+        Optional<Admin> admin = adminRepository.findById(id);
         assertTrue(admin.isPresent());
         assertEquals(expected, admin.get());
     }
@@ -61,9 +62,11 @@ public class AdminRepoTest {
 
     @Test
     void shouldDeleteExistingAdmin() {
-        adminRepository.deleteById((long) 1);
+        int sizeBefore = adminRepository.findAll().size();
+        long id = adminRepository.findAll().get(0).getUserId();
+        adminRepository.deleteById(id);
         List<Admin> admins = adminRepository.findAll();
-        assertEquals(2, admins.size());
+        assertEquals(sizeBefore - 1, admins.size());
     }
 
     @Test
