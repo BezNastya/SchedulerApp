@@ -16,7 +16,9 @@ public interface LessonRepository extends JpaRepository<Lesson,Long> {
 
 //    @Query(value = "SELECT s.lessons FROM GroupCourse s JOIN s.lessons WHERE s.id = :id")
     List<Lesson> findLessonsByGroupCourse(GroupCourse groupCourse);
+
     void deleteLessonsByGroupCourse_Course(Course course);
+
     List<Lesson> findLessonsByDate_Week(int week);
 
     //@Query(value = "SELECT g.lessons FROM EducationUser u JOIN u.groupCourse g WHERE u.userId = :id")

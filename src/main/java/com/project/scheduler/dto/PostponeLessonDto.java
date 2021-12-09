@@ -28,6 +28,6 @@ public class PostponeLessonDto {
         this.oldDate = postponeLesson.getOldDate();
         this.newDate = postponeLesson.getNewDate();
         this.status = postponeLesson.getStatus().toString();
-        this.id = postponeLesson.getId();
+        this.id = postponeLesson.getLessonId();
     }
 }

@@ -46,6 +46,7 @@ public class PostponeViewController {
         return "postponeTable";
     }
 
+    //TODO Post mapping
     @Operation(summary = "Approve the selected request")
     @GetMapping("/approve")
     public String approveRequest(@RequestParam Long id){
@@ -54,6 +55,7 @@ public class PostponeViewController {
         return "errorReq";
     }
 
+    //TODO Post mapping
     @Operation(summary = "Decline the selected request")
     @GetMapping("/decline")
     public String declineRequest(@RequestParam Long id){
@@ -62,6 +64,7 @@ public class PostponeViewController {
         return "errorReq";
     }
 
+    //TODO Delete mapping
     @Operation(summary = "Remove the selected request")
     @GetMapping("/delete")
     public String deleteRequest(@RequestParam Long id){

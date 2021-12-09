@@ -1,16 +1,15 @@
 package com.project.scheduler.service.impl;
 
-import com.project.scheduler.entity.*;
+import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.entity.Student;
 import com.project.scheduler.repository.GroupCourseRepository;
-import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.repository.StudentRepository;
-import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

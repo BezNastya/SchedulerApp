@@ -27,10 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    //@Transactional(readOnly = true)
     @Cacheable(cacheNames = "emails")
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         logger.warn("Looking for the user " + email + " in the database");
 
