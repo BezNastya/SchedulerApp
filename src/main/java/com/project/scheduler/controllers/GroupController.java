@@ -11,6 +11,7 @@ import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,6 +67,7 @@ public class GroupController {
     }
 
     // TODO Add the summary
+    //TODO Change to delete mapping
     @Operation(summary = "")
     @GetMapping("/my-groups/delete-group")
     public String deleteGroupCourse(Principal principal, @RequestParam Long id){

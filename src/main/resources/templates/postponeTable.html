@@ -9,32 +9,37 @@
           crossorigin="anonymous">
 </head>
 <body>
+
 <div th:insert="fragments/navigation :: navbar"></div>
+
     <div class="container">
+
+        <h2 style="margin-top: 30px; horiz-align: center">Postpone requests</h2>
+
         <div class="row">
             <div class="table-responsive">
-                <table id="postpone" class="table table-bordered" style="width: 100%">
+                <table id="postpone" class="table table-bordered shadow p-3 mb-5 bg-white rounded" style="width: 100%; margin-top: 30px;">
                     <thead class="thead-light">
                         <tr>
-                            <th>Lesson</th>
-                            <th>Lesson Type</th>
-                            <th>Description</th>
-                            <th>Teachers</th>
-                            <th>Old Date</th>
-                            <th>New Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th style="text-align: center; vertical-align: middle">Lesson</th>
+                            <th style="text-align: center; vertical-align: middle">Lesson Type</th>
+                            <th style="text-align: center; vertical-align: middle">Description</th>
+                            <th style="text-align: center; vertical-align: middle">Teachers</th>
+                            <th style="text-align: center; vertical-align: middle">Old Date</th>
+                            <th style="text-align: center; vertical-align: middle">New Date</th>
+                            <th style="text-align: center; vertical-align: middle">Status</th>
+                            <th style="text-align: center; vertical-align: middle">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="request : ${requests}">
-                            <td th:text="${request.lesson}">Name</td>
-                            <td th:text="${request.lessonType}">Type</td>
-                            <td th:text="${request.description}">Description</td>
-                            <td th:text="${request.teacher}">Teacher</td>
-                            <td th:text="${request.oldDate}">Old</td>
-                            <td th:text="${request.newDate}">New Date</td>
-                            <td th:text="${request.getStatus}">Status</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.lesson}">Name</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.getLessonType()}">Type</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.description}">Description</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.teacher}">Teacher</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.oldDate}">Old</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.newDate}">New Date</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.getStatus}">Status</td>
                             <td><div th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getId})"></div></td>
                         </tr>
                     </tbody>

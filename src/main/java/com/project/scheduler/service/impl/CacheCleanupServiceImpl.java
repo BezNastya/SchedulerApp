@@ -19,7 +19,7 @@ public class CacheCleanupServiceImpl implements CacheCleanupService {
     Logger logger = LoggerFactory.getLogger(CacheCleanupServiceImpl.class);
 
     @TrackExecutionTime
-    @Scheduled(fixedRate = 60000) //Time is set for demonstrating purposes
+    @Scheduled(fixedRate = 600000) //Time is set for demonstrating purposes
     @Override
     public void clearTheWholeCache() {
         logger.warn("Clearing all the caches");

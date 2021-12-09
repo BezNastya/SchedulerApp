@@ -11,7 +11,6 @@ import java.util.Set;
 
 public interface CourseService {
     Course saveCourse(Course course);
-    void deleteCourseById(Long courseId);
     void updateCourseName(String newName, Long toUpdateId);
     Optional<Course> findCourseById(long id);
     Optional<Course> findCourseByName(String name);

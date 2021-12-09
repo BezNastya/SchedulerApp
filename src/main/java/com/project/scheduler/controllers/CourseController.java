@@ -52,6 +52,7 @@ public class CourseController {
         return "redirect:/course";
     }
 
+    //TODO Change to delete mapping
     @Operation(summary = "Delete the specified course")
     @GetMapping("/course/delete")
     public String deleteCourse(@RequestParam("id") Long id) {

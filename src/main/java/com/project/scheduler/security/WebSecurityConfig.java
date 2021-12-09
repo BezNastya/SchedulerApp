@@ -35,19 +35,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").authenticated()
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/course/**").hasAuthority(ADMIN.getRoleStringRepresentation())
                 .antMatchers("/user").authenticated()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/requests").hasAnyAuthority(ADMIN.getRoleStringRepresentation(), TEACHER.getRoleStringRepresentation())
                 .antMatchers("/requests/approve").hasAuthority(ADMIN.getRoleStringRepresentation())
                 .antMatchers("/requests/decline").hasAuthority(ADMIN.getRoleStringRepresentation())
                 .antMatchers("/requests/delete").hasAuthority(TEACHER.getRoleStringRepresentation())
-                .antMatchers("/admin/**").hasAuthority(ADMIN.getRoleStringRepresentation())
-                .antMatchers("/teacher/**").hasAuthority(TEACHER.getRoleStringRepresentation())
                 .antMatchers("/postponeLesson/**").hasAuthority(TEACHER.getRoleStringRepresentation())
-                .antMatchers("/student/**").hasAuthority(STUDENT.getRoleStringRepresentation())
-                .antMatchers("/my-lessons").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
-                .antMatchers("/admin-lessons").hasAuthority("ADMIN")
+                .antMatchers("/my-lessons/**").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
+                .antMatchers("/admin-lessons/**").hasAuthority(ADMIN.getRoleStringRepresentation())
+                .antMatchers("/my-groups/**").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
 
                 .and().formLogin().permitAll()
                 .and().logout().permitAll();
@@ -60,30 +57,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
-
-    /*
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        return userDetailsService;
-    }
-*/
-    /*
-    @Bean
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-*/
-
-
-    /*
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/webjars/**", "/js/**","/error/**"
-                , "/css/**","/fonts/**","/libs/**","/img/**","/h2-console/**");
-    }
-    */
-
 
 }

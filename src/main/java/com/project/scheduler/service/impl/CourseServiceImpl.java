@@ -2,7 +2,10 @@ package com.project.scheduler.service.impl;
 
 import com.project.scheduler.advice.TrackExecutionTime;
 import com.project.scheduler.advice.TrackParameters;
-import com.project.scheduler.entity.*;
+import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.GroupCourse;
+import com.project.scheduler.entity.Lesson;
+import com.project.scheduler.entity.WeekDay;
 import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.repository.CourseRepository;
 import com.project.scheduler.repository.GroupCourseRepository;
@@ -22,9 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -48,13 +49,6 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course saveCourse(Course course) {
         return courseRepository.save(course);
-    }
-
-
-    @CacheEvict(value = "groups", allEntries = true)
-    @Override
-    public void deleteCourseById(Long courseId) {
-        courseRepository.deleteById(courseId);
     }
 
     @Override
@@ -117,6 +111,7 @@ public class CourseServiceImpl implements CourseService {
         groupRepository.deleteGroupCoursesByCourse(course);
     }
 
+    @CacheEvict(cacheNames = "groups", allEntries = true)
     @Override
     public void deleteCourseWithAll(Course course) {
         deleteLessonsByGroupCourse_Course(course);
@@ -136,11 +131,11 @@ public class CourseServiceImpl implements CourseService {
             groupRepository.save(group);
         });
         deleteGroupCoursesByCourse(course);
-        deleteCourseById(course.getId());
+        courseRepository.deleteById(course.getId());
     }
 
 
-    @Cacheable(cacheNames = "groups") // not for work
+    @Cacheable(cacheNames = "groups")
     @Override @TrackParameters
     public List<GroupCourse> findGroupCoursesByEducationUserId(Long id) {
         logger.warn("Getting all groups for the user with id " + id);

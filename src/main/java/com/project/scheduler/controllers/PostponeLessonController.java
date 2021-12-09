@@ -36,17 +36,6 @@ public class PostponeLessonController {
     @Autowired
     private CourseService courseService;
 
-    @Operation(summary = "Show the teacher all of their lessons and allow them to create a postpone-request")
-    @GetMapping("/postponeLesson")
-    public String postponeLessonForm(Principal principal, Model model,
-                                     @RequestParam(name = "week", required = false, defaultValue = "1") int week) {
-
-        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
-        model.addAttribute("lessons", courseService.findLessonsByEducationUserIdForWeek(user.getUserId(), week));
-        return "postponeLesson";
-    }
-
-
     //@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date   - for requesting dates
     @Operation(summary = "Add a new postpone request")
     @PostMapping("/postponeLesson")

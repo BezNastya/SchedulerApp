@@ -7,6 +7,7 @@ import com.project.scheduler.repository.StudentRepository;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,17 +39,6 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(s);
     }
 
-    /*
-        @Override
-        public Student findByLastName(String username) {
-            return null;
-        }
-
-        @Override
-        public Student findByEmail(String email) {
-            return null;
-        }
-    */
     @Override
     public Student findById(long id) {
         return studentRepository.findById(id).orElse(null);
@@ -106,6 +96,7 @@ public class StudentServiceImpl implements StudentService {
         return save(student);
     }
 
+    @CacheEvict(cacheNames = "groups", key = "#studentId")
     @Override
     public Student deleteGroupForUserByGroupCourse(Long studentId, GroupCourse groupCourse) {
         Student student = findById(studentId);

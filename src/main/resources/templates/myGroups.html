@@ -21,9 +21,9 @@
                 <table class="table table-bordered" style="width: 100%">
                     <thead class="thead-light">
                     <tr>
-                        <th style="width: 60%">Name</th>
-                        <th style="width: 15%">Group</th>
-                        <th style="width: 25%">Delete</th>
+                        <th style="width: 60%; text-align: center; vertical-align: middle">Name</th>
+                        <th style="width: 15%; text-align: center; vertical-align: middle">Group</th>
+                        <th style="width: 25%; text-align: center; vertical-align: middle">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,7 +33,7 @@
                         <td>
                             <a type="button" class="btn btn-outline-danger"
                                th:href="@{/my-groups/delete-group(id = ${groupCourse.getId()})}">
-                            Delete
+                                Unenroll
                             </a>&emsp;
                         </td>
                     </tr>

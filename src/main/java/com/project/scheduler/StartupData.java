@@ -57,7 +57,6 @@ public class StartupData implements CommandLineRunner {
         logger.error("This is ERROR");
         adminAccount();
         studentAccount();
-        teacherAccount();
         initDatabaseCourse();
     }
 
@@ -90,7 +89,7 @@ public class StartupData implements CommandLineRunner {
         postponeLessonRepository.save(new PostponeLesson(lesson4, new ScheduleDate(WeekDay.TUESDAY, LessonOrder.SECOND, 2)));
     }
 
-        private void studentAccount() {
+    private void studentAccount() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         //-------------------
@@ -131,46 +130,78 @@ public class StartupData implements CommandLineRunner {
         groupCourse1.setGroupNum((byte) 2);
         groupCourseRepository.save(groupCourse1);
 
-            //Test groupCourse3
-            GroupCourse groupCourse2 = new GroupCourse();
-            groupCourse2.setCourse(course);
-            groupCourse2.setGroupNum((byte) 5);
-            groupCourseRepository.save(groupCourse2);
+        //Test groupCourse3
+        GroupCourse groupCourse2 = new GroupCourse();
+        groupCourse2.setCourse(course);
+        groupCourse2.setGroupNum((byte) 5);
+        groupCourseRepository.save(groupCourse2);
 
-            //Lesson
-            Lesson lesson1 = new Lesson();
-            lesson1.setDate(new ScheduleDate(WeekDay.MONDAY,LessonOrder.FIRST,1));
-            lesson1.setPlace("20");
-            lesson1.setType(LessonType.LECTURE);
-            lesson1.setGroupCourse(groupCourse);
-            lessonRepository.save(lesson1);
+        //Lesson
+        Lesson lesson1 = new Lesson();
+        lesson1.setDate(new ScheduleDate(WeekDay.MONDAY, LessonOrder.FIRST, 1));
+        lesson1.setPlace("20");
+        lesson1.setType(LessonType.LECTURE);
+        lesson1.setGroupCourse(groupCourse);
+        lessonRepository.save(lesson1);
 
-            Lesson lessonOnTheSameTime = new Lesson();
-            lessonOnTheSameTime.setDate(new ScheduleDate(WeekDay.MONDAY,LessonOrder.FIRST,1));
-            lessonOnTheSameTime.setPlace("302");
-            lessonOnTheSameTime.setType(LessonType.PRACTICE);
-            lessonOnTheSameTime.setGroupCourse(groupCourse);
-            lessonRepository.save(lessonOnTheSameTime);
+        Lesson lessonOnTheSameTime = new Lesson();
+        lessonOnTheSameTime.setDate(new ScheduleDate(WeekDay.MONDAY, LessonOrder.FIRST, 1));
+        lessonOnTheSameTime.setPlace("302");
+        lessonOnTheSameTime.setType(LessonType.PRACTICE);
+        lessonOnTheSameTime.setGroupCourse(groupCourse);
+        lessonRepository.save(lessonOnTheSameTime);
 
-            Lesson lesson3 = new Lesson();
-            lesson3.setDate(new ScheduleDate(WeekDay.WEDNESDAY,LessonOrder.THIRD,1));
-            lesson3.setPlace("208a");
-            lesson3.setType(LessonType.PRACTICE);
-            lesson3.setGroupCourse(groupCourse);
-            lessonRepository.save(lesson3);
+        Lesson lesson3 = new Lesson();
+        lesson3.setDate(new ScheduleDate(WeekDay.WEDNESDAY, LessonOrder.THIRD, 1));
+        lesson3.setPlace("208a");
+        lesson3.setType(LessonType.PRACTICE);
+        lesson3.setGroupCourse(groupCourse);
+        lessonRepository.save(lesson3);
 
-            Lesson lesson2 = new Lesson();
-            lesson2.setDate(new ScheduleDate(WeekDay.MONDAY,LessonOrder.SECOND,1));
-            lesson2.setPlace("20a");
-            lesson2.setType(LessonType.PRACTICE);
-            lesson2.setGroupCourse(groupCourse);
-            lessonRepository.save(lesson2);
-
+        Lesson lesson2 = new Lesson();
+        lesson2.setDate(new ScheduleDate(WeekDay.MONDAY, LessonOrder.SECOND, 1));
+        lesson2.setPlace("20a");
+        lesson2.setType(LessonType.PRACTICE);
+        lesson2.setGroupCourse(groupCourse);
+        lessonRepository.save(lesson2);
 
         //Set of groups
         Set<GroupCourse> s = new HashSet<>();
         s.add(groupCourse);
         s.add(groupCourse1);
+
+        Set<GroupCourse> onlyFirst = new HashSet<>();
+        onlyFirst.add(groupCourse);
+
+        Set<GroupCourse> onlySecond = new HashSet<>();
+        onlySecond.add(groupCourse1);
+
+        Teacher teacher = new Teacher();
+
+        teacher.setEmail("teacher@ukma.edu.ua");
+        teacher.setPassword(encoder.encode("teacher"));
+        teacher.setAcademicDegree("Master");
+        teacher.setFirstName("Alina");
+        teacher.setLastName("Petrivna");
+        teacher.setDepartment("FI");
+        teacher.setRole(Role.TEACHER);
+        teacher.setAuthorized(true);
+        teacher.setGroupCourse(onlyFirst);
+        teacherService.save(teacher);
+
+        Teacher teacher2 = new Teacher();
+        teacher2.setEmail("teacher2@ukma.edu.ua");
+        teacher2.setPassword(encoder.encode("teacher2"));
+        teacher2.setAcademicDegree("Master");
+        teacher2.setFirstName("Maksym");
+        teacher2.setLastName("Demchenko");
+        teacher2.setDepartment("FI");
+        teacher2.setRole(Role.TEACHER);
+        teacher2.setAuthorized(true);
+        teacher2.setGroupCourse(onlySecond);
+        teacherService.save(teacher2);
+        teacherService.updateAcademicDegree(teacher2.getUserId(), "PhD");
+        teacherService.updateDepartment(teacher2.getUserId(), "Department of Computer Science");
 
         student.setGroupCourse(s);
         studentService.save(student);
@@ -218,34 +249,6 @@ public class StartupData implements CommandLineRunner {
         studentService.updateTicketNumber(student2, "121");
         studentService.updateSpeciality(student, "AM");
 
-    }
-
-    private void teacherAccount() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        Teacher teacher = new Teacher();
-
-        teacher.setEmail("teacher@ukma.edu.ua");
-        teacher.setPassword(encoder.encode("teacher"));
-        teacher.setAcademicDegree("Master");
-        teacher.setFirstName("Alina");
-        teacher.setLastName("Petrivna");
-        teacher.setDepartment("FI");
-        teacher.setRole(Role.TEACHER);
-        teacher.setAuthorized(true);
-        teacherService.save(teacher);
-
-        Teacher teacher2 = new Teacher();
-        teacher2.setEmail("teacher2@ukma.edu.ua");
-        teacher2.setPassword(encoder.encode("teacher2"));
-        teacher2.setAcademicDegree("Master");
-        teacher2.setFirstName("Maksym");
-        teacher2.setLastName("Demchenko");
-        teacher2.setDepartment("FI");
-        teacher2.setRole(Role.TEACHER);
-        teacher2.setAuthorized(true);
-        teacherService.save(teacher2);
-        teacherService.updateAcademicDegree(teacher2.getUserId(), "PhD");
-        teacherService.updateDepartment(teacher2.getUserId(), "Department of Computer Science");
     }
 
     private void adminAccount() {
