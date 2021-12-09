@@ -16,6 +16,7 @@
       <li><a class="nav-link" th:href="@{/}">Home</a></li>
       <li><a class="nav-link" th:href="@{/user}">Profile</a></li>
       <li th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER or user.getRole() == T(com.project.scheduler.entity.Role).STUDENT}"><a class="nav-link" th:href="@{/my-lessons}">Schedule</a></li>
+      <li th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).ADMIN}"><a class="nav-link" th:href="@{/admin-lessons}">Schedule</a></li>
       <li th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER or user.getRole() == T(com.project.scheduler.entity.Role).STUDENT}"><a class="nav-link" th:href="@{/new-groups}">New group</a></li>
       <li th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER or user.getRole() == T(com.project.scheduler.entity.Role).STUDENT}"><a class="nav-link" th:href="@{/my-groups}">My groups</a></li>
       <li th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).ADMIN or user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}"><a class="nav-link" th:href="@{/requests}">Postpone Requests</a></li>

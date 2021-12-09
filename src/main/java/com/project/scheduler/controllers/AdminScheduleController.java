@@ -39,7 +39,7 @@ public class AdminScheduleController {
                 courseService.findAllLessonsByWeek(week));
         model.addAttribute("week", week);
         model.addAttribute("user",user);
-        return "adminSchedule";
+        return "adminschedule";
     }
 
     @PostMapping("/admin-lessons/add")

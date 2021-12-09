@@ -40,13 +40,13 @@ public class User {
     @NotBlank(message = "Every user must have a first name")
     @Setter
     @Getter
-    private String firstName;
+    String firstName;
 
     @NotNull
     @NotBlank(message = "Every user must have a last name")
     @Setter
     @Getter
-    private String lastName;
+    String lastName;
 
     @Enumerated(EnumType.ORDINAL)
     @NotNull

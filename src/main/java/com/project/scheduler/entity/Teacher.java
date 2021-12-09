@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Entity
 @PrimaryKeyJoinColumn(name = "userId")
@@ -33,5 +32,8 @@ public class Teacher extends EducationUser {
     @NotBlank(message = "Every user must have a department!")
     private String department;
 
-
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }
