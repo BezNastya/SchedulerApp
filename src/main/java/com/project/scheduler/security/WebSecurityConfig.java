@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //CSRF disabled
         http
                 .authorizeRequests()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/").authenticated()
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/user").authenticated()
@@ -46,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my-groups/**").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
                 .antMatchers("/admin-lessons/**").hasAuthority(ADMIN.getRoleStringRepresentation())
                 .antMatchers("/my-groups/**").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
+                .antMatchers("/course/**").hasAuthority(ADMIN.getRoleStringRepresentation())
+                .antMatchers("/admin/**").hasAuthority(ADMIN.getRoleStringRepresentation())
 
                 .and().formLogin().permitAll()
                 .and().logout().permitAll();

@@ -1,5 +1,6 @@
 package com.project.scheduler.web;
 
+import com.project.scheduler.controllers.UserScheduleController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -45,21 +46,21 @@ public class ScheduleWebMvcTest {
     @Test
     @WithMockUser(username = "student@ukma.edu.ua", authorities = "STUDENT")
     void shouldAllowDownloadScheduleForStudent() throws Exception {
-        mockMvc.perform(get("/my-lessons/downloadExcel").param("week", "1"))
+        mockMvc.perform(get("/my-lessons/downloadExcel").param("week", String.valueOf(UserScheduleController.FIRST_WEEK)))
                 .andExpect(status().isOk());
     }
 
     @Test
     @WithMockUser(username = "teacher@ukma.edu.ua", authorities = "TEACHER")
     void whenInvalidWeek_shouldReturnNotFoundForTeacher() throws Exception {
-        mockMvc.perform(get("/my-lessons/downloadExcel").param("week", "-1"))
+        mockMvc.perform(get("/my-lessons/downloadExcel").param("week", String.valueOf(UserScheduleController.LAST_WEEK + 1)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser(username = "student@ukma.edu.ua", authorities = "STUDENT")
     void whenInvalidWeek_shouldReturnNotFoundForStudent() throws Exception {
-        mockMvc.perform(get("/my-lessons/downloadExcel").param("week", "20"))
+        mockMvc.perform(get("/my-lessons/downloadExcel").param("week", String.valueOf(UserScheduleController.FIRST_WEEK - 1)))
                 .andExpect(status().isNotFound());
     }
 

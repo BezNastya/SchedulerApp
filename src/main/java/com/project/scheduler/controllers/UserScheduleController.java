@@ -22,6 +22,10 @@ import java.util.Optional;
 @Controller
 public class UserScheduleController {
 
+
+    public static final int FIRST_WEEK = 1;
+    public static final int LAST_WEEK = 15;
+
     private final CourseService courseService;
     private final UserService userService;
     private final ExcelService excelService;
@@ -38,7 +42,7 @@ public class UserScheduleController {
     @Operation(summary = "Download the schedule in an Excel file")
     @GetMapping("/my-lessons/downloadExcel")
     public ResponseEntity<Resource> downloadExcel(Principal principal, @RequestParam("week") Integer week) {
-        if (week <= 0 || week > 15) {
+        if (week < FIRST_WEEK || week > LAST_WEEK) {
             return ResponseEntity.notFound().build();
         }
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));

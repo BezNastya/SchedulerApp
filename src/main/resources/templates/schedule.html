@@ -60,8 +60,10 @@
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getType().getType()}">Type</td>
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getPlace()}">Place</td>
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getGroupCourse().getGroupNum()}">Group</td>
-                        <td th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}" th:switch="${lesson.getPostponeLesson()}">
-                            <a th:case = "null" th:href="@{/postponeLessonForm(id = ${lesson.getLessonId()})}" th:method="GET">Postpone</a>
+                        <td style="text-align: center; vertical-align: middle" th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}" th:switch="${lesson.getPostponeLesson()}">
+                            <a th:title="Postpone" th:case = "null" th:href="@{/postponeLessonForm(id = ${lesson.getLessonId()})}" th:method="GET">
+                                <i class="fas fa-plus-square"></i>
+                            </a>
                             <a th:case = "*" th:text="${lesson.getPostponeLesson().getStatus()}"></a>
                         </td>
                     </tr>
@@ -81,6 +83,10 @@
 </div>
 
 
+
 </body>
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+
 
 </html>

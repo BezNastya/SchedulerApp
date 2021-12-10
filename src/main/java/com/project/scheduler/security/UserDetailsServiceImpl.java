@@ -27,11 +27,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Cacheable(cacheNames = "emails")
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        logger.warn("Looking for the user " + email + " in the database");
 
         Optional<User> user = userRepository.findByEmail(email);
 
