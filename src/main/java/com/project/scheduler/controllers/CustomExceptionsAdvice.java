@@ -1,9 +1,6 @@
 package com.project.scheduler.controllers;
 
-import com.project.scheduler.exceptions.CourseNotFoundException;
-import com.project.scheduler.exceptions.GroupNotFoundException;
-import com.project.scheduler.exceptions.NoTeachersOnCourseException;
-import com.project.scheduler.exceptions.UserNotFoundException;
+import com.project.scheduler.exceptions.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -18,7 +15,7 @@ public class CustomExceptionsAdvice {
     Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @ExceptionHandler({CourseNotFoundException.class, GroupNotFoundException.class,
-            NoTeachersOnCourseException.class, UserNotFoundException.class})
+            NoTeachersOnCourseException.class, UserNotFoundException.class, LessonNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String courseNotFoundHandler(Exception e){
         logger.warn(e.getMessage());

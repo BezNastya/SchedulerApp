@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       lang="uk">
 <head>
-    <title>Add lessons</title>
+    <title>Edit Lesson</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -12,24 +12,18 @@
 <div th:insert="fragments/navigation :: navbar"></div>
 
 <div class="text-center" style="margin-top: 40px">
-    <h1 class="display-4 justify-center">Add lessons to course</h1>
+    <h1 class="display-4 justify-center">Edit all common lessons for: </h1>
+    <h3 class="display-4 justify-center" th:text="${lesson.getGroupCourse().getCourse().getName()}"></h3>
+    <h3 class="display-4 justify-center" th:text="${lesson.getGroupCourse().getGroupNum()}"></h3>
 </div>
 
-<form style="vertical-align: center; margin-left: auto; margin-right: auto; width: 60%; margin-bottom: 50px" th:action="@{/admin-lessons/add}" th:method="POST">
+<form style="vertical-align: center; margin-left: auto; margin-right: auto; width: 60%; margin-bottom: 50px" th:action="@{/admin-lessons/edit(lesson = ${lesson.getLessonId()}, group = ${lesson.getGroupCourse().getId()})}" th:method="POST">
 
-    <div class="form-group">
-        <label for="group" class="col-sm-2 col-form-label">Group</label>
-        <select class="form-control" id="group" name="group">
-            <option th:each="group : ${groups}"
-                    th:value="${group.getId()}" th:text="${group.getGroupNum()}" th:selected="${groups.stream.findFirst().get().getId()}"></option>
-        </select>
-    </div>
-    <br/>
     <div class="form-group">
         <label for="type" class="col-sm-2 col-form-label">Lesson type</label>
         <select class="form-control" id="type" name="type">
             <option th:each="type : ${T(com.project.scheduler.entity.LessonType).values()}"
-                    th:value="${type}" th:text="${type.getType()}" th:selected="${T(com.project.scheduler.entity.LessonType).LECTURE}"></option>
+                    th:value="${type}" th:text="${type.getType()}" th:selected="${lesson.getType()}"></option>
         </select>
     </div>
     <br/>
@@ -37,19 +31,19 @@
         <label for="day" class="col-sm-2 col-form-label">Day</label>
         <select class="form-control" id="day" name="day">
             <option th:each="weekDay : ${T(com.project.scheduler.entity.WeekDay).values()}"
-                    th:value="${weekDay}" th:text="${weekDay.getDay()}" th:selected="${T(com.project.scheduler.entity.WeekDay).MONDAY}"></option>
+                    th:value="${weekDay}" th:text="${weekDay.getDay()}" th:selected="${lesson.getDate().getDayOfTheWeek()}"></option>
         </select>
     </div>
     <div class="form-group">
         <label for="order" class="col-sm-2 col-form-label">Lesson order</label>
         <select class="form-control" name = "order" id = "order">
             <option th:each = "order : ${T(com.project.scheduler.entity.LessonOrder).values()}"
-                    th:value = "${order}" th:text="${order.getOrder()}" th:selected="${T(com.project.scheduler.entity.LessonOrder).FIRST}"></option>
+                    th:value = "${order}" th:text="${order.getOrder()}" th:selected="${lesson.getDate().getLessonOrder()}"></option>
         </select>
     </div>
     <div class="form-group">
         <label for="place" class="col-sm-2 col-form-label">Place</label>
-        <input class="form-control" name = "place" id = "place" th:text = "${place}" th:value="${place}">
+        <input class="form-control" name = "place" id = "place" th:value="${lesson.getPlace()}">
     </div>
     <div class="form-group">
         <div>

@@ -1,6 +1,7 @@
 package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.Course;
+import com.project.scheduler.entity.GroupCourse;
 import com.project.scheduler.entity.Lesson;
 import com.project.scheduler.entity.User;
 import com.project.scheduler.exceptions.CourseNotFoundException;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class CourseController {
@@ -66,7 +68,7 @@ public class CourseController {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
         Course course = courseService.findCourseById(id).orElseThrow(() -> new CourseNotFoundException(id));
-        model.addAttribute("groups", course.getGroups());
+        model.addAttribute("groups", courseService.findAllGroupsForCourse(course));
         model.addAttribute("place", "");
         return new ModelAndView("courseLessonsForm", model);
     }

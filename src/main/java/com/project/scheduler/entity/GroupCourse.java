@@ -36,7 +36,7 @@ public class GroupCourse  implements Comparable<GroupCourse> {
     @ToString.Exclude
     Set<Teacher> teachers;
 
-    @OneToMany(mappedBy="lessonId", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="lessonId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore
     @ToString.Exclude
     Set<Lesson> lessons;
