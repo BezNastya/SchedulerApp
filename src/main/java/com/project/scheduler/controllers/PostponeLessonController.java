@@ -68,7 +68,6 @@ public class PostponeLessonController {
     public ModelAndView chooseLessonToPostpone(@RequestParam("id") long id, Principal principal, ModelMap model) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
-        //TODO
         Lesson lesson = lessonRepository.getById(id);
         model.addAttribute("lesson", lesson);
         model.addAttribute("description", "");

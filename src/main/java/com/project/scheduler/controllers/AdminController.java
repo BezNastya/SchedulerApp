@@ -28,18 +28,14 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    //TODO Do we need this method?
     @GetMapping
     public List<Admin> getAllAdmins() {
         logger.info(myMarker, "Getting all admins");
         return adminService.findAll();
     }
 
-    //TODO Do we need this method?
-    //@PreAuthorize("#id ")
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable Long id) {
-//        MDC.put("adminId", String.valueOf(id));
         logger.info(myMarker, "Getting admin with id {}", id);
         return adminService.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }

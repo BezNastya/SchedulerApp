@@ -113,7 +113,6 @@ public class AdminScheduleController {
         return "redirect:/admin-lessons";
     }
 
-    //TODO DeleteMapping
     @GetMapping("/admin-lessons/delete")
     public String deleteCourse(@RequestParam("id") Long id){
         lessonRepository.deleteById(id);

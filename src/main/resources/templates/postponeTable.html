@@ -40,15 +40,19 @@
                             <td style="text-align: center; vertical-align: middle" th:text="${request.getOldDate()}">Old</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.newDate}">New Date</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.getStatus}">Status</td>
-                            <td style="text-align: center; vertical-align: middle; width: 15%">
+                            <td style="text-align: center; vertical-align: middle; width: 20%">
 
-                                <div th:if="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER} and ${request.status.equals(request.status.PENDING)}">
-                                    <a title="Change" th:href="@{/postponeLessonReview(id = ${request.getCanceledId})}" th:method="GET">
-                                        <i class="fas fa-edit"></i></a>
-                                    </a>&emsp;
+                                <div th:if="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}">
+                                    <a th:if="${request.status.equals(request.status.PENDING)}" title="Change" th:href="@{/postponeLessonReview(id = ${request.getCanceledId})}" th:method="GET">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a title="Delete" th:href="@{/requests/delete(id = ${request.getId})}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
                                 </div>
 
-                                <div th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getId})"></div>
+                                <div th:if="${request.status.equals(request.status.PENDING)}"
+                                     th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getId})"></div>
                             </td>
                         </tr>
                     </tbody>

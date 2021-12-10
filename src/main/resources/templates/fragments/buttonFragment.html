@@ -1,17 +1,15 @@
 <div class="text-nowrap" th:fragment="requestAdmin (reqId)" >
     <div th:if="${user.getRole() == T(com.project.scheduler.entity.Role).ADMIN}">
-        <a title="Approve" th:href="@{/requests/approve(id = ${reqId})}">
-            <i class="fas fa-thumbs-up"></i></a>
-        </a>&emsp;
-        <a title="Decline" th:href="@{/requests/decline(id = ${reqId})}">
-            <i class="fas fa-thumbs-down"></i></a>
-        </a>
+        <form method="post" th:action="@{/requests/approve(id = ${reqId})}">
+        <button style="background: none; border: none" type="submit" title="Approve">
+            <i style="color: blue" class="fas fa-thumbs-up"></i>
+        </button>
+        </form>
+        <form method="post" th:action="@{/requests/decline(id = ${reqId})}">
+            <button style="background: none; border: none" type="submit" title="Decline">
+                <i style="color: blue" class="fas fa-thumbs-down"></i>
+            </button>
+        </form>
     </div>
-    <div th:if="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}">
-        <a title="Delete" th:href="@{/requests/delete(id = ${reqId})}">
-            <i class="fas fa-trash-alt"></i></a>
-        </a>&emsp;
-    </div>
-
 
 </div>

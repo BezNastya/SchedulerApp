@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -52,25 +53,22 @@ public class PostponeViewController {
         return "postponeTable";
     }
 
-    //TODO Post mapping
     @Operation(summary = "Approve the selected request")
-    @GetMapping("/approve")
+    @PostMapping("/approve")
     public String approveRequest(@RequestParam Long id){
         if (postponeLessonService.approveRequest(id))
             return "redirect:/requests";
         return "errorReq";
     }
 
-    //TODO Post mapping
     @Operation(summary = "Decline the selected request")
-    @GetMapping("/decline")
+    @PostMapping("/decline")
     public String declineRequest(@RequestParam Long id){
         if (postponeLessonService.declineRequest(id))
             return "redirect:/requests";
         return "errorReq";
     }
 
-    //TODO Delete mapping
     @Operation(summary = "Remove the selected request")
     @GetMapping("/delete")
     public String deleteRequest(@RequestParam Long id){
