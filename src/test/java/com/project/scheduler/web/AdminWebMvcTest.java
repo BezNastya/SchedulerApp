@@ -32,18 +32,23 @@ public class AdminWebMvcTest {
 
     @MockBean
     AdminService adminService;
+
     @Autowired
     ObjectMapper objectMapper;
+
     @MockBean
     UserDetailsServiceImpl userDetailsService;
+
     @Autowired
     MockMvc mvc;
+
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private static final List<Admin> ADMINS = Collections.singletonList(new Admin("admin@ukma.edu.ua", encoder.encode("admin"), "Admin`s first name", "Admin`s last name"));
     private static final Admin TO_ADD_VALID = new Admin("email@e.com", "password", "First", "Last");
     private static final Admin TO_ADD_INVALID = new Admin("email1@e.com", null, "First", "Last");
 
+    @WithAnonymousUser
     @Test
     void shouldRedirectToLoginPage() throws Exception {
         mvc.perform(get("/admin"))
