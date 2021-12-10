@@ -2,6 +2,7 @@ package com.project.scheduler.controllers;
 
 import com.project.scheduler.dto.PostponeLessonDto;
 import com.project.scheduler.entity.PostponeLesson;
+import com.project.scheduler.entity.Role;
 import com.project.scheduler.entity.User;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.PostponeLessonService;
@@ -33,12 +34,19 @@ public class PostponeViewController {
     @GetMapping
     public String getAllPostponeRequests(Principal principal, Model model){
         List<PostponeLesson> requestsP = postponeLessonService.getAllRequests();
+        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
 
         List<PostponeLessonDto> requests = requestsP
                 .stream()
+                .filter(x -> {
+                    if (user.getRole().equals(Role.TEACHER) &&
+                            !x.getCanceledLesson().getGroupCourse().getTeachers().contains(user)){
+                        return false;
+                    }
+                    return true;
+                })
                 .map(PostponeLessonDto::new)
                 .collect(Collectors.toList());
-        User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("requests", requests);
         model.addAttribute("user", user);
         return "postponeTable";
