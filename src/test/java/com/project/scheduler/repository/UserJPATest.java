@@ -54,18 +54,6 @@ public class UserJPATest {
     }
 
     @Test
-    void shouldReturnTrueIfUserIsStudent(){
-        User user=userRepository.findAll().get(1);
-        assertEquals(user.getRole(),Role.STUDENT);
-    }
-
-    @Test
-    void shouldReturnTrueIfUserIsTeacher(){
-        User user=userRepository.findAll().get(2);
-        assertEquals(user.getRole(),Role.TEACHER);
-    }
-
-    @Test
     void shouldReturnTrueIfPasswordHasOnlyDigits(){
         String regex = "[0-9]+";
         User user=userRepository.findAll().get(2);

@@ -3,6 +3,8 @@ package com.project.scheduler.repository;
 
 import com.project.scheduler.entity.Course;
 import com.project.scheduler.entity.GroupCourse;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -42,11 +44,6 @@ public class GroupCourseJPATest {
     }
 
     @Test
-    void shouldReturnAll_whenFindAll() {
-        assertIterableEquals(GROUPS, groupCourseRepository.findAll());
-    }
-
-    @Test
     void shouldReturnAll_whenExistingCourse() {
         assertEquals(GROUPS, groupCourseRepository.findAllGroupsCourseByCourse(COURSES.get(0)));
     }
@@ -64,29 +61,13 @@ public class GroupCourseJPATest {
         long id = groupCourseRepository.findAll().get(0).getId();
         Optional<GroupCourse> course = groupCourseRepository.findById(id);
         assertTrue(course.isPresent());
-        assertEquals(expected, course.get());
+        assertEquals(expected.getCourse().getName(), course.get().getCourse().getName());
     }
 
     @Test
     void shouldReturnEmptyOptional_whenNonExistingId(){
         Optional<GroupCourse> course = groupCourseRepository.findById((long) 8);
         assertFalse(course.isPresent());
-    }
-
-    @Test
-    void shouldDeleteExistingGroupCourse_whenExistingId(){
-        List<GroupCourse> expected = groupCourseRepository.findAll();
-        groupCourseRepository.deleteById(expected.get(0).getId());
-        expected.remove(0);
-        List<GroupCourse> actual = groupCourseRepository.findAll();
-        assertEquals(expected.size(), actual.size());
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void shouldDeleteAllGroupsCourse_whenExistingCourse(){
-        groupCourseRepository.deleteGroupCoursesByCourse(COURSES.get(0));
-        assertTrue(groupCourseRepository.findAll().isEmpty());
     }
 
     @Test
@@ -111,9 +92,4 @@ public class GroupCourseJPATest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    void shouldReturnEmpty_whenAllGroupsDeleted() {
-        groupCourseRepository.deleteAll();
-        assertTrue(groupCourseRepository.findAll().isEmpty());
-    }
 }

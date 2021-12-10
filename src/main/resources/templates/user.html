@@ -9,7 +9,7 @@
       crossorigin="anonymous">
 <body>
 <div th:insert="fragments/navigation :: navbar"></div>
-<div class="container" th:switch="${user.getRole()}">
+<div style="margin-top: 50px" class="container" th:switch="${user.getRole()}">
     <div class="row">
 
         <div class="col-6 offset-3 border border-primary rounded border-3"

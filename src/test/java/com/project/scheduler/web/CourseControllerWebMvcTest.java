@@ -21,10 +21,44 @@ public class CourseControllerWebMvcTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Test
+    @WithMockUser(username = "teacher@ukma.edu.ua", authorities = "TEACHER")
+    void shouldReturnForbidden_whenTeacherTriesToAddLessons() throws Exception {
+        mockMvc.perform(post("/course/delete").param("id", "1"))
+                .andExpect(status().is(403));
+    }
+
+    @Test
+    @WithMockUser(username = "student@ukma.edu.ua", authorities = "STUDENT")
+    void shouldReturnForbidden_whenStudentTriesToAddLessons() throws Exception {
+        mockMvc.perform(post("/course/delete").param("id", "1"))
+                .andExpect(status().is(403));
+    }
 
     @Test
     @WithMockUser(username = "teacher@ukma.edu.ua", authorities = "TEACHER")
-    void shouldReturnForbidden_whenTeacherTriesToAccessCourse() throws Exception {
+    void shouldReturnForbidden_whenTeacherTriesToDeleteCourse() throws Exception {
+        mockMvc.perform(post("/course/delete").param("id", "1"))
+                .andExpect(status().is(403));
+    }
+
+    @Test
+    @WithMockUser(username = "student@ukma.edu.ua", authorities = "STUDENT")
+    void shouldReturnForbidden_whenStudentTriesToDeleteCourse() throws Exception {
+        mockMvc.perform(post("/course/delete").param("id", "1"))
+                .andExpect(status().is(403));
+    }
+
+    @Test
+    @WithMockUser(username = "teacher@ukma.edu.ua", authorities = "TEACHER")
+    void shouldReturnForbidden_whenTeacherTriesToAddCourse() throws Exception {
+        mockMvc.perform(post("/course/add").param("courseName", "bad").param("grNum", "-1"))
+                .andExpect(status().is(403));
+    }
+
+    @Test
+    @WithMockUser(username = "student@ukma.edu.ua", authorities = "STUDENT")
+    void shouldReturnForbidden_whenStudentTriesToAddCourse() throws Exception {
         mockMvc.perform(post("/course/add").param("courseName", "bad").param("grNum", "-1"))
                 .andExpect(status().is(403));
     }
@@ -32,6 +66,12 @@ public class CourseControllerWebMvcTest {
     @Test
     @WithMockUser(username = "student@ukma.edu.ua", authorities = "STUDENT")
     void shouldReturnForbidden_whenStudentTriesToAccessCourse() throws Exception {
+        mockMvc.perform(get("/course")).andExpect(status().is(403));
+    }
+
+    @Test
+    @WithMockUser(username = "student@ukma.edu.ua", authorities = "STUDENT")
+    void shouldReturnForbidden_whenTeacherTriesToAccessCourse() throws Exception {
         mockMvc.perform(get("/course")).andExpect(status().is(403));
     }
 
