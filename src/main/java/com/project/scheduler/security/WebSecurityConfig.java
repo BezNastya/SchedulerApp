@@ -29,7 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //CSRF disabled
         http
                 .authorizeRequests()
                 .antMatchers("/").authenticated()
@@ -45,12 +44,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my-lessons/**").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
                 .antMatchers("/my-groups/**").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
                 .antMatchers("/admin-lessons/**").hasAuthority(ADMIN.getRoleStringRepresentation())
-                .antMatchers("/my-groups/**").hasAnyAuthority(TEACHER.getRoleStringRepresentation(), STUDENT.getRoleStringRepresentation())
                 .antMatchers("/course/**").hasAuthority(ADMIN.getRoleStringRepresentation())
                 .antMatchers("/admin/**").hasAuthority(ADMIN.getRoleStringRepresentation())
+                .antMatchers("/new-groups/**").hasAnyAuthority(STUDENT.getRoleStringRepresentation(), TEACHER.getRoleStringRepresentation())
 
                 .and().formLogin().permitAll()
                 .and().logout().permitAll();
+        //Cross-site request forgery protection disabled
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.addFilterAfter(new CustomFilter(), HeaderWriterFilter.class);

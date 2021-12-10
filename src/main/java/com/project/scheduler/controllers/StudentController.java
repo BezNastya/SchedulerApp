@@ -25,6 +25,7 @@ public class StudentController {
     @Operation(summary = "Get all the students")
     @GetMapping
     public String getAllStudents(Model model) {
+        logger.warn("Returning all the students");
         model.addAttribute("students",studentService.findAll());
         return "studentController";
     }

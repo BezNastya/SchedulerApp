@@ -56,10 +56,4 @@ public class LessonController {
         lessonRepository.deleteById(id);
     }
 
-/*
-    @GetMapping("/test/{id}")
-    public List<Lesson> findLessonsForUserForWeekOne(@PathVariable Long id) {
-        return groupCourseRepository.findAllLessonsForWeek(id);
-    }
-    */
 }

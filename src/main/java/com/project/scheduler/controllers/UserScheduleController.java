@@ -1,10 +1,13 @@
 package com.project.scheduler.controllers;
 
-import com.project.scheduler.entity.Role;
 import com.project.scheduler.entity.User;
 import com.project.scheduler.exceptions.UserNotFoundException;
-import com.project.scheduler.service.*;
+import com.project.scheduler.service.CourseService;
+import com.project.scheduler.service.ExcelService;
+import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -17,11 +20,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @Controller
 public class UserScheduleController {
-
 
     public static final int FIRST_WEEK = 1;
     public static final int LAST_WEEK = 15;
@@ -29,6 +30,8 @@ public class UserScheduleController {
     private final CourseService courseService;
     private final UserService userService;
     private final ExcelService excelService;
+
+    Logger logger = LoggerFactory.getLogger(UserScheduleController.class);
 
     @Autowired
     public UserScheduleController(CourseService courseService,
@@ -42,6 +45,7 @@ public class UserScheduleController {
     @Operation(summary = "Download the schedule in an Excel file")
     @GetMapping("/my-lessons/downloadExcel")
     public ResponseEntity<Resource> downloadExcel(Principal principal, @RequestParam("week") Integer week) {
+        logger.warn("Downloading lessons for week {}", week);
         if (week < FIRST_WEEK || week > LAST_WEEK) {
             return ResponseEntity.notFound().build();
         }
@@ -57,6 +61,7 @@ public class UserScheduleController {
     @Operation(summary = "Get the user`s lessons")
     @GetMapping("/my-lessons")
     public String findLessonsByUser(Principal principal, Model model, @RequestParam(name="inputSelect",required = false, defaultValue = "1") Integer week){
+        logger.warn("Retrieving lessons for week {}", week);
         week = week < 1 ? 1: week;
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("lessonsByWeek",

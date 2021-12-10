@@ -1,11 +1,8 @@
 package com.project.scheduler.controllers;
 
 import com.project.scheduler.entity.*;
-import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.exceptions.LessonNotFoundException;
 import com.project.scheduler.exceptions.UserNotFoundException;
-import com.project.scheduler.repository.CourseRepository;
-import com.project.scheduler.repository.GroupCourseRepository;
 import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.UserService;
@@ -17,14 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class AdminScheduleController {
@@ -63,9 +58,10 @@ public class AdminScheduleController {
                             @RequestParam("type") LessonType type,
                             @RequestParam("group") Long group) {
         GroupCourse groupCourse = courseService.findGroupById(group);
-        if (weekStart <= 0 || weekStart > weekEnd || weekEnd > 15) {
+        if (weekStart < UserScheduleController.FIRST_WEEK || weekStart > weekEnd || weekEnd > UserScheduleController.LAST_WEEK) {
             throw new RuntimeException("Invalid week range set for lessons");
         }
+        logger.warn("Adding new lessons for weeks {} - {}, {} for group {} at {}", weekStart, weekEnd, lessonOrder.getOrder(), group, place);
         for (int i = weekStart; i <= weekEnd; i++) {
             ScheduleDate date = new ScheduleDate(day, lessonOrder, i);
             Lesson lesson = new Lesson(type, place, date, groupCourse);
@@ -77,6 +73,7 @@ public class AdminScheduleController {
 
     @GetMapping("/admin-lessons/edit")
     public ModelAndView editCourse(@RequestParam("id") Long id, Principal principal, ModelMap model){
+        logger.warn("Editing course with id {}", id);
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
         Lesson lesson = lessonRepository.findById(id).orElseThrow(() -> new LessonNotFoundException(id));
@@ -102,9 +99,10 @@ public class AdminScheduleController {
             if (theSameDate)
                 lessonRepository.deleteById(lesson1.getLessonId());
         }
-        if (weekStart <= 0 || weekStart > weekEnd || weekEnd > 15) {
+        if (weekStart < UserScheduleController.FIRST_WEEK || weekStart > weekEnd || weekEnd > UserScheduleController.LAST_WEEK) {
             throw new RuntimeException("Invalid week range set for lessons");
         }
+        logger.warn("Editing lessons for weeks {} - {}, {} for group {} at {}", weekStart, weekEnd, lessonOrder.getOrder(), group, place);
         for (int i = weekStart; i <= weekEnd; i++) {
             ScheduleDate date = new ScheduleDate(day, lessonOrder, i);
             Lesson lesson2 = new Lesson(type, place, date, group);
@@ -115,6 +113,7 @@ public class AdminScheduleController {
 
     @GetMapping("/admin-lessons/delete")
     public String deleteCourse(@RequestParam("id") Long id){
+        logger.warn("Removing course with id {}", id);
         lessonRepository.deleteById(id);
         return "redirect:/admin-lessons";
     }
