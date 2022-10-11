@@ -13,14 +13,10 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 @Entity
-public class GroupCourse  implements Comparable<GroupCourse> {
+@AllArgsConstructor
+public class GroupCourse implements Comparable<GroupCourse> {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn
-    private Course course;
 
     private byte groupNum;
 
@@ -34,20 +30,7 @@ public class GroupCourse  implements Comparable<GroupCourse> {
     @ToString.Exclude
     Set<Teacher> teachers;
 
-    @OneToMany(mappedBy="lessonId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    @ToString.Exclude
-    Set<Lesson> lessons;
-
     public GroupCourse(byte groupNum){
-        this.course = new Course();
-        this.groupNum = groupNum;
-        this.teachers = new HashSet<>();
-        this.students = new HashSet<>();
-    }
-
-    public GroupCourse(Course course, byte groupNum){
-        this.course = course;
         this.groupNum = groupNum;
         this.teachers = new HashSet<>();
         this.students = new HashSet<>();
@@ -58,12 +41,12 @@ public class GroupCourse  implements Comparable<GroupCourse> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupCourse that = (GroupCourse) o;
-        return groupNum == that.groupNum && course.equals(that.course);
+        return Objects.equals(this.id, that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(course, groupNum);
+        return Long.hashCode(id);
     }
 
     @Override

@@ -38,7 +38,7 @@
 <div th:if="${courseId != null}" class="container">
     <div class="row my-3">
         <div class="col">
-            <h2 th:text="'Choose group for ' + ${course}" class="text-center"></h2>
+            <h2 class="text-center">Choose group</h2>
         </div>
     </div>
     <div class="row">
@@ -48,7 +48,7 @@
                     <div class="col-6">
                         <select class="custom-select" id="inputSelect" name="inputSelect">
                             <option th:each="groupCourse : ${groupCourses}"
-                                    th:value="${groupCourse.getGroupNum()}"
+                                    th:value="${groupCourse.getId()}"
                                     th:text="${groupCourse.getGroupNum()}">
                             </option>
                         </select>

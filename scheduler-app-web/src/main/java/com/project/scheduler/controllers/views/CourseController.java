@@ -1,8 +1,7 @@
 package com.project.scheduler.controllers.views;
 
-import com.project.scheduler.entity.Course;
+import com.project.scheduler.dto.CourseDTO;
 import com.project.scheduler.entity.User;
-import com.project.scheduler.exceptions.CourseNotFoundException;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.UserService;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class CourseController {
@@ -39,7 +37,7 @@ public class CourseController {
     @Operation(summary = "New course view")
     @GetMapping("/course")
     public String course(Model model, Principal principal){
-        List<Course> courses = courseService.findAll();
+        List<CourseDTO> courses = courseService.findAll();
         model.addAttribute("courses", courses);
         model.addAttribute("user", userService.findByEmail(principal.getName()).get());
         return "course";
@@ -49,13 +47,8 @@ public class CourseController {
     @PostMapping("/course/add")
     public String addCourse(@RequestParam("courseName") String courseName,
                             @RequestParam("grNum") String grNum) {
-        if (courseService.findCourseByName(courseName).isEmpty()) {
-            Course course = new Course();
-            course.setName(courseName);
-            courseService.saveCourse(course);
-            courseService.saveGroupsForCourse(course, (byte) Integer.parseInt(grNum));
-            logger.info("Added course with name {}", courseName);
-        }
+        CourseDTO courseDTO = new CourseDTO(courseName, Byte.parseByte(grNum));
+        courseService.saveCourse(courseDTO);
         return "redirect:/course";
     }
 
@@ -64,8 +57,7 @@ public class CourseController {
     public ModelAndView addLessons(@RequestParam("id") Long id, Principal principal, ModelMap model) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
-        Course course = courseService.findCourseById(id).orElseThrow(() -> new CourseNotFoundException(id));
-        model.addAttribute("groups", courseService.findAllGroupsForCourse(course));
+        model.addAttribute("groups", courseService.findAllGroupsForCourse(id));
         model.addAttribute("place", "");
         return new ModelAndView("courseLessonsForm", model);
     }
@@ -74,11 +66,7 @@ public class CourseController {
     @GetMapping("/course/delete")
     public String deleteCourse(@RequestParam("id") Long id) {
         logger.info("Deleting course with id{}", id);
-        Optional<Course> courseOptional = courseService.findCourseById(id);
-        if (courseOptional.isPresent()) {
-            Course course = courseOptional.get();
-            courseService.deleteCourseWithAll(course);
-        }
+        courseService.deleteCourseById(id);
         return "redirect:/course";
     }
 

@@ -52,13 +52,13 @@
                     </thead>
                     <tbody>
                     <tr th:each="lessonsByDay : ${lessonsByWeek}">
-                        <td th:text="${lessonsByDay.getDate().getLessonOrder().getOrder()}">Time</td>
-                        <td th:text="${lessonsByDay.getDate().getDayOfTheWeek().getDay()}">DayOfTheWeek</td>
-                        <td th:text="${lessonsByDay.getGroupCourse().getCourse().getName()}">CourseName</td>
-                        <td th:text="${lessonsByDay.getType().getType()}">Type</td>
+                        <td th:text="${lessonsByDay.getTime()}">Time</td>
+                        <td th:text="${lessonsByDay.getDay()}">DayOfTheWeek</td>
+                        <td th:text="${lessonsByDay.getCourseName()}">CourseName</td>
+                        <td th:text="${lessonsByDay.getType()}">Type</td>
                         <td th:text="${lessonsByDay.getPlace()}">Place</td>
-                        <td th:text="${lessonsByDay.getGroupCourse().getTeachers().toString()}">Place</td>
-                        <td th:text="${lessonsByDay.getGroupCourse().getGroupNum()}">Group</td>
+                        <td th:text="${lessonsByDay.getTeachers()}">Teachers</td>
+                        <td th:text="${lessonsByDay.getGroupNum()}">Group</td>
                         <td><a title="Delete" th:href="@{/admin-lessons/delete(id = ${lessonsByDay.getLessonId()})}"><i class="fas fa-trash-alt"></i></a>&emsp;
                             <a title="Edit" th:href="@{/admin-lessons/edit(id = ${lessonsByDay.getLessonId()})}"><i class="fas fa-pencil-alt"></i></a>
                         </td>

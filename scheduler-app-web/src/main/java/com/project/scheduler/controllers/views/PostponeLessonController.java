@@ -1,8 +1,9 @@
 package com.project.scheduler.controllers.views;
 
+import com.project.scheduler.dto.PostponeLessonRequestDTO;
+import com.project.scheduler.dto.PostponeLessonResponseDTO;
 import com.project.scheduler.entity.*;
 import com.project.scheduler.exceptions.UserNotFoundException;
-import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.PostponeLessonService;
 import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +25,6 @@ public class PostponeLessonController {
 
     Logger logger = LoggerFactory.getLogger(PostponeLessonController.class);
 
-    @Autowired
-    LessonRepository lessonRepository;
-
     private final PostponeLessonService postponeLessonService;
     private final UserService userService;
 
@@ -37,16 +35,18 @@ public class PostponeLessonController {
     }
 
     @PostMapping("/postponeLessonSubmit/{id}")
-    public String postponeLesson(@PathVariable("id") long id, @RequestParam("week") int week, @RequestParam("day") WeekDay day,
-                                 @RequestParam("order") LessonOrder order, @RequestParam("description") String description,
+    public String postponeLesson(@PathVariable("id") long id, @RequestParam("week") int week, @RequestParam("day") String day,
+                                 @RequestParam("order") String order, @RequestParam("description") String description,
                                  Principal principal, ModelMap model) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
-        logger.warn("Received submit request for a lesson with:\n Id: {},\n Week: {},\n Day: {},\n Order: {},\n Description: {}", id, week, day.getDay(), order.getOrder(), description);
-        PostponeLesson postponeLesson = new PostponeLesson();
-        postponeLesson.setNewDate(new ScheduleDate(day, order, week));
-        postponeLesson.setDescription(description);
-        postponeLessonService.postponeLesson(id, postponeLesson);
+        logger.warn("Received submit request for a lesson with:\n Id: {},\n Week: {},\n Day: {},\n Order: {},\n Description: {}", id, week, day, order, description);
+        PostponeLessonRequestDTO postponeLesson = PostponeLessonRequestDTO.builder()
+                        .lessonId(id).week(week)
+                        .day(WeekDay.fromString(day)).order(LessonOrder.fromString(order)).description(description)
+                        .teachers(user.getFirstName() + user.getLastName())
+                        .build();
+        postponeLessonService.postponeLesson(postponeLesson);
         return "redirect:/my-lessons";
     }
 
@@ -54,12 +54,8 @@ public class PostponeLessonController {
     public ModelAndView changePostponeLesson(@RequestParam("id") long id, Principal principal, ModelMap model) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
-        Lesson lesson = lessonRepository.getById(id);
-        model.addAttribute("lesson", lesson);
-        model.addAttribute("description", lesson.getPostponeLesson().getDescription());
-        model.addAttribute("lessonWeek", lesson.getPostponeLesson().getNewDate().getWeek());
-        model.addAttribute("lessonDay", lesson.getPostponeLesson().getNewDate().getDayOfTheWeek());
-        model.addAttribute("lessonOrder", lesson.getPostponeLesson().getNewDate().getLessonOrder());
+        PostponeLessonResponseDTO postpone = postponeLessonService.getRequestByLessonId(id);
+        model.addAttribute("postpone", postpone);
         return new ModelAndView("postponeLesson", model);
     }
 
@@ -68,12 +64,8 @@ public class PostponeLessonController {
     public ModelAndView chooseLessonToPostpone(@RequestParam("id") long id, Principal principal, ModelMap model) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
-        Lesson lesson = lessonRepository.getById(id);
-        model.addAttribute("lesson", lesson);
-        model.addAttribute("description", "");
-        model.addAttribute("lessonWeek", lesson.getDate().getWeek());
-        model.addAttribute("lessonDay", lesson.getDate().getDayOfTheWeek());
-        model.addAttribute("lessonOrder", lesson.getDate().getLessonOrder());
+        PostponeLessonResponseDTO postpone = postponeLessonService.getRequestByLessonId(id);
+        model.addAttribute("postpone", postpone);
         logger.warn("Received submit request for a lesson with id {}", id);
         return new ModelAndView("postponeLesson", model);
     }

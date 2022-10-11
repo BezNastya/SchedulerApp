@@ -1,9 +1,9 @@
 package com.project.scheduler.controllers.views;
 
+import com.project.scheduler.dto.LessonDTO;
+import com.project.scheduler.dto.LessonRequestDTO;
 import com.project.scheduler.entity.*;
-import com.project.scheduler.exceptions.LessonNotFoundException;
 import com.project.scheduler.exceptions.UserNotFoundException;
-import com.project.scheduler.repository.LessonRepository;
 import com.project.scheduler.service.CourseService;
 import com.project.scheduler.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,22 +19,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class AdminScheduleController {
 
     private final CourseService courseService;
     private final UserService userService;
-    private final LessonRepository lessonRepository;
     Logger logger = LoggerFactory.getLogger(PostponeLessonController.class);
 
 
     @Autowired
-    public AdminScheduleController(CourseService courseService, UserService userService, LessonRepository lessonRepository) {
+    public AdminScheduleController(CourseService courseService, UserService userService) {
         this.courseService = courseService;
         this.userService = userService;
-        this.lessonRepository = lessonRepository;
     }
 
     @Operation(summary = "Get all lessons")
@@ -50,24 +47,23 @@ public class AdminScheduleController {
     }
 
     @PostMapping("/admin-lessons/add")
-    public String addLesson(@RequestParam("day") WeekDay day,
-                            @RequestParam("order") LessonOrder lessonOrder,
+    public String addLesson(@RequestParam("day") String day,
+                            @RequestParam("order") String lessonOrder,
                             @RequestParam("week1") int weekStart,
                             @RequestParam("week2") int weekEnd,
                             @RequestParam("place") String place,
-                            @RequestParam("type") LessonType type,
+                            @RequestParam("type") String type,
                             @RequestParam("group") Long group) {
-        GroupCourse groupCourse = courseService.findGroupById(group);
+        LessonRequestDTO requestDTO = LessonRequestDTO.builder()
+                        .groupId(group)
+                        .time(LessonOrder.fromString(lessonOrder))
+                        .day(WeekDay.fromString(day)).weekStart(weekStart)
+                        .weekEnd(weekEnd).place(place)
+                        .type(LessonType.fromString(type)).build();
         if (weekStart < UserScheduleController.FIRST_WEEK || weekStart > weekEnd || weekEnd > UserScheduleController.LAST_WEEK) {
             throw new RuntimeException("Invalid week range set for lessons");
         }
-        logger.warn("Adding new lessons for weeks {} - {}, {} for group {} at {}", weekStart, weekEnd, lessonOrder.getOrder(), group, place);
-        for (int i = weekStart; i <= weekEnd; i++) {
-            ScheduleDate date = new ScheduleDate(day, lessonOrder, i);
-            Lesson lesson = new Lesson(type, place, date, groupCourse);
-            lessonRepository.save(lesson);
-            logger.warn("New lesson added {}", lesson);
-        }
+        courseService.addLessons(requestDTO);
         return "redirect:/admin-lessons";
     }
 
@@ -76,45 +72,38 @@ public class AdminScheduleController {
         logger.warn("Editing course with id {}", id);
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         model.addAttribute("user", user);
-        Lesson lesson = lessonRepository.findById(id).orElseThrow(() -> new LessonNotFoundException(id));
+        LessonDTO lesson = courseService.findLessonById(id);
         model.addAttribute("lesson", lesson);
         return new ModelAndView("courseLessonsEditForm", model);
     }
 
     @PostMapping("/admin-lessons/edit")
     public String editCourse(@RequestParam("lesson") Long id,
-                             @RequestParam("day") WeekDay day,
-                             @RequestParam("order") LessonOrder lessonOrder,
+                             @RequestParam("day") String day,
+                             @RequestParam("order") String lessonOrder,
                              @RequestParam("week1") int weekStart,
                              @RequestParam("week2") int weekEnd,
                              @RequestParam("place") String place,
-                             @RequestParam("type") LessonType type,
+                             @RequestParam("type") String type,
                              @RequestParam("group") Long groupId){
-        GroupCourse group = courseService.findGroupById(groupId);
-        Lesson lesson = lessonRepository.findById(id).orElseThrow(() -> new LessonNotFoundException(id));
-        List<Lesson> lessonsToEdit = courseService.findLessonsByGroupCourse(group);
-        for (Lesson lesson1 : lessonsToEdit) {
-            boolean theSameDate = lesson1.getDate().getLessonOrder().getOrder().equals(lesson.getDate().getLessonOrder().getOrder())
-                    && lesson1.getDate().getDayOfTheWeek().getDay().equals(lesson.getDate().getDayOfTheWeek().getDay());
-            if (theSameDate)
-                lessonRepository.deleteById(lesson1.getLessonId());
-        }
+        LessonRequestDTO requestDTO = LessonRequestDTO.builder()
+                .id(id)
+                .groupId(groupId)
+                .time(LessonOrder.fromString(lessonOrder))
+                .day(WeekDay.fromString(day)).weekStart(weekStart)
+                .weekEnd(weekEnd).place(place)
+                .type(LessonType.fromString(type)).build();
         if (weekStart < UserScheduleController.FIRST_WEEK || weekStart > weekEnd || weekEnd > UserScheduleController.LAST_WEEK) {
             throw new RuntimeException("Invalid week range set for lessons");
         }
-        logger.warn("Editing lessons for weeks {} - {}, {} for group {} at {}", weekStart, weekEnd, lessonOrder.getOrder(), group, place);
-        for (int i = weekStart; i <= weekEnd; i++) {
-            ScheduleDate date = new ScheduleDate(day, lessonOrder, i);
-            Lesson lesson2 = new Lesson(type, place, date, group);
-            lessonRepository.save(lesson2);
-        }
+        courseService.editLessons(requestDTO);
         return "redirect:/admin-lessons";
     }
 
     @GetMapping("/admin-lessons/delete")
     public String deleteCourse(@RequestParam("id") Long id){
         logger.warn("Removing course with id {}", id);
-        lessonRepository.deleteById(id);
+        courseService.deleteLessonById(id);
         return "redirect:/admin-lessons";
     }
 }

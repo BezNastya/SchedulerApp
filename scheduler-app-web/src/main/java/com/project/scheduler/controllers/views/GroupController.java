@@ -1,5 +1,7 @@
 package com.project.scheduler.controllers.views;
 
+import com.project.scheduler.dto.CourseDTO;
+import com.project.scheduler.dto.GroupDTO;
 import com.project.scheduler.entity.*;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.CourseService;
@@ -18,6 +20,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class GroupController {
@@ -41,40 +44,33 @@ public class GroupController {
                                  Model model,
                                  @RequestParam(value = "courseId", required = false) Long courseId) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
-        List<Course> courses = courseService.findNotAttendedCourses(user.getUserId());
+        List<CourseDTO> courses = courseService.findNotAttendedCourses(user.getUserId());
         model.addAttribute("courses", courses);
         model.addAttribute("user", user);
         model.addAttribute("courseId", courseId);
-        List<GroupCourse> groupCourses = null;
+        List<GroupDTO> groupCourses = null;
         if (courseId != null) {
-            Optional<Course> courseOptional = courseService.findCourseById(courseId);
-            if (courseOptional.isPresent()) {
-                logger.warn("Retrieving all groups for {}", courseId);
-                Course course = courseOptional.get();
-                groupCourses = new ArrayList<>(courseService.findAllGroupsForCourse(course));
-                model.addAttribute("course", course.getName());
-            }
+            groupCourses = courseService.findAllGroupsForCourse(courseId);
         }
-        model.addAttribute("groupCourses", groupCourses != null ? courseService.sortGroupCoursesByGroupNum(groupCourses): groupCourses);
+        model.addAttribute("groupCourses", groupCourses);
         return "addGroup";
     }
 
     @GetMapping("/new-groups/add")
     public String addGroup(Principal principal,
-                           @RequestParam(name="inputSelect") byte group,
+                           @RequestParam(name="inputSelect") long group,
                            @RequestParam(name="courseId") Long courseId) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
         logger.warn("Adding group {} for course {}", group, courseId);
+        GroupCourse groupCourse = courseService.findGroupById(group);
         if (user.getRole() == Role.STUDENT)
             studentService.addGroupForUser(
                     user.getUserId(),
-                    courseService.findCourseById(courseId).get(),
-                    group);
+                    groupCourse);
         else if (user.getRole() == Role.TEACHER)
             teacherService.addGroupForUser(
                     user.getUserId(),
-                    courseService.findCourseById(courseId).get(),
-                    group);
+                    groupCourse);
         return "redirect:/new-groups";
     }
 
@@ -82,7 +78,9 @@ public class GroupController {
     @GetMapping("/my-groups")
     public String viewGroups(Principal principal, Model model) {
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
-        List<GroupCourse> groupCourseList = courseService.findGroupCoursesByEducationUserId(user.getUserId());
+        List<Long> groupCourseIds = courseService.findGroupCoursesByEducationUserId(user.getUserId())
+                        .stream().map(GroupCourse::getId).collect(Collectors.toList());
+        List<GroupDTO> groupCourseList = courseService.findAllGroupsFotGroupsIds(groupCourseIds);
         model.addAttribute("groupCourseList", groupCourseList);
         model.addAttribute("user", user);
         return "myGroups";

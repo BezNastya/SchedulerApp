@@ -55,16 +55,16 @@
                     </thead>
                     <tbody>
                     <tr th:each="lesson : ${entry.getValue()}">
-                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getDate().getLessonOrder().getOrder()}">Period</td>
-                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getGroupCourse().getCourse().getName()}">Name</td>
-                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getType().getType()}">Type</td>
+                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getTime()}">Period</td>
+                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getCourseName()}">Name</td>
+                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getType()}">Type</td>
                         <td style="text-align: center; vertical-align: middle" th:text="${lesson.getPlace()}">Place</td>
-                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getGroupCourse().getGroupNum()}">Group</td>
+                        <td style="text-align: center; vertical-align: middle" th:text="${lesson.getGroupNum()}">Group</td>
                         <td style="text-align: center; vertical-align: middle" th:if ="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}" th:switch="${lesson.getPostponeLesson()}">
                             <a th:title="Postpone" th:case = "null" th:href="@{/postponeLessonForm(id = ${lesson.getLessonId()})}" th:method="GET">
                                 <i class="fas fa-plus-square"></i>
                             </a>
-                            <a th:case = "*" th:text="${lesson.getPostponeLesson().getStatus()}"></a>
+                            <a th:case = "*" th:text="${lesson.getPostponeStatus()}"></a>
                         </td>
                     </tr>
                     </tbody>

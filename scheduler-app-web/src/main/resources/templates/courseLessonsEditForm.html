@@ -13,11 +13,11 @@
 
 <div class="text-center" style="margin-top: 40px">
     <h1 class="display-4 justify-center">Edit all common lessons for: </h1>
-    <h3 class="display-4 justify-center" th:text="${lesson.getGroupCourse().getCourse().getName()}"></h3>
-    <h3 class="display-4 justify-center" th:text="${lesson.getGroupCourse().getGroupNum()}"></h3>
+    <h3 class="display-4 justify-center" th:text="${lesson.getCourseName()}"></h3>
+    <h3 class="display-4 justify-center" th:text="${lesson.getGroupNum()}"></h3>
 </div>
 
-<form style="vertical-align: center; margin-left: auto; margin-right: auto; width: 60%; margin-bottom: 50px" th:action="@{/admin-lessons/edit(lesson = ${lesson.getLessonId()}, group = ${lesson.getGroupCourse().getId()})}" th:method="POST">
+<form style="vertical-align: center; margin-left: auto; margin-right: auto; width: 60%; margin-bottom: 50px" th:action="@{/admin-lessons/edit(lesson = ${lesson.getLessonId()}, group = ${lesson.getGroupId()})}" th:method="POST">
 
     <div class="form-group">
         <label for="type" class="col-sm-2 col-form-label">Lesson type</label>
@@ -31,14 +31,14 @@
         <label for="day" class="col-sm-2 col-form-label">Day</label>
         <select class="form-control" id="day" name="day">
             <option th:each="weekDay : ${T(com.project.scheduler.entity.WeekDay).values()}"
-                    th:value="${weekDay}" th:text="${weekDay.getDay()}" th:selected="${lesson.getDate().getDayOfTheWeek()}"></option>
+                    th:value="${weekDay}" th:text="${weekDay.getDay()}" th:selected="${lesson.getDay()}"></option>
         </select>
     </div>
     <div class="form-group">
         <label for="order" class="col-sm-2 col-form-label">Lesson order</label>
         <select class="form-control" name = "order" id = "order">
             <option th:each = "order : ${T(com.project.scheduler.entity.LessonOrder).values()}"
-                    th:value = "${order}" th:text="${order.getOrder()}" th:selected="${lesson.getDate().getLessonOrder()}"></option>
+                    th:value = "${order}" th:text="${order.getOrder()}" th:selected="${lesson.getTime()}"></option>
         </select>
     </div>
     <div class="form-group">

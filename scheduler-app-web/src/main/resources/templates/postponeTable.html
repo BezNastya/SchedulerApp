@@ -22,7 +22,6 @@
                     <thead class="thead-light">
                         <tr>
                             <th style="text-align: center; vertical-align: middle">Lesson</th>
-                            <th style="text-align: center; vertical-align: middle">Lesson Type</th>
                             <th style="text-align: center; vertical-align: middle">Description</th>
                             <th style="text-align: center; vertical-align: middle">Teachers</th>
                             <th style="text-align: center; vertical-align: middle">Old Date</th>
@@ -33,26 +32,25 @@
                     </thead>
                     <tbody>
                         <tr th:each="request : ${requests}">
-                            <td style="text-align: center; vertical-align: middle" th:text="${request.lesson}">Name</td>
-                            <td style="text-align: center; vertical-align: middle" th:text="${request.getLessonType()}">Type</td>
-                            <td style="text-align: center; vertical-align: middle" th:text="${request.description}">Description</td>
-                            <td style="text-align: center; vertical-align: middle" th:text="${request.teacher}">Teacher</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.getCourseName()}">Name</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.getDescription()}">Description</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.getTeachers()}">Teacher</td>
                             <td style="text-align: center; vertical-align: middle" th:text="${request.getOldDate()}">Old</td>
-                            <td style="text-align: center; vertical-align: middle" th:text="${request.newDate}">New Date</td>
-                            <td style="text-align: center; vertical-align: middle" th:text="${request.getStatus}">Status</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${'Week ' + request.getWeek() + 'Day ' + request.getDay().toString() + 'Lesson ' + request.getOrder().toString()}">New Date</td>
+                            <td style="text-align: center; vertical-align: middle" th:text="${request.getStatus()}">Status</td>
                             <td style="text-align: center; vertical-align: middle; width: 20%">
 
                                 <div th:if="${user.getRole() == T(com.project.scheduler.entity.Role).TEACHER}">
-                                    <a th:if="${request.status.equals(request.status.PENDING)}" title="Change" th:href="@{/postponeLessonReview(id = ${request.getCanceledId})}" th:method="GET">
+                                    <a th:if="${request.status.equals('PENDING')}" title="Change" th:href="@{/postponeLessonReview(id = ${request.getLessonId()})}" th:method="GET">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a title="Delete" th:href="@{/requests/delete(id = ${request.getId})}">
+                                    <a title="Delete" th:href="@{/requests/delete(id = ${request.getLessonId()})}">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </div>
 
-                                <div th:if="${request.status.equals(request.status.PENDING)}"
-                                     th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getId})"></div>
+                                <div th:if="${request.status.equals('PENDING')}"
+                                     th:insert="fragments/buttonFragment :: requestAdmin (reqId=${request.getLessonId()})"></div>
                             </td>
                         </tr>
                     </tbody>

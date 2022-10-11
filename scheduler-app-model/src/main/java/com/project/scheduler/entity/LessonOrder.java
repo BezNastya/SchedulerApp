@@ -1,5 +1,7 @@
 package com.project.scheduler.entity;
 
+import java.util.Arrays;
+
 public enum LessonOrder {
     FIRST("08:30-09:50"),
     SECOND("10:00-11:20"),
@@ -17,5 +19,15 @@ public enum LessonOrder {
 
     public String getOrder() {
         return order;
+    }
+
+    @Override
+    public String toString() {
+        return order;
+    }
+
+    public static LessonOrder fromString(String order) {
+        return Arrays.stream(LessonOrder.values()).filter(x -> x.getOrder().equals(order))
+                .findFirst().orElse(null);
     }
 }

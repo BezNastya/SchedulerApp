@@ -1,5 +1,7 @@
 package com.project.scheduler.entity;
 
+import java.util.Arrays;
+
 public enum WeekDay {
     MONDAY("Monday"),
     TUESDAY("Tuesday"),
@@ -16,5 +18,15 @@ public enum WeekDay {
 
     public String getDay() {
         return day;
+    }
+
+    @Override
+    public String toString() {
+        return day;
+    }
+
+    public static WeekDay fromString(String day) {
+        return Arrays.stream(WeekDay.values()).filter(x -> x.getDay().equals(day))
+                .findFirst().orElse(null);
     }
 }

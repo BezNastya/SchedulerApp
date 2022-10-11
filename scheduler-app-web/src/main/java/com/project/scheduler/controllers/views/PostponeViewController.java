@@ -1,8 +1,6 @@
 package com.project.scheduler.controllers.views;
 
-import com.project.scheduler.dto.PostponeLessonDto;
-import com.project.scheduler.entity.PostponeLesson;
-import com.project.scheduler.entity.Role;
+import com.project.scheduler.dto.PostponeLessonResponseDTO;
 import com.project.scheduler.entity.User;
 import com.project.scheduler.exceptions.UserNotFoundException;
 import com.project.scheduler.service.PostponeLessonService;
@@ -18,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/requests")
@@ -34,15 +29,8 @@ public class PostponeViewController {
     @Operation(summary = "Show all postpone requests")
     @GetMapping
     public String getAllPostponeRequests(Principal principal, Model model){
-        List<PostponeLesson> requestsP = postponeLessonService.getAllRequests();
         User user = userService.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException(principal.getName()));
-
-        List<PostponeLessonDto> requests = requestsP
-                .stream()
-                .filter(x -> !user.getRole().equals(Role.TEACHER) ||
-                            x.getCanceledLesson().getGroupCourse().getTeachers().contains(user))
-                .map(PostponeLessonDto::new)
-                .collect(Collectors.toList());
+        List<PostponeLessonResponseDTO> requests = postponeLessonService.getAllRequestsForUser(user);
         model.addAttribute("requests", requests);
         model.addAttribute("user", user);
         return "postponeTable";

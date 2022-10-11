@@ -1,21 +1,51 @@
 package com.project.scheduler.service;
 
 import com.project.scheduler.entity.Admin;
+import com.project.scheduler.repository.AdminRepository;
+import com.project.scheduler.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AdminService {
+@Service
+public class AdminService {
 
-    //void setNewLessonDate(ScheduleDate date);
+    private final AdminRepository adminRepository;
 
-    //void deleteAdminById(Long adminId);
+    @Autowired
+    public AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+    }
 
-    Optional<Admin> findByEmail(String email);
-    Optional<Admin> findById(Long id);
-    List<Admin> findAll();
-    void delete(Admin admin);
-    void update(Admin admin);
-    Admin save(Admin admin);
+    
+    public Admin save(Admin admin) {
+        return adminRepository.save(admin);
+    }
 
+    
+    public Optional<Admin> findByEmail(String email) {
+        return adminRepository.findByEmail(email);
+    }
+
+    
+    public Optional<Admin> findById(Long id) {
+        return adminRepository.findById(id);
+    }
+
+    
+    public List<Admin> findAll() {
+        return adminRepository.findAll();
+    }
+
+    
+    public void delete(Admin admin) {
+        adminRepository.delete(admin);
+    }
+
+    
+    public void update(Admin admin) {
+        adminRepository.save(admin);
+    }
 }

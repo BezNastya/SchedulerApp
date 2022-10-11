@@ -12,8 +12,7 @@ public class CustomExceptionsAdvice {
 
     Logger logger = LoggerFactory.getLogger(StudentController.class);
 
-    @ExceptionHandler({CourseNotFoundException.class, GroupNotFoundException.class,
-            NoTeachersOnCourseException.class, UserNotFoundException.class, LessonNotFoundException.class})
+    @ExceptionHandler({NoTeachersOnCourseException.class, UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String courseNotFoundHandler(Exception e){
         logger.warn(e.getMessage());
